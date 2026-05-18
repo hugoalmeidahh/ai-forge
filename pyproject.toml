@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "core-ai-prompts"
+version = "2.0.0"
+description = "AI agent instructions (Claude Code, Codex) for internal teams."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Conube" },
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["core_ai_prompts"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"backend-team" = "core_ai_prompts/backend-team"
+"template-team" = "core_ai_prompts/template-team"

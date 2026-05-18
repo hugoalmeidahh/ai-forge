@@ -1,0 +1,10 @@
+# AI tooling
+.claude
+.codex
+
+# Python
+__pycache__
+*.egg-info
+dist
+build
+*.pyc
