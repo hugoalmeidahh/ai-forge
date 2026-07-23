@@ -24,7 +24,7 @@
       Generate/update the project's CLAUDE.md or AGENTS.md configuration.
     </skill>
     <skill path="node_modules/@hugoalmeidahh/ai-forge/core/onboarding-check/SKILL.md">
-      Validate the consuming project's ai-prompts configuration.
+      Validate the consuming project's ai-forge configuration.
     </skill>
   </skills>
 </skills-index>

@@ -1,4 +1,4 @@
-# ai-prompts · SPEC de Reorganização
+# ai-forge · SPEC de Reorganização
 
 > Baseado no FORGE code review como modelo de referência para estruturar skills, standards e padrões de time.
 > Arquitetura orientada a **módulos por domínio de negócio** — o padrão NestJS serve de âncora e é traduzido para cada stack suportada (TypeScript/NestJS, JavaScript/Node, Golang).

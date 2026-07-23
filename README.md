@@ -49,13 +49,13 @@ Como o pacote é instalado a partir do Git, o lockfile pina o commit exato da ú
 Instale diretamente do Git:
 
 ```bash
-pip install "core-ai-prompts @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
+pip install "core-ai-forge @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
 ```
 
 Ou adicione ao `requirements.txt` / `pyproject.toml`:
 
 ```
-core-ai-prompts @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git
+core-ai-forge @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git
 ```
 
 #### Descobrir o caminho dos arquivos instalados
@@ -67,7 +67,7 @@ python -c "import core_ai_prompts; print(core_ai_prompts.BASE_DIR)"
 #### Manter o pacote sempre atualizado
 
 ```bash
-pip install --upgrade "core-ai-prompts @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
+pip install --upgrade "core-ai-forge @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
 ```
 
 ---

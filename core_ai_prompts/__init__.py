@@ -1,4 +1,4 @@
-"""Core AI Prompts - AI agent instructions for internal teams."""
+"""Core AI Forge - AI agent instructions for internal teams."""
 
 from pathlib import Path
 
@@ -31,8 +31,8 @@ _NON_STACK_DIRS = {
 }
 
 
-def list_stacks() -> list:
-    """Return available stack directory names (e.g. ['backend-nestjs', ...])."""
+def list_stacks() -> list[str]:
+    """Return available stack directory names."""
     return sorted(
         d.name
         for d in BASE_DIR.iterdir()
@@ -44,17 +44,7 @@ def list_stacks() -> list:
 
 
 def get_team_dir(team_name: str) -> Path:
-    """Return the absolute path to a stack/team directory.
-
-    Args:
-        team_name: The directory name (e.g., 'backend-nestjs', 'backend-golang').
-
-    Returns:
-        Path object pointing to the stack directory.
-
-    Raises:
-        FileNotFoundError: If the directory does not exist.
-    """
+    """Return the absolute path to a stack/team directory."""
     team_dir = BASE_DIR / team_name
     if not team_dir.is_dir():
         raise FileNotFoundError(

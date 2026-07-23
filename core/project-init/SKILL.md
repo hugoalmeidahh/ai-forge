@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Generate or update a consumer project's CLAUDE.md / AGENTS.md with ai-prompts configuration for NestJS, Fastify, Go/Chi, React or Vue.
+description: Generate or update a consumer project's CLAUDE.md / AGENTS.md with ai-forge configuration for NestJS, Fastify, Go/Chi, React or Vue.
 user-invocable: true
 ---
 
@@ -8,11 +8,11 @@ user-invocable: true
 
 ## Intent
 
-Bootstrap a consumer project so AI agents (Claude Code, Codex) load the ai-prompts method correctly: workflow, guardrails, module architecture, L0 standards, and the right stack's L2 standards and skills — with clear precedence (project file always wins).
+Bootstrap a consumer project so AI agents (Claude Code, Codex) load the ai-forge method correctly: workflow, guardrails, module architecture, L0 standards, and the right stack's L2 standards and skills — with clear precedence (project file always wins).
 
 ## When To Use
 
-- User asks to "init", "configure AI", "setup ai-prompts", "create CLAUDE.md/AGENTS.md"
+- User asks to "init", "configure AI", "setup ai-forge", "create CLAUDE.md/AGENTS.md"
 - A new project starts consuming the `@hugoalmeidahh/ai-forge` package
 - An existing project's AI config is outdated after a package upgrade
 
@@ -38,10 +38,10 @@ Bootstrap a consumer project so AI agents (Claude Code, Codex) load the ai-promp
    - `package.json` with `vue` → `frontend-vue`
    - If ambiguous, ask the user — do not guess.
 3. **Detect the agent file**: `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex). If neither exists, ask which agent the team uses, then create the file via the agent's own `/init` result or a minimal header.
-4. **Write the configuration block** right after the first section of the agent file (replace a previous ai-prompts block if present, marked by the comments below):
+4. **Write the configuration block** right after the first section of the agent file (replace a previous ai-forge block if present, marked by the comments below):
 
    ```markdown
-   <!-- ai-prompts:start -->
+   <!-- ai-forge:start -->
    ## Workflow
 
    Follow `<base-path>/core/workflow.md` before starting any task.
@@ -64,7 +64,7 @@ Bootstrap a consumer project so AI agents (Claude Code, Codex) load the ai-promp
    ## Skills
 
    Check `<base-path>/<stack>/SKILLS.md` for available skills and invoke the appropriate one before starting any task.
-   <!-- ai-prompts:end -->
+   <!-- ai-forge:end -->
    ```
 
 5. **Replace placeholders**: `<base-path>` with the detected path, `<stack>` with the detected stack.
@@ -72,7 +72,7 @@ Bootstrap a consumer project so AI agents (Claude Code, Codex) load the ai-promp
 
 ## Checks
 
-- The block is delimited by `<!-- ai-prompts:start -->` / `<!-- ai-prompts:end -->` so re-runs are idempotent.
+- The block is delimited by `<!-- ai-forge:start -->` / `<!-- ai-forge:end -->` so re-runs are idempotent.
 - Paths in the block resolve to real files in the installed package.
 - Stack detection was confirmed (not guessed) when markers were ambiguous.
 - Existing project-specific content in the agent file was preserved untouched.
