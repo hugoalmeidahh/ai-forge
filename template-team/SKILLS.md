@@ -1,17 +1,23 @@
 <skills-index>
   <purpose>
-    Use this index to discover available skills. Invoke the appropriate skill
-    before starting a task instead of working from scratch.
+    Template index for a new stack/team. Replace `[stack-name]`, paths and skills
+    before publishing. Core skills live in `core/`.
   </purpose>
   <skills>
-    <skill path="node_modules/@core/ai-prompts/[team-name]/project-standards/SKILL.md">
-      Apply company and project patterns when editing or adding code.
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/[stack-name]/project-standards/SKILL.md">
+      Apply this stack's standards when editing or adding code.
     </skill>
-    <skill path="node_modules/@core/ai-prompts/[team-name]/create-skill/SKILL.md">
-      Create or modify a new skill file following the standard format for this folder.
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/code-review/SKILL.md">
+      Review diffs against company and stack standards.
     </skill>
-    <skill path="node_modules/@core/ai-prompts/[team-name]/create-pr/SKILL.md">
-      Create a pull request following the team's standard format and conventions.
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/create-skill/SKILL.md">
+      Create or modify a skill using the standard format.
+    </skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/create-pr/SKILL.md">
+      Create a pull request from the current branch diff.
+    </skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/project-init/SKILL.md">
+      Configure a consuming project's agent file.
     </skill>
   </skills>
 </skills-index>

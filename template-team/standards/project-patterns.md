@@ -1,49 +1,15 @@
-<project>
-  <goal>
-    <!-- Describe the main goal and purpose of the project this team works on. -->
-  </goal>
+# [stack-name] Project Patterns
 
-  <stack>
-    <!-- List the main technologies used. Examples:
-    <runtime>Node.js</runtime>
-    <framework>NestJS</framework>
-    <orm>Prisma</orm>
-    -->
-  </stack>
+## Scope
 
-  <architecture>
-    <!-- Describe the architectural style and main patterns.
-    <style>Modular monolith</style>
-    <pattern>Controllers + Services + DTOs per module</pattern>
-    -->
-  </architecture>
+Replace this template with the idiomatic translation of `core/module-architecture.md` for `[stack-name]`.
 
-  <structure>
-    <!-- Describe the folder structure of the project.
-    <root>
-      <item path="src">Application source</item>
-      <item path="src/modules">Domain modules</item>
-    </root>
-    -->
-  </structure>
+## Define Before Publishing
 
-  <naming>
-    <!-- Define naming conventions for files, classes, endpoints, etc.
-    <files>kebab-case for files and folders</files>
-    <classes>PascalCase</classes>
-    -->
-  </naming>
-
-  <coding-patterns>
-    <!-- Describe the main coding patterns the team follows.
-    <rule>Services encapsulate business logic</rule>
-    <rule>Controllers are thin: validate input, call service, return output</rule>
-    -->
-  </coding-patterns>
-
-  <testing>
-    <!-- Describe testing conventions.
-    <rule>Tests live under test/ with helpers and module-level suites</rule>
-    -->
-  </testing>
-</project>
+- Domain-module folder/package layout.
+- HTTP boundary responsibilities.
+- Business-service and persistence/provider boundaries.
+- Input validation and output serialization types.
+- Typed-error mapping to `{ id, code, message }`.
+- Dependency injection/composition-root pattern.
+- Formatter, linter, test and build commands.

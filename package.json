@@ -1,5 +1,18 @@
 {
-  "name": "@core/ai-prompts",
-  "version": "1.0.0",
-  "private": true
+  "name": "@hugoalmeidahh/ai-forge",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AI agent instructions for internal teams.",
+  "files": [
+    "core",
+    "standards",
+    "backend-nestjs",
+    "backend-node",
+    "backend-golang",
+    "frontend-react",
+    "frontend-vue",
+    "template-team",
+    "README.md",
+    "CHANGELOG.md"
+  ]
 }

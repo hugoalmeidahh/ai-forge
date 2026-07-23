@@ -16,5 +16,11 @@ authors = [
 packages = ["core_ai_prompts"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"backend-team" = "core_ai_prompts/backend-team"
+"core" = "core_ai_prompts/core"
+"standards" = "core_ai_prompts/standards"
+"backend-nestjs" = "core_ai_prompts/backend-nestjs"
+"backend-node" = "core_ai_prompts/backend-node"
+"backend-golang" = "core_ai_prompts/backend-golang"
+"frontend-react" = "core_ai_prompts/frontend-react"
+"frontend-vue" = "core_ai_prompts/frontend-vue"
 "template-team" = "core_ai_prompts/template-team"

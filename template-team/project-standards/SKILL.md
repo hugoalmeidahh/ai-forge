@@ -1,46 +1,34 @@
 ---
 name: project-standards
-description: Apply company and project patterns when editing or adding code.
+description: Apply company and [stack-name] patterns when editing or adding code.
 ---
 
-# Project Standards
+# Project Standards ([stack-name])
 
 ## Intent
 
-Apply company and project patterns when editing or adding code.
+Apply L0 rules and this stack's L2 conventions. Replace all `[stack-name]` placeholders before publishing.
 
 ## When To Use
 
-Use for any coding task in this repository, especially when:
-- creating new modules or domain units
-- touching data schemas or migrations
-- adding endpoints or request/response payloads
-
-<!-- Replace [team-name] with the actual team folder name, e.g. frontend-team -->
+- Any coding task for this stack
+- Creating modules, endpoints, integrations, schemas or migrations
 
 ## References
 
-- node_modules/@core/ai-prompts/[team-name]/standards/project-patterns.md
-- node_modules/@core/ai-prompts/[team-name]/standards/general-development.md
-- node_modules/@core/ai-prompts/[team-name]/standards/folder-structure.md
-- node_modules/@core/ai-prompts/[team-name]/standards/error-handling.md
+- `core/module-architecture.md`
+- `standards/index.md`
+- `[stack-name]/standards/index.md`
 
 ## Workflow
 
-1) Read `node_modules/@core/ai-prompts/[team-name]/standards/index.md` first.
-2) Load only the reference files needed for the task.
-3) Apply naming, structure, and formatting rules defined by the team.
-
-## Key Rules
-
-<!-- Add team-specific rules here. Examples:
-- File and folder naming conventions
-- Architectural patterns (e.g. thin controllers, service layer)
-- Error handling conventions
-- ORM / database access rules
--->
+1. Read L0 `standards/index.md`; load only task-relevant files.
+2. Read `[stack-name]/standards/index.md`; load only task-relevant files.
+3. Apply L3 project overrides first when conflicts exist.
+4. Run this stack's formatter, lint, tests and build before finishing.
 
 ## Checks
 
-- Keep code self-explanatory and avoid unnecessary comments.
-- Prefer descriptive names and consistent file naming.
+- Stack standard index exists and links only valid files.
+- L0/L2/L3 precedence is explicit.
+- No placeholder remains after stack creation.
