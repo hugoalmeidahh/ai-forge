@@ -11,7 +11,7 @@
 
 ## Allowed config files
 
-`package.json`, `tsconfig*.json`, `nest-cli.json`, `go.mod`, `go.sum`, `pyproject.toml`, `setup.cfg`, `.vscode/*.json`, `eslint.config.*`, `ruff.toml`, `mypy.ini`, and CI workflow files (`.github/workflows/*.yml`, `.gitlab-ci.yml`) may be read freely — they do not contain secrets.
+`package.json`, `tsconfig*.json`, `nest-cli.json`, `go.mod`, `go.sum`, `.vscode/*.json`, `eslint.config.*`, and CI workflow files (`.github/workflows/*.yml`, `.gitlab-ci.yml`) may be read freely — they do not contain secrets.
 
 ## Exception — searching for an env variable *name* in the codebase
 

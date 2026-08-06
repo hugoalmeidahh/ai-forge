@@ -1,9 +1,6 @@
-# npm package contents are allowlisted by package.json#files.
-# Keep local/editor/build artifacts out of npm tarballs.
+# package.json#files is authoritative.
 .DS_Store
-.github
-.gitignore
-SPEC.md
+.github/
+.gitlab/
 presentation.html
-pyproject.toml
-core_ai_prompts
+*.tgz

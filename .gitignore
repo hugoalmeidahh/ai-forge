@@ -1,13 +1,12 @@
-# OS files
+# OS/editor
 .DS_Store
+.vscode/
 
-# AI tooling
-.claude
-.codex
+# AI tooling state
+.claude/
+.codex/
 
-# Python
-__pycache__
-*.egg-info
-dist
-build
-*.pyc
+# Node
+node_modules/
+*.tgz
+coverage/

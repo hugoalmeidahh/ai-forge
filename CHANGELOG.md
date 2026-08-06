@@ -23,4 +23,17 @@ All notable changes to this package are documented here.
 - `core/project-init/` for consumer-agent configuration.
 - `new-module` skills for NestJS, Node.js and Golang.
 - NestJS `new-migration` skill.
-- `template-team/` starter for new stacks.
+- `template-stack/` starter for new stacks.
+
+## 3.0.0
+
+### Breaking changes
+
+- Removed Python packaging and path helpers; distribution and tooling now use Node.js only.
+- Renamed `template-team/` to `template-stack/`.
+
+### Added
+
+- Dependency-free `forge` CLI for stack/skill discovery, context, validation, installation and updates.
+- Root routing/bootstrap skill and automatic global skill registry installation.
+- `forge init` with strict stack detection and idempotent, non-destructive agent-file blocks.

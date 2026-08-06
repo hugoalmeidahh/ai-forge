@@ -259,11 +259,12 @@ func (e *AppError) Error() string { return e.Message }
 ├── frontend-react/                   # React + TypeScript
 ├── frontend-vue/                     # Vue 3 + TypeScript
 │
-├── template-team/                    # boilerplate para nova stack/time
+├── template-stack/                    # boilerplate para nova stack
 ├── CHANGELOG.md                       # breaking changes e releases
-├── core_ai_prompts/                  # Python path helper (inalterado)
-├── package.json
-└── pyproject.toml
+├── bin/forge.js                      # CLI Node.js sem dependências
+├── lib/forge.js                      # descoberta, contexto, validação e instalação
+├── SKILL.md                          # roteador/bootstrap global
+└── package.json
 ```
 
 ### Por que separar `backend-nestjs/`, `backend-node/`, `backend-golang/`?
@@ -404,7 +405,7 @@ user-invocable: true|false
 - [x] Criar `frontend-react/` e `frontend-vue/` com standards de módulos, API/state e UI
 - [x] Skill `onboarding-check` — valida config mínima do projeto consumidor
 - [x] `CHANGELOG.md` de breaking changes nos standards
-- [x] Guia de contribuição — criar stack via `template-team/` (README)
+- [x] Guia de contribuição — criar stack via `template-stack/` (README)
 
 ---
 

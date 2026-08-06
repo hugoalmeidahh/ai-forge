@@ -1,9 +1,23 @@
 {
   "name": "@hugoalmeidahh/ai-forge",
-  "version": "2.0.0",
-  "private": true,
-  "description": "AI agent instructions for internal teams.",
+  "version": "3.0.0",
+  "description": "Standards, skills and functions for AI-assisted software delivery across stacks.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "bin": {
+    "forge": "bin/forge.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "validate": "node bin/forge.js validate",
+    "pack:check": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "files": [
+    "bin",
+    "lib",
     "core",
     "standards",
     "backend-nestjs",
@@ -11,8 +25,10 @@
     "backend-golang",
     "frontend-react",
     "frontend-vue",
-    "template-team",
+    "template-stack",
+    "SKILL.md",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "SPEC.md"
   ]
 }

@@ -1,192 +1,136 @@
-# @hugoalmeidahh/ai-forge
+# AI-Forge
 
-Pacote de instruções para agentes de IA (Claude Code, Codex). Centraliza o **método de desenvolvimento** da empresa: arquitetura modular, standards em camadas e skills executáveis — portável entre stacks (NestJS, Fastify, Go/Chi, React, Vue).
+AI-Forge é uma base versionada de contexto para agentes de IA. Reúne arquitetura, standards e skills executáveis para entregar software de forma consistente em NestJS, Node/Fastify, Go/Chi, React e Vue.
 
-> Veja a apresentação em `presentation.html` e a especificação completa em `SPEC.md`.
+## Arquitetura
 
----
+- **`standards/`**: regras L0 compartilhadas — naming, Git, segurança, observabilidade e testes.
+- **`<stack>/standards/`**: tradução L2 para cada stack, mantendo o layout atual e referências locais.
+- **Skills (`SKILL.md`)**: workflows executáveis em `core/` e dentro de cada stack.
+- **Functions (`forge`)**: descoberta, composição de contexto, validação, instalação e atualização.
+- **L3 (`CLAUDE.md`/`AGENTS.md`)**: regras do projeto; vencem L0/L2 em conflitos.
 
-## O método em 30 segundos
+Fluxo: `core/workflow.md` → `core/guardrails.md` → arquitetura modular → L0 → L2 da stack → L3.
 
-1. **`core/module-architecture.md`** define o padrão modular universal (módulos por domínio, camadas, contrato de erro).
-2. **`standards/`** (L0) são regras company-wide: naming, git, segurança, observability, testing.
-3. **`backend-<stack>/standards/`** (L2) traduzem o padrão para cada stack.
-4. **Skills** (`new-module`, `project-init`, `code-review`, ...) executam e verificam os padrões.
-5. Regras do projeto (`CLAUDE.md` / `AGENTS.md`) são L3 — **sempre vencem** em conflito.
+## Requisitos
 
----
+Node.js 20 ou superior. O CLI não possui dependências runtime.
 
 ## Instalação
 
-### npm (projetos Node.js / TypeScript / NestJS)
-
-Adicione manualmente nas `devDependencies` do `package.json` do seu projeto:
-
-```json
-"devDependencies": {
-  "@hugoalmeidahh/ai-forge": "git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
-}
-```
-
-Em seguida, instale as dependências:
+### Checkout recomendado
 
 ```bash
-npm i
+git clone git@github.com:hugoalmeidahh/ai-forge.git ~/.local/share/ai-forge
+node ~/.local/share/ai-forge/bin/forge.js validate
+node ~/.local/share/ai-forge/bin/forge.js install-skills
 ```
 
-#### Manter o pacote sempre atualizado
+`install-skills` descobre recursivamente todos os `SKILL.md` e cria symlinks em `~/.agents/skills`. Os nomes instalados incluem escopo (`ai-forge-core-project-init`, `ai-forge-backend-nestjs-new-module`), evitando colisões entre stacks. Arquivo/diretório divergente nunca é sobrescrito silenciosamente; use `--force` conscientemente.
 
-Como o pacote é instalado a partir do Git, o lockfile pina o commit exato da última instalação. Adicione um script no `package.json` do seu projeto:
-
-```json
-"scripts": {
-  "ai-update": "npm update @hugoalmeidahh/ai-forge"
-}
-```
-
-### pip (projetos Python / Golang e demais)
-
-Instale diretamente do Git:
+Para copiar em vez de criar symlinks:
 
 ```bash
-pip install "core-ai-forge @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
+forge install-skills --copy
 ```
 
-Ou adicione ao `requirements.txt` / `pyproject.toml`:
-
-```
-core-ai-forge @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git
-```
-
-#### Descobrir o caminho dos arquivos instalados
+Registry alternativo, útil em CI/testes:
 
 ```bash
-python -c "import core_ai_prompts; print(core_ai_prompts.BASE_DIR)"
+forge install-skills --registry /caminho/skills
 ```
 
-#### Manter o pacote sempre atualizado
+### Como pacote npm
+
+Em projetos autorizados a acessar o repositório:
 
 ```bash
-pip install --upgrade "core-ai-forge @ git+ssh://git@github.com/hugoalmeidahh/ai-forge.git"
+npm install --save-dev git+ssh://git@github.com/hugoalmeidahh/ai-forge.git
+npx forge validate
+npx forge install-skills
 ```
 
----
+O ecossistema também oferece `npx skills add`; porém este repositório não depende nem garante seu comportamento. Consulte/teste a versão adotada pela sua organização antes de usá-la. A instalação suportada e validada aqui é `forge install-skills`.
 
-## Configuração no projeto consumidor
+> A instalação global não acontece automaticamente ao instalar o pacote; execute-a explicitamente.
 
-Use a skill **`core/project-init/`** — ela detecta a stack do projeto, encontra o pacote instalado e gera/atualiza o bloco de configuração no `CLAUDE.md` (Claude Code) ou `AGENTS.md` (Codex).
+## CLI
 
-Manualmente, o bloco tem esta forma (substitua `<base-path>` pelo caminho do pacote e `<stack>` por `backend-nestjs`, `backend-node`, `backend-golang`, `frontend-react` ou `frontend-vue`):
-
-```markdown
-## Workflow
-
-Follow `<base-path>/core/workflow.md` before starting any task.
-
-## Guardrails
-
-> ⚠️ CRITICAL: follow `<base-path>/core/guardrails.md` — these rules are absolute.
-
-## Architecture
-
-Follow the module pattern in `<base-path>/core/module-architecture.md`.
-
-## Standards
-
-Before making changes:
-1. Read `<base-path>/standards/index.md` (company-wide, L0) and load only the relevant files.
-2. Read `<base-path>/<stack>/standards/index.md` (stack, L2) and load only the relevant files.
-3. Rules in this file (project level) take precedence over L0/L2 when they conflict.
-
-## Skills
-
-Check `<base-path>/<stack>/SKILLS.md` for available skills and invoke the appropriate one before starting any task.
+```bash
+forge help
+forge stacks                 # alias: forge list
+forge skills                 # catálogo completo
+forge skills backend-nestjs  # skills core + stack
+forge context --stack backend-nestjs --skill new-module
+forge init [--stack STACK] [--agent claude|codex|both] [--cwd PATH] [--force]
+forge validate
+forge install-skills [--link|--copy] [--force] [--registry PATH]
+forge update
 ```
 
-- `<base-path>` em projetos Node: `node_modules/@hugoalmeidahh/ai-forge`
-- `<base-path>` em projetos Python/Go: resultado de `python -c "import core_ai_prompts; print(core_ai_prompts.BASE_DIR)"`
+`context` imprime, em ordem, os arquivos necessários para uma tarefa. `init` detecta NestJS, Go, Fastify, React ou Vue e mantém um bloco mínimo em `CLAUDE.md`/`AGENTS.md`; ambiguidade/ausência exige `--stack`, nenhum arquivo exige `--agent`. Conteúdo fora do bloco é preservado. `--force` serve somente para reparar delimitadores malformados/duplicados, removendo-os e anexando um bloco limpo. `validate` verifica layout das stacks, frontmatter/nome único das skills, links Markdown/catálogos e resíduos da distribuição Python.
 
----
+`update` executa `git pull --ff-only` em checkout Git. Em instalação via npm, atualize pelo gerenciador de pacotes:
 
-## Estrutura do pacote
-
-```
-@hugoalmeidahh/ai-forge/
-├── core/                        # Fundação — vale para todas as stacks
-│   ├── workflow.md              # Workflow de qualquer task (clarify, scope, plan, verify)
-│   ├── guardrails.md            # Regras absolutas (secrets, env files)
-│   ├── module-architecture.md   # O padrão modular universal
-│   ├── code-review/             # Skill: FORGE code review (5 pilares)
-│   ├── create-skill/            # Skill: cria nova skill
-│   ├── create-pr/               # Skill: abre Pull Request via Git REST API
-│   ├── project-init/            # Skill: configura CLAUDE.md/AGENTS.md no projeto
-│   └── onboarding-check/        # Skill: valida configuração do projeto consumidor
-│
-├── standards/                   # L0 — standards company-wide
-│   ├── index.md                 # Índice — leia primeiro para decidir quais carregar
-│   ├── naming.md · git.md · security.md · observability.md · testing.md
-│
-├── backend-nestjs/              # Stack NestJS (referência)
-│   ├── SKILLS.md
-│   ├── standards/               # L2 — padrões específicos de NestJS/Prisma
-│   ├── project-standards/       # Skill: aplica padrões ao escrever código
-│   ├── new-module/              # Skill: scaffolda módulo completo
-│   ├── new-migration/           # Skill: cria migration Prisma
-│   └── upgrade-prisma-v7/       # Skill: upgrade Prisma v7
-│
-├── backend-node/                # Stack Node.js / Fastify
-│   ├── SKILLS.md
-│   ├── standards/               # L2 — router/service, Zod, serializers, AppError
-│   ├── project-standards/
-│   └── new-module/
-│
-├── backend-golang/              # Stack Golang / Chi
-│   ├── SKILLS.md
-│   ├── standards/               # L2 — handler/service/repository, structs, AppError
-│   ├── project-standards/
-│   └── new-module/
-│
-├── frontend-react/              # Stack React
-├── frontend-vue/                # Stack Vue
-├── template-team/               # Template para criar uma nova stack/time
-├── CHANGELOG.md                 # Breaking changes e releases
-├── core_ai_prompts/             # Pacote Python (path helper: BASE_DIR, get_team_dir)
-├── SPEC.md                      # Especificação completa do método
-├── presentation.html            # Apresentação (deck)
-├── package.json                 # Manifesto npm
-└── pyproject.toml               # Manifesto pip
+```bash
+npm update @hugoalmeidahh/ai-forge
 ```
 
-### Hierarquia de precedência
+Após atualizar um checkout com instalação por symlink, as skills refletem a nova versão imediatamente. Instalações `--copy` exigem nova execução de `forge install-skills --copy --force` quando o conteúdo divergir.
 
-| Layer | Escopo | Onde |
-|---|---|---|
-| **L0** | Company-wide | `core/` + `standards/` |
-| **L2** | Linguagem + stack/framework | `<stack>/standards/` |
-| **L3** | Projeto | `CLAUDE.md` / `AGENTS.md` — **sempre vence** |
+## Descoberta automática
 
----
+A skill raiz `SKILL.md` funciona como roteador/bootstrap. Ela procura, nesta ordem:
 
-## Criando uma nova stack/time
+1. `node_modules/.bin/forge` no projeto;
+2. `node bin/forge.js` em um checkout atual;
+3. `~/.local/share/ai-forge/bin/forge.js`;
+4. se ausente, orienta o clone — sem instalar ou clonar sem aprovação.
 
-1. Copie o diretório `template-team/` e renomeie (ex: `frontend-svelte`).
-2. Substitua os placeholders `[team-name]` nos arquivos (`SKILLS.md`, `project-standards/SKILL.md`, `standards/index.md`).
-3. Preencha `standards/project-patterns.md` traduzindo `core/module-architecture.md` para a stack.
-4. Adicione os demais standards L2 conforme necessário.
-5. Adicione a entrada `force-include` no `pyproject.toml`:
-   ```toml
-   [tool.hatch.build.targets.wheel.force-include]
-   "<stack-name>" = "core_ai_prompts/<stack-name>"
-   ```
-6. Abra um PR neste repositório.
+Depois usa `forge stacks`, `forge skills <stack>` e `forge context` para carregar apenas o contexto relevante.
 
----
+## Stacks e exemplos
 
-## Adicionando ou modificando uma skill
+```bash
+forge stacks
+# backend-golang
+# backend-nestjs
+# backend-node
+# frontend-react
+# frontend-vue
 
-Skills locais (válidas apenas para um projeto) podem ser criadas diretamente no projeto consumidor via a skill `create-skill`:
+forge context --stack backend-golang --skill project-standards
+forge context --stack frontend-react --skill new-module
+```
 
-- Claude Code: `.claude/skills/<skill-name>/SKILL.md`
-- Codex: `.codex/skills/<skill-name>/SKILL.md`
+Cada stack preserva `SKILLS.md`, `standards/` e suas skills no próprio diretório. Isso evita quebrar referências e mantém baixo churn.
 
-Se a skill for permanente e útil para toda a equipe, ela deve ser submetida via PR neste repositório para análise do time responsável.
+## Criar stack
+
+1. Copie `template-stack/` para o nome da stack, por exemplo `frontend-svelte/`.
+2. Troque `[stack-name]` nos arquivos copiados.
+3. Traduza `core/module-architecture.md` em `standards/project-patterns.md`.
+4. Atualize `SKILLS.md` e o catálogo L2.
+5. Execute `npm test`, `npm run validate` e `npm pack --dry-run`.
+
+Use “stack” em APIs, catálogos e templates. “Equipe/time” continua válido somente quando significar pessoas ou governança humana.
+
+## Estrutura
+
+```text
+ai-forge/
+├── bin/forge.js
+├── lib/forge.js
+├── SKILL.md
+├── core/
+├── standards/
+├── backend-nestjs/
+├── backend-node/
+├── backend-golang/
+├── frontend-react/
+├── frontend-vue/
+├── template-stack/
+└── test/
+```
+
+Conteúdo detalhado e histórico: `SPEC.md`, `CHANGELOG.md`, `presentation.html`.

@@ -1,6 +1,6 @@
 <skills-index>
   <purpose>
-    Template index for a new stack/team. Replace `[stack-name]`, paths and skills
+    Template index for a new stack. Replace `[stack-name]`, paths and skills
     before publishing. Core skills live in `core/`.
   </purpose>
   <skills>
