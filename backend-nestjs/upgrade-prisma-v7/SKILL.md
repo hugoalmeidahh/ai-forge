@@ -18,7 +18,7 @@ Migrate a NestJS project from Prisma v6 (`prisma-client-js`) to Prisma v7 (`pris
 ## References
 
 - `node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/project-standards/SKILL.md` — apply after changes
-- Template reference: `/home/jakeliny/Projects/template-api-monolith/`
+- Template reference: `<path-to-template-api-monolith>/`
 
 ## Workflow
 
