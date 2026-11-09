@@ -23,6 +23,7 @@
     <file path="standards/testing.md">
       Test organization, naming, and coverage expectations.
     </file>
+    <file path="standards/clean-code.md">Domain boundaries, intent, duplication, error propagation and behavioral verification.</file>
   </files>
   <related>
     <file path="core/module-architecture.md">
