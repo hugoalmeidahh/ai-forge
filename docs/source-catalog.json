@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-fastify-project-standards/SKILL.md",
+      "sha256": "12cc1c4041c775c3fbd70b7e2540d1854706406b6bcc289ef42435c4d130e5c1",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-node/fastify-project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-golang-new-module/SKILL.md",
+      "sha256": "937b73fe24ced37e5ffbe380aaac493661b268c56dc4c60f45a4e4112628997f",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-golang/new-module"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-golang-project-standards/SKILL.md",
+      "sha256": "98ef81d6f17719035c3bd6f4093673562bff85d7092a8375091d27e5c70b958f",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-golang/project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-nestjs-new-migration/SKILL.md",
+      "sha256": "461e88e2d96d025c979a43c1b88bc0f443048eee799daf38dde015e79438c555",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-nestjs/new-migration"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-nestjs-new-module/SKILL.md",
+      "sha256": "ddd9644096cea9ab100f561a06f83957036f0f34d53ef34a1363f0aa5605963f",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-nestjs/new-module"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-nestjs-project-standards/SKILL.md",
+      "sha256": "357f4621e3eb003775b52fc242173baae0f2b9aa1c251f8367f5ae2461215dec",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-nestjs/project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-nestjs-upgrade-prisma-v7/SKILL.md",
+      "sha256": "be63ea3ac4832780a9a38bc5768187041a26f2733916c3d6797b810a0c208876",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-nestjs/upgrade-prisma-v7"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-node-new-module/SKILL.md",
+      "sha256": "96ee1a2998920350632b056085ed085664e691d33e515a9b680befd942604985",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-node/new-module"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-backend-node-project-standards/SKILL.md",
+      "sha256": "868ce26d23f4110318e04ebbf9063441d7e6d6e3d3ebf1c5b8bd6d2b6a284da9",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "backend-node/project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-core-code-review/SKILL.md",
+      "sha256": "5e5bcf6e5c3a02be2647594da59bd0c4c6af9c90f9ee5d810dbe1c944da7eb6c",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "core/code-review"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-frontend-react-new-module/SKILL.md",
+      "sha256": "439a17b081d5d7e3dc58ece912932f43eb9df22cde36db18c79225ab4bee3569",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "frontend-react/new-module"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-frontend-react-project-standards/SKILL.md",
+      "sha256": "2f4e197d727fa99e9075adaedb7481106d89b2e16b4bd3759aea18a7c6235ab6",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "frontend-react/project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-frontend-vue-new-module/SKILL.md",
+      "sha256": "89c79e88ce8cc4d86a2aee5a2a2d5bd35216bff26cd7ad8d2d2d8d046e7b89de",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "frontend-vue/new-module"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ai-forge-frontend-vue-project-standards/SKILL.md",
+      "sha256": "aaef19ac2710a8d9b49f0539513c35e99e2d012913a904aad3e9ffa2c012a0e9",
+      "decision": "preserve and enrich existing FORGE skill",
+      "destination": "frontend-vue/project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/angular/SKILL.md",
+      "sha256": "16a4f8f5f0a68125f08c3170bfe325eec5df62e7eb83be7ce282950152517a58",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/astro/SKILL.md",
+      "sha256": "d703a6b1d2c7b852d535eb282142cbad61b1c03699d384549a052f26956f5de4",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/core-standards/SKILL.md",
+      "sha256": "ef9b0e16dfa83f97bbbacacb4e7feeb9b380c74d0ac307d135793cf2558b0353",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/html-css/SKILL.md",
+      "sha256": "21749569e634a275c48c498645096ca6a7a10633e6eee63e4d216fa47f2de48c",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/nextjs/SKILL.md",
+      "sha256": "4e529baa0dddebd4233492257f3076b9beb5f791628d08a7df7000a890d95c2e",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/nuxt/SKILL.md",
+      "sha256": "a101fdcd487a8bf221e632a61f69997eea1fbcb6d4b88d2bb1025b3371296bd7",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/react/SKILL.md",
+      "sha256": "f377129e977cfcdaaf65d22a192fda331518e6747e36ce03afd97ea4f16b1632",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/svelte/SKILL.md",
+      "sha256": "4449807728b1ae974cb2147b010dce8898915bcc7d05ba77958509910666df01",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "frontend_standard_skills-main/skills/vuejs/SKILL.md",
+      "sha256": "1a9e54625700c5589db61e3b8856187a3fd757eb2031f8b237084b48474721ff",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering + framework project-standards"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "harness-storytelling/SKILL.md",
+      "sha256": "f8f420154f6993e4877f406f06b129d26955c3cd3770834d0814c8952eb55d36",
+      "decision": "preserve planning essence; portable board integration",
+      "destination": "core/storytelling"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "po-discovery/SKILL.md",
+      "sha256": "94ec7b2b7d1ae6174dc17d3127ef9e9ad7cea1c1f2ddffda920b34a17cfa35b9",
+      "decision": "preserve planning essence; portable board integration",
+      "destination": "core/po-discovery"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/academy-guide/SKILL.md",
+      "sha256": "f27992510c051355dfe68c92394d509af730da5298094ec86834ee40bbd31376",
+      "decision": "exclude platform promotion/template; no distinct FORGE capability or license not established",
+      "destination": "none"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/algorithmic-art/SKILL.md",
+      "sha256": "3bc4092c09804853186524c826bc0621b940bb6122c05b84496dff95388e6eef",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "design/visual-assets"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/brand-guidelines/SKILL.md",
+      "sha256": "1120b3769e2985cefb3d25be981b1f914abeba57ae079b83c20c666c164fa9fe",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "design/brand-guidelines"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/canvas-design/SKILL.md",
+      "sha256": "a1f288079624402f30682753c1d43920b6664785698d21d3e7aa197450a6448b",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "design/visual-assets"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/claude-api/SKILL.md",
+      "sha256": "40537cca17c4aa86e4ce83ced39efcbfb1204905e3cf4c4ff98f2eab011e4b7f",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "integrations/llm-api"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/discernment-nudge/SKILL.md",
+      "sha256": "9191177c4a8ef11a20dace786d708506b22d43e748c71287bb823de0dc812dad",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "core/decision-review"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/doc-coauthoring/SKILL.md",
+      "sha256": "2e47d78846faeea4a56e9809c52700087a15a2155a3f293a3efbaded81398ef4",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "core/write-document"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/docx/SKILL.md",
+      "sha256": "8017469ea95fb7d28225c62daf8e2f3492a7b516fc64c18c28977cbf8980b7fe",
+      "decision": "exclude proprietary source; independently authored capability contract only",
+      "destination": "artifacts/documents"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/frontend-design/SKILL.md",
+      "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "frontend/ui-engineering"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/internal-comms/SKILL.md",
+      "sha256": "067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "core/project-update"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/mcp-builder/SKILL.md",
+      "sha256": "b483b56d6673134497e45489c317f26ae0f1429c194db0297e43073e17e6748c",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "integrations/mcp-server"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/pdf/SKILL.md",
+      "sha256": "9f78b8359fbd4943ad260a7a1e436e5a96503406d6c34e99f69223d647d85b9c",
+      "decision": "exclude proprietary source; independently authored capability contract only",
+      "destination": "artifacts/pdf"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/pptx/SKILL.md",
+      "sha256": "a7ff03e2c85b636f55232a6b1555f5dd90216b7a1a359ab289d8364e6acbc6a0",
+      "decision": "exclude proprietary source; independently authored capability contract only",
+      "destination": "artifacts/presentations"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/skill-creator/SKILL.md",
+      "sha256": "dcd4803e61e913e6fc27294184cd3a71f09f5e924ff20c8a9a20173e7b3c2bcf",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "core/create-skill"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/slack-gif-creator/SKILL.md",
+      "sha256": "2efca615ce55a3edd8fc05c779068a8085816617991987e446606403cd3abb22",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "design/visual-assets"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/theme-factory/SKILL.md",
+      "sha256": "c35893e221e28895c52143cc11bf30e41a44817796b39d4b15727dadc9796552",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "design/design-system"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/web-artifacts-builder/SKILL.md",
+      "sha256": "81c5002c6643b0de7b8710b00e7a9038daa6fb9b68d59870ee6adb12da8d10f8",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "frontend/ui-engineering"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/webapp-testing/SKILL.md",
+      "sha256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2",
+      "decision": "consolidate capability; rewrite provider/runtime-specific instructions",
+      "destination": "quality/web-testing"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/skills/xlsx/SKILL.md",
+      "sha256": "6712b39718fe815054abca9c3ee72f989613e6f771c8a5c58f30a65a6c905622",
+      "decision": "exclude proprietary source; independently authored capability contract only",
+      "destination": "artifacts/spreadsheets"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "skills/template/SKILL.md",
+      "sha256": "eb685d91de039ed864fbd790cddf31684b017fd4a34ee1a55760d8d7cdbadefa",
+      "decision": "exclude platform promotion/template; no distinct FORGE capability or license not established",
+      "destination": "none"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "taste-skill/skills/taste-skill/SKILL.md",
+      "sha256": "f2fe0fb10f4c7d742866d1869a2ce4b16d14e9819612bf0245738705d806062f",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: visual direction, context and critique; no rigid aesthetic gates or asset bundle"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/banner-design/SKILL.md",
+      "sha256": "ccb89ddc848f60bfe630cb19dfe3e062df94a029467a9b15259f2761019ac5c4",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/brand/SKILL.md",
+      "sha256": "1c24139633e2ebf11da4f97eaeb1c0564f8658a40b3ad779387a5b8c6cb76dbc",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/design/SKILL.md",
+      "sha256": "e93fe3683b7fa18a9bfcd00c0dc6e12c6859be07b7bfe20145f96ea49b72da13",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/design-system/SKILL.md",
+      "sha256": "8aa5ff93320559a6e5289d37b6b06b3307737dbfb4a6f3fc44135c705613c511",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/slides/SKILL.md",
+      "sha256": "86c07f19ec09f79441d3837e909cfcd51034b83bdcc88094c15e652be1e765cb",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/ui-styling/SKILL.md",
+      "sha256": "625e302c60ee8f2e22d56cbe638c4a739e2657f566dae42689503ad517c30f1e",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/.claude/skills/ui-ux-pro-max/SKILL.md",
+      "sha256": "9aa50bd44076db28624ea976056d915905ab9357748f90263a004fa0ef087147",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/cli/assets/skills/banner-design/SKILL.md",
+      "sha256": "ccb89ddc848f60bfe630cb19dfe3e062df94a029467a9b15259f2761019ac5c4",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/cli/assets/skills/brand/SKILL.md",
+      "sha256": "1c24139633e2ebf11da4f97eaeb1c0564f8658a40b3ad779387a5b8c6cb76dbc",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/cli/assets/skills/design/SKILL.md",
+      "sha256": "e93fe3683b7fa18a9bfcd00c0dc6e12c6859be07b7bfe20145f96ea49b72da13",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/cli/assets/skills/design-system/SKILL.md",
+      "sha256": "8aa5ff93320559a6e5289d37b6b06b3307737dbfb4a6f3fc44135c705613c511",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/cli/assets/skills/slides/SKILL.md",
+      "sha256": "86c07f19ec09f79441d3837e909cfcd51034b83bdcc88094c15e652be1e765cb",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "ai-forge-skills",
+      "source": "ui-ux-pro-max-skill/cli/assets/skills/ui-styling/SKILL.md",
+      "sha256": "625e302c60ee8f2e22d56cbe638c4a739e2657f566dae42689503ad517c30f1e",
+      "decision": "consolidate",
+      "destination": "frontend/ui-engineering: optional local search engine/data; design/*: brand, tokens and visual asset workflows"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-fastify-project-standards/SKILL.md",
+      "sha256": "05d69ce63ac9f29b8bf12e54edf554962209fd08219204d4d1da19d561a9e872",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-golang-new-module/SKILL.md",
+      "sha256": "f8a7e311e3cc444b1b354f88b44ee70163a7b36dc8a3d9e71ad7812f8f5583b3",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-golang-project-standards/SKILL.md",
+      "sha256": "50c29d38dd5abc1566150f15fc899b54a461966c10846ab31f083bd4cfc51338",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-nestjs-new-migration/SKILL.md",
+      "sha256": "d68289eade0d7164e804c6b8810d00cca007b6f4545c6d249677dd972c1760e4",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-nestjs-new-module/SKILL.md",
+      "sha256": "6443408dabc68912a16521a571c6c1473d78f1998d2e86d7a452a919de422146",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-nestjs-project-standards/SKILL.md",
+      "sha256": "287cd8ddcac65657a5af5081002f5ed6da281bb2e350a9d7285ec932e73740ea",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-nestjs-upgrade-prisma-v7/SKILL.md",
+      "sha256": "37e4500140ffaccdd2f67758bcf8ee5201e7b0d6dcd644234228b1ae361895b7",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-node-new-module/SKILL.md",
+      "sha256": "8852c95ffbf60067bf4a4ef7c430fb54703ee8ded97cc1c15a19e1f50e424077",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-backend-node-project-standards/SKILL.md",
+      "sha256": "7bcfd8d027f678e9ba764e5535fe0712895a5e9ee2cce25b15ee1a48deacb0e8",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-core-code-review/SKILL.md",
+      "sha256": "fe325692f8d7e79bb493510da6258f87eb9212e102db37680562382600c93726",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-frontend-react-new-module/SKILL.md",
+      "sha256": "368a3740ade74d0906501fca35e7133ba0d65a291a482d3ba53c03cbe6300b8e",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-frontend-react-project-standards/SKILL.md",
+      "sha256": "43ec491585d7a853db1f01af18c168bea5637e004b5709e28b2abbe2640c4b65",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-frontend-vue-new-module/SKILL.md",
+      "sha256": "80f1e48af92a0b7739690366c10f2247dd0a64be16e9d4da839390dd8d3b5bc9",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-ai-forge-frontend-vue-project-standards/SKILL.md",
+      "sha256": "2eff84a643f89fa1d42eb093b4e486fe0a040d6ea7a9bb93f735ea8144312d0f",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "existing FORGE stack/review skill"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-chat/SKILL.md",
+      "sha256": "c440367243ba309e2a122c8cc239612fb94f27529731527f3fc11a400d18b93f",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "core/task-coordination: quoted content has no runtime authority"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-communication/SKILL.md",
+      "sha256": "8d2baf9ddf8d54888a2297bee8d688d3aa6ec08ac370e395cb6abc244427c878",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "core/task-coordination"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-frontend/SKILL.md",
+      "sha256": "f85cadb5ccb207db451e72f4c400673e8bc607d3e44d2d1863d82fe03842198a",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "frontend/ui-engineering + six new frontend stacks"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-manager/SKILL.md",
+      "sha256": "990009b745b8384b6bfadec7c18db37cd5b6a6f6d54b53c23f98336fd636fbfe",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "core/task-coordination"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-po-discovery/SKILL.md",
+      "sha256": "3b04c160d4a935f56755b77e41914bf05c88e894da2549a83fe6ce105de2545c",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "core/po-discovery"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-portal/SKILL.md",
+      "sha256": "243a8a81035b001eeb0cd76d0514a067380b536da7bcb40d13786402cf73c8ec",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "quality/web-testing"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-portal-devices/SKILL.md",
+      "sha256": "ff7268d3484b27cab5cadbc2c9f07734471d1ce6451447d0651898befc437b70",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "quality/android-testing"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-routines/SKILL.md",
+      "sha256": "2dc89ca4454e39b024f54fb0e6517d518548753997c32b40175efb961ef6a374",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "integrations/scheduled-jobs"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-storytelling/SKILL.md",
+      "sha256": "8bff15fbe3fc048c302427cb67f8f2ab2eab5592ca97fc264942a8c5527f6783",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "core/storytelling"
+    },
+    {
+      "collection": "universe-harness-skills",
+      "source": "universe-harness-workspace/SKILL.md",
+      "sha256": "4210c05f59cec387bd412500daf033e6dc7bbde9709de8f1e5e61160f3db7f22",
+      "decision": "adapt runtime-neutral decisions; preserve authority and evidence boundaries",
+      "destination": "core/workspace-safety"
+    }
+  ]
+}

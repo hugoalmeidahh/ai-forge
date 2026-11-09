@@ -1,3 +1,5 @@
+> Current capability catalog and consolidation decisions: [skill consolidation](docs/skill-consolidation.md). The sections below retain the original architecture/distribution specification; the CLI README documents current commands.
+
 # ai-forge · SPEC de Reorganização
 
 > Baseado no FORGE code review como modelo de referência para estruturar skills, standards e padrões de time.

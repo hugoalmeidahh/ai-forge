@@ -4,6 +4,19 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+### Consolidated capabilities
+
+- Expanded to 45 installable skills plus an authoring template and 11 stacks, preserving existing public IDs and the FORGE architecture/review framework.
+- Added six frontend translations, a consolidated UX/visual/a11y/performance layer and optional MIT-licensed local UI research.
+- Added design/brand/assets, browser/Android QA, MCP/LLM/scheduling, writing/updates/decision review, coordination/worktree and original artifact workflows.
+- Accounted for 83 supplied source entrypoints in a hashed catalog, including explicitly excluded proprietary and platform-specific materials.
+- Licensed original AI Forge content under MIT and retained per-skill third-party notices/licenses.
+- Excluded the incomplete authoring template from installation/discovery.
+- Added stack-independent capability scopes/context, meta-framework detection and complete-tree copied-installation checks.
+- Added deterministic synchronization of canonical FORGE reference bundles; validation now rejects stale copies.
+- Improved proportional workflow, domain boundaries, failure cases and honest verification/capability limits.
+
+
 ### Added
 
 - Portable skill reference bundles and UI metadata adapted from the Universe Harness skills.
