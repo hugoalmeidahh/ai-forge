@@ -1,575 +1,424 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FORGE · O Método</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Conheça o AI Forge: método, stacks e catálogo de skills com exemplos e comandos de acesso.">
+<title>AI Forge — método, skills e acesso</title>
 <style>
-  :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface-2: #1c2129;
-    --border: #2d333b;
-    --text: #e6edf3;
-    --text-dim: #8b949e;
-    --text-faint: #6e7681;
-    --accent: #58a6ff;
-    --green: #3fb950;
-    --yellow: #d29922;
-    --red: #f85149;
-    --purple: #bc8cff;
-    --mono: "SF Mono", "Fira Code", Consolas, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; }
-
-  .deck { height: 100vh; position: relative; }
-  .slide {
-    position: absolute; inset: 0;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6vh 8vw;
-    overflow-y: auto;
-  }
-  .slide.active { display: flex; }
-
-  .kicker {
-    font-family: var(--mono); font-size: 13px; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
-  }
-  h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
-  h2 { font-size: clamp(24px, 3.4vw, 38px); font-weight: 700; line-height: 1.2; margin-bottom: 28px; }
-  h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
-  p.lead { font-size: clamp(16px, 1.6vw, 20px); color: var(--text-dim); max-width: 780px; line-height: 1.6; }
-  .accent { color: var(--accent); }
-  .green { color: var(--green); }
-  .yellow { color: var(--yellow); }
-  .red { color: var(--red); }
-  .purple { color: var(--purple); }
-
-  .grid { display: grid; gap: 16px; margin-top: 32px; }
-  .grid.c2 { grid-template-columns: 1fr 1fr; }
-  .grid.c3 { grid-template-columns: 1fr 1fr 1fr; }
-  .grid.c4 { grid-template-columns: repeat(4, 1fr); }
-
-  .card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 22px;
-  }
-  .card h3 { display: flex; align-items: center; gap: 8px; }
-  .card p { font-size: 14px; color: var(--text-dim); line-height: 1.55; }
-  .card.hl { border-color: var(--accent); }
-
-  .tag {
-    display: inline-block; font-family: var(--mono); font-size: 11px;
-    padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border);
-    color: var(--text-dim); margin-right: 6px; margin-bottom: 6px;
-  }
-  .tag.on { border-color: var(--green); color: var(--green); }
-  .tag.new { border-color: var(--yellow); color: var(--yellow); }
-
-  pre {
-    font-family: var(--mono); font-size: clamp(11px, 1.15vw, 14px);
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 20px 24px; line-height: 1.65;
-    overflow-x: auto; margin-top: 24px;
-  }
-  pre .c { color: var(--text-faint); }
-  pre .k { color: var(--accent); }
-  pre .g { color: var(--green); }
-  pre .y { color: var(--yellow); }
-  pre .p { color: var(--purple); }
-
-  table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 14px; }
-  th { text-align: left; font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); padding: 10px 14px; border-bottom: 2px solid var(--border); }
-  td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; }
-  td:first-child { color: var(--text); font-weight: 500; }
-  td code, li code, p code {
-    font-family: var(--mono); font-size: 0.9em; background: var(--surface-2);
-    padding: 2px 6px; border-radius: 4px; color: var(--accent);
-  }
-
-  ul.checks { list-style: none; margin-top: 24px; }
-  ul.checks li { padding: 9px 0; font-size: 16px; color: var(--text-dim); display: flex; gap: 12px; align-items: baseline; line-height: 1.5; }
-  ul.checks li::before { content: "→"; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
-
-  .flow {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    margin-top: 32px; font-family: var(--mono); font-size: clamp(12px, 1.3vw, 15px);
-  }
-  .flow .step {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 10px 16px; border-radius: 8px; color: var(--text);
-  }
-  .flow .step.dim { color: var(--text-faint); border-style: dashed; }
-  .flow .arr { color: var(--text-faint); }
-
-  .layer-stack { margin-top: 32px; display: flex; flex-direction: column; gap: 10px; max-width: 860px; }
-  .layer {
-    display: grid; grid-template-columns: 110px 1fr auto; gap: 20px; align-items: center;
-    background: var(--surface); border: 1px solid var(--border);
-    border-left: 4px solid var(--border);
-    border-radius: 8px; padding: 16px 22px;
-  }
-  .layer .lname { font-family: var(--mono); font-weight: 700; font-size: 15px; }
-  .layer .ldesc { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
-  .layer .lwhere { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
-  .layer.l0 { border-left-color: var(--accent); }
-  .layer.l1 { border-left-color: var(--green); }
-  .layer.l2 { border-left-color: var(--yellow); }
-  .layer.l3 { border-left-color: var(--red); }
-
-  .footer {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 32px; font-family: var(--mono); font-size: 12px; color: var(--text-faint);
-    background: linear-gradient(transparent, var(--bg) 40%);
-    pointer-events: none; z-index: 10;
-  }
-  .progress {
-    position: fixed; top: 0; left: 0; height: 3px; background: var(--accent);
-    transition: width 0.25s ease; z-index: 20;
-  }
-  .nav-hint { pointer-events: none; }
-
-  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 28px; align-items: start; }
-  .cols pre { margin-top: 0; }
-
-  .big-num { font-family: var(--mono); font-size: 60px; font-weight: 700; color: var(--accent); line-height: 1; }
-
-  @media (max-width: 900px) {
-    .grid.c2, .grid.c3, .grid.c4, .cols { grid-template-columns: 1fr; }
-    .layer { grid-template-columns: 1fr; gap: 6px; }
-  }
+:root{--ink:#12202b;--muted:#51616b;--paper:#f4f6f7;--white:#fff;--line:#d6dfe3;--dark:#0d202b;--mint:#8ee4c5;--accent:#096d56;--mono:ui-monospace,SFMono-Regular,Consolas,monospace;--sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:94px}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}a{color:var(--accent);text-underline-offset:4px}button,input,select{font:inherit}button,a,input,select,summary{touch-action:manipulation}button,summary{cursor:pointer}button{border:1px solid var(--line);border-radius:5px;background:var(--white);color:var(--ink);padding:.65rem 1rem}button:hover{border-color:var(--accent)}:focus-visible{outline:3px solid #0b8868;outline-offset:4px}.skip{position:fixed;top:-80px;left:16px;z-index:100;background:white;padding:12px}.skip:focus{top:12px}.bar{background:var(--dark);color:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid #34505b}.bar-inner{max-width:1320px;margin:auto;padding:16px 40px;display:flex;align-items:center;gap:24px}.brand{font-weight:850;font-size:20px;letter-spacing:-.7px;text-decoration:none;color:#fff;white-space:nowrap}.brand span{color:var(--mint)}.bar nav{display:flex;gap:22px;margin-left:auto}.bar nav a{color:#d5e3e9;text-decoration:none;font-size:14px}.bar button{background:var(--mint);color:var(--dark);border-color:var(--mint);font-weight:700;font-size:14px}.wrap{max-width:1240px;margin:auto;padding:0 40px}.slide{padding:88px 0;border-bottom:1px solid var(--line)}.label{font:600 11px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(40px,5.4vw,76px);line-height:1.06;letter-spacing:-.055em;margin-bottom:30px;max-width:860px}h2{font-size:clamp(30px,3.4vw,48px);line-height:1.16;letter-spacing:-.04em;margin-bottom:24px}h3{font-size:20px;line-height:1.3;letter-spacing:-.02em;margin-bottom:12px}.lead{font-size:clamp(17px,1.6vw,21px);line-height:1.65;max-width:770px;color:var(--muted)}.hero{background:var(--dark);color:#fff;padding-top:90px;padding-bottom:74px}.hero .label,.hero .lead{color:#b8ccd6}.hero .label{margin-bottom:22px}.hero h1 em{font-style:normal;color:var(--mint)}.hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:60px;align-items:center}.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}.action{display:inline-block;border:1px solid #53717f;padding:12px 19px;border-radius:4px;color:white;font-weight:650;text-decoration:none;font-size:14px}.action.primary{background:var(--mint);border-color:var(--mint);color:var(--dark)}.terminal{background:#08151c;border:1px solid #355361;border-radius:8px;overflow:hidden;box-shadow:0 24px 60px #0003}.terminal-head{padding:12px 20px;border-bottom:1px solid #2c4551;font:12px var(--mono);color:#9eb8c5;display:flex;justify-content:space-between}.terminal-body{padding:26px;font:13px/1.9 var(--mono);color:#d0e3eb}.terminal-body p{margin-bottom:22px}.terminal-body p:last-child{margin:0}.terminal-body b{font-weight:500;color:var(--mint)}.terminal-body small{display:block;color:#96acb8;font:12px var(--mono)}.numbers{display:flex;gap:42px;flex-wrap:wrap;margin-top:52px;padding-top:28px;border-top:1px solid #35515f}.number strong{font-size:32px;line-height:1;font-weight:700;letter-spacing:-.04em}.number span{display:block;font-size:13px;color:#b8ccd6;margin-top:8px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:34px}.section-head p{max-width:500px;color:var(--muted);margin-bottom:3px}.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.principle{padding-top:20px;border-top:2px solid var(--ink)}.principle p,.area p{color:var(--muted);font-size:15px;margin-bottom:0}.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}.layer{background:#fff;border:1px solid var(--line);padding:26px}.layer strong{display:block;color:var(--accent);font:700 35px var(--mono);margin-bottom:14px}.layer p{margin:0;color:var(--muted);font-size:15px}.rule{padding:18px 22px;background:#e5efeb;border-left:3px solid var(--accent);font-size:15px}.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.area{background:#fff;border:1px solid var(--line);padding:28px}.area .label{display:block;margin-bottom:12px}.workflow{list-style:none;margin:36px 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:18px;counter-reset:steps}.workflow li{border-top:1px solid #aabcc5;padding-top:18px;counter-increment:steps}.workflow li:before{content:counter(steps,decimal-leading-zero);font:500 14px var(--mono);color:var(--accent);display:block;margin-bottom:18px}.workflow strong{display:block;font-size:17px}.workflow span{color:var(--muted);display:block;font-size:14px;margin-top:10px}.example{background:#fff;border:1px solid var(--line);padding:24px;margin-top:30px}.example p:last-child{margin-bottom:0}code{font-family:var(--mono);font-size:.85em;overflow-wrap:anywhere}pre{padding:18px;background:#eaf0f3;border:1px solid #d8e1e6;border-radius:4px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:10px 0 20px}pre code{font-size:12px}.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px}.access-step{font-size:13px;font-weight:700;color:var(--accent);display:block;margin-bottom:10px}.note{font-size:14px;color:var(--muted)}.pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:25px}.pill{border:1px solid var(--line);background:#fff;border-radius:4px;padding:7px 11px;font:12px var(--mono)}.proof{display:grid;grid-template-columns:1fr 1fr;gap:32px}.proof ul{padding-left:20px;color:var(--muted)}.proof li{margin:12px 0}.catalog-section{padding:84px 0}.catalog-tools{display:grid;grid-template-columns:1fr 330px;gap:20px;margin-bottom:15px}.catalog-tools label{display:block;font-size:13px;font-weight:650;margin-bottom:8px}.catalog-tools input,.catalog-tools select{width:100%;padding:13px 14px;border:1px solid #9eb0ba;border-radius:4px;background:#fff;color:var(--ink)}.catalog-status{font-size:14px;color:var(--muted);min-height:24px;margin:16px 0 24px}.catalog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}.skill-card{background:#fff;border:1px solid var(--line);border-radius:5px;padding:24px;min-width:0}.skill-top{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin-bottom:18px}.skill-top .label{font-size:9px}.skill-top a{font-size:11px;white-space:nowrap}.skill-card h3{font-size:20px}.skill-card>p{font-size:14px;color:var(--muted)}.skill-card .skill-id{font:11px/1.6 var(--mono);color:var(--accent);overflow-wrap:anywhere;margin-bottom:16px}.skill-card summary{font-size:13px;font-weight:700;margin-top:20px;line-height:1.5}.skill-card details[open] summary{margin-bottom:22px}.skill-card dl{font-size:13px;margin:0}.skill-card dt{font-weight:700;margin-top:16px}.skill-card dd{margin:5px 0 0;color:var(--muted)}.code-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;font-weight:650;margin-top:22px}.copy{padding:4px 9px;font-size:11px;min-height:32px}.skill-card pre{padding:12px;margin-bottom:0}.skill-card pre code{font-size:12px}.empty{border:1px dashed #90a3af;padding:32px;background:white}.template-note{margin-top:34px;font-size:14px;border-top:1px solid var(--line);padding-top:26px;color:var(--muted)}.footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--muted)}.footer-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.deck-controls{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;background:var(--dark);color:#fff;align-items:center;gap:12px;padding:8px;border-radius:7px;box-shadow:0 5px 25px #0003}.deck-controls button{padding:8px 14px}.deck-controls span{font:13px var(--mono);min-width:60px;text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}[hidden]{display:none!important}.presenting .catalog-section,.presenting .footer,.presenting .bar nav{display:none}.presenting .slide{min-height:calc(100dvh - 76px);display:flex;align-items:center;padding:50px 0 100px;border:0}.presenting .slide>.wrap{width:100%}.presenting .deck-controls{display:flex}.presenting .hero h1{font-size:clamp(38px,5vw,66px)}
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr;gap:32px}.terminal{max-width:640px}.catalog,.areas{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:60px}.hero h1{max-width:800px}.workflow{grid-template-columns:repeat(3,1fr)}.bar-inner{padding:14px 24px;gap:18px}.bar nav{gap:14px}}
+@media(max-width:650px){.wrap{padding:0 22px}.bar-inner{padding:12px 20px;gap:12px;flex-wrap:wrap}.bar nav{order:3;width:100%;margin:0;justify-content:space-between;gap:10px}.bar button{margin-left:auto;padding:7px 12px}.brand{font-size:19px}.hero{padding:48px 0}.slide{padding:52px 0}.hero h1{font-size:45px}.hero-grid{gap:34px}.terminal-body{padding:20px;font-size:11px}.numbers{gap:28px;margin-top:32px}.number strong{font-size:27px}.number span{font-size:11px}.section-head{display:block}.section-head p{margin-top:20px}.principles,.layers,.areas,.access-grid,.proof,.catalog{grid-template-columns:1fr}.workflow{grid-template-columns:1fr 1fr}.catalog-tools{grid-template-columns:1fr;gap:15px}.catalog-section{padding:52px 0}.skill-card{padding:22px}.hero-actions{gap:10px}.action{padding:10px 13px;font-size:13px}.layer{padding:22px}.presenting .slide{padding-top:36px}.deck-controls{bottom:12px;gap:6px}.deck-controls button{padding:7px 11px}html{scroll-padding-top:130px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white}.bar,.skip,.hero-actions,.deck-controls,.catalog-tools,.copy{display:none!important}.slide,.presenting .slide{display:block!important;min-height:0;padding:30px 0;break-inside:avoid}.slide[hidden],.catalog-section,.presenting .catalog-section,.presenting .footer{display:block!important}.hero{background:white;color:var(--ink)}.hero .lead,.hero .label,.hero h1 em,.number span{color:var(--ink)}.terminal{box-shadow:none}.catalog{grid-template-columns:1fr 1fr}.skill-card{break-inside:avoid}.wrap{padding:0 12px}.catalog-section{padding:28px 0}.skill-card[hidden]{display:block!important}a{color:var(--ink)}h1{font-size:42px}.numbers{border-color:var(--line)}}
 </style>
 </head>
 <body>
-<div class="progress" id="progress"></div>
-<div class="deck" id="deck">
-
-<!-- 1 · Capa -->
-<section class="slide active">
-  <div class="kicker">FORGE · ai-forge</div>
-  <h1>Um método para desenvolver software<br><span class="accent">na era da AI</span></h1>
-  <p class="lead">Padrões que humanos e agentes de AI seguem da mesma forma — arquitetura modular, standards em camadas e skills executáveis. Um único repositório, todas as stacks.</p>
-  <div style="margin-top:40px">
-    <span class="tag on">FORGE code review</span>
-    <span class="tag on">NestJS</span>
-    <span class="tag new">Node.js</span>
-    <span class="tag new">Golang</span>
-    <span class="tag new">Frontend</span>
-  </div>
-</section>
-
-<!-- 2 · O problema -->
-<section class="slide">
-  <div class="kicker">O problema</div>
-  <h2>Cada dev — e cada AI — escreve<br>o mesmo sistema de um jeito diferente</h2>
-  <div class="grid c2">
-    <div class="card">
-      <h3><span class="red">✕</span> Sem método</h3>
-      <p>Padrões vivem na cabeça das pessoas. Onboarding lento, review subjetivo, retrabalho constante. A AI gera código que "funciona", mas não parece com o resto do projeto.</p>
-    </div>
-    <div class="card">
-      <h3><span class="red">✕</span> Docs que ninguém segue</h3>
-      <p>Wikis desatualizadas, READMEs copiados e colados entre projetos que divergem em semanas. Não há como <em>verificar</em> aderência automaticamente.</p>
-    </div>
-    <div class="card">
-      <h3><span class="red">✕</span> AI sem contexto</h3>
-      <p>Agentes de AI são poderosos, mas sem padrões carregáveis eles improvisam: cada prompt gera uma arquitetura nova, cada sessão um estilo diferente.</p>
-    </div>
-    <div class="card hl">
-      <h3><span class="green">✓</span> A oportunidade</h3>
-      <p>Se os padrões forem <strong>arquivos versionados, seletivamente carregáveis e com precedência clara</strong>, a AI vira a executora mais disciplinada do time.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 3 · O insight -->
-<section class="slide">
-  <div class="kicker">O insight</div>
-  <h2>Padrão que a AI consegue seguir<br>é padrão que ela consegue <span class="accent">carregar</span></h2>
-  <p class="lead">O princípio central do método:</p>
-  <pre>A AI só é coerente com os padrões se eles estiverem organizados
-de forma que ela consiga carregá-los <span class="k">seletivamente</span>,
-na <span class="k">ordem certa</span>, <span class="k">sem ambiguidade de precedência</span>.</pre>
-  <ul class="checks">
-    <li>Cada standard é um arquivo <code>.md</code> pequeno e focado — não um documento gigante</li>
-    <li>Um <code>index.md</code> decide o que carregar por tipo de tarefa — economia de contexto</li>
-    <li>Distribuído como pacote (npm + pip) — versionado, atualizável, igual em todos os projetos</li>
-  </ul>
-</section>
-
-<!-- 4 · O loop -->
-<section class="slide">
-  <div class="kicker">O método</div>
-  <h2>Um loop fechado: definir → gerar → revisar</h2>
-  <div class="flow">
-    <div class="step"><span class="accent">1</span> Standards<br><small style="color:var(--text-faint)">definem o padrão</small></div>
-    <span class="arr">━━▶</span>
-    <div class="step"><span class="accent">2</span> Skills<br><small style="color:var(--text-faint)">scaffoldam no padrão</small></div>
-    <span class="arr">━━▶</span>
-    <div class="step"><span class="accent">3</span> FORGE Review<br><small style="color:var(--text-faint)">verifica contra o padrão</small></div>
-    <span class="arr">⟲</span>
-  </div>
-  <div class="grid c3" style="margin-top:36px">
-    <div class="card">
-      <h3>📐 Standards</h3>
-      <p>Regras verificáveis por camada: "controller não acessa BD", "erro estende BaseError", "5xx nunca vaza detalhe". Não são sugestões — são contratos.</p>
-    </div>
-    <div class="card">
-      <h3>⚡ Skills</h3>
-      <p>Workflows executáveis: <code>new-module</code> scaffolda a estrutura inteira correta de uma vez. A AI não improvisa — segue o passo a passo.</p>
-    </div>
-    <div class="card">
-      <h3>🔍 FORGE</h3>
-      <p>Code review em 5 pilares (Flow, Observability, Resilience, Guards, Error/Types) ancorado nos mesmos standards. Fecha o ciclo.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 5 · Arquitetura modular -->
-<section class="slide">
-  <div class="kicker">O padrão central</div>
-  <h2>Módulos por domínio de negócio</h2>
-  <p class="lead">Um módulo agrupa tudo de um contexto (<code>user</code>, <code>purchase</code>, <code>notification</code>). Regra de ouro: <strong>só o módulo dono manipula sua entidade</strong> — outros módulos chamam o service dele.</p>
-  <div class="cols">
-    <pre><span class="c"># fluxo canônico</span>
-Request
-  → <span class="k">Controller</span>   <span class="c">rota, auth, contrato — thin</span>
-  → <span class="g">Service</span>      <span class="c">lógica de negócio, BD</span>
-  → <span class="y">Repository</span>   <span class="c">persistência, providers</span>
-  → <span class="g">Service</span>
-  → <span class="k">Controller</span>
-  → <span class="p">DTO Output</span>   <span class="c">contrato, oculta sensíveis</span>
-Response</pre>
-    <pre>src/modules/user/
-├── controllers/
-├── services/
-├── dtos/
-├── errors/
-├── interfaces/
-└── user.module.ts
-
-src/providers/          <span class="c"># infra: BD, AWS, AMQP</span>
-                        <span class="c"># sem controllers, sem dtos</span></pre>
-  </div>
-</section>
-
-<!-- 6 · Contrato universal -->
-<section class="slide">
-  <div class="kicker">Contratos universais</div>
-  <h2>Toda stack fala a mesma língua</h2>
-  <table>
-    <tr><th>Camada</th><th>Faz</th><th>Nunca faz</th></tr>
-    <tr><td>Controller / Handler / Router</td><td>Rota, auth, contrato input/output</td><td>Lógica de negócio, acesso a BD</td></tr>
-    <tr><td>Service</td><td>Lógica de negócio, BD, integrações</td><td>Definir rota, usar output DTO</td></tr>
-    <tr><td>Input (DTO / Schema / Struct)</td><td>Validar e transformar entrada</td><td>Regra de negócio</td></tr>
-    <tr><td>Output (DTO / Serializer / Struct)</td><td>Contrato de resposta, ocultar sensíveis</td><td>Regra de negócio</td></tr>
-    <tr><td>Error</td><td>Erro tipado: status + code + message</td><td>Lógica de negócio</td></tr>
-  </table>
-  <pre style="margin-top:28px"><span class="c">// contrato de erro — idêntico em NestJS, Node e Go</span>
-{ <span class="g">"id"</span>: <span class="y">"x-request-id ou uuid"</span>, <span class="g">"code"</span>: <span class="y">"entity_not_found"</span>, <span class="g">"message"</span>: <span class="y">"..."</span> }
-
-<span class="c">// 5xx nunca vaza detalhe — log completo no servidor, cliente recebe:</span>
-{ <span class="g">"code"</span>: <span class="y">"internal_error"</span>, <span class="g">"message"</span>: <span class="y">"internal error"</span> }</pre>
-</section>
-
-<!-- 7 · Multi-stack -->
-<section class="slide">
-  <div class="kicker">Portabilidade</div>
-  <h2>Mesmo módulo, três linguagens</h2>
-  <div class="grid c3">
-    <div class="card">
-      <h3>NestJS <span class="tag on">referência</span></h3>
-      <pre style="margin-top:12px; padding:14px; font-size:11px">modules/user/
-├── controllers/
-│   └── user.controller.ts
-├── services/
-│   └── user.service.ts
-├── dtos/
-│   ├── create-user.input.ts
-│   └── user.output.ts
-├── errors/
-└── user.module.ts</pre>
-      <p style="margin-top:10px">Decorators, DI nativo, class-validator, Prisma, GlobalErrorFilter.</p>
-    </div>
-    <div class="card">
-      <h3>Node.js <span class="tag new">novo</span></h3>
-      <pre style="margin-top:12px; padding:14px; font-size:11px">modules/user/
-├── user.router.js
-├── user.service.js
-├── user.repository.js
-├── user.schema.js
-├── user.serializer.js
-└── user.errors.js</pre>
-      <p style="margin-top:10px">Router thin, Zod, serializers, AppError + error middleware global.</p>
-    </div>
-    <div class="card">
-      <h3>Golang <span class="tag new">novo</span></h3>
-      <pre style="margin-top:12px; padding:14px; font-size:11px">internal/user/
-├── handler.go
-├── service.go
-├── repository.go
-├── dto.go
-├── errors.go
-└── module.go</pre>
-      <p style="margin-top:10px">Interfaces + structs, DI via construtor, pacote por domínio.</p>
-    </div>
-  </div>
-  <p class="lead" style="margin-top:28px">Os <strong>conceitos são idênticos</strong> — muda a sintaxe e o idioma da linguagem. Um dev (ou AI) que domina o método transita entre stacks sem reaprender arquitetura.</p>
-</section>
-
-<!-- 8 · 4 layers -->
-<section class="slide">
-  <div class="kicker">Hierarquia</div>
-  <h2>Standards em 4 camadas de precedência</h2>
-  <div class="layer-stack">
-    <div class="layer l0">
-      <span class="lname accent">L0</span>
-      <span class="ldesc"><strong>Company-wide</strong> — arquitetura modular, naming, git, segurança, observability, contrato de erro</span>
-      <span class="lwhere">standards/ + core/</span>
-    </div>
-    <div class="layer l1">
-      <span class="lname green">L2</span>
-      <span class="ldesc"><strong>Language</strong> — TypeScript strict, Go idiomático, JS moderno</span>
-      <span class="lwhere">&lt;stack&gt;/standards/</span>
-    </div>
-    <div class="layer l2">
-      <span class="lname yellow">L2</span>
-      <span class="ldesc"><strong>Stack</strong> — tradução do padrão modular para o framework (NestJS, Fastify, Go/Chi, React, Vue)</span>
-      <span class="lwhere">&lt;stack&gt;/standards/</span>
-    </div>
-    <div class="layer l3">
-      <span class="lname red">L3</span>
-      <span class="ldesc"><strong>Projeto</strong> — overrides pontuais e justificados. <strong>Sempre vence.</strong></span>
-      <span class="lwhere">CLAUDE.md / AGENTS.md</span>
-    </div>
-  </div>
-  <p class="lead" style="margin-top:28px">A AI carrega de cima para baixo; em conflito, a camada mais específica vence. Sem ambiguidade.</p>
-</section>
-
-<!-- 9 · Como a AI usa -->
-<section class="slide">
-  <div class="kicker">Na prática</div>
-  <h2>Como a AI executa uma task</h2>
-  <pre><span class="c"># exemplo: criar um módulo num projeto Golang</span>
-
-<span class="k">1.</span> core/workflow.md + core/guardrails.md      <span class="c"># comportamento base</span>
-<span class="k">2.</span> core/module-architecture.md                <span class="c"># padrão modular universal</span>
-<span class="k">3.</span> standards/index.md                         <span class="c"># L0 — carrega só o relevante</span>
-<span class="k">4.</span> backend-golang/standards/index.md          <span class="c"># L2 — por tipo de arquivo</span>
-<span class="k">5.</span> CLAUDE.md do projeto                       <span class="c"># L3 — overrides locais</span>
-
-<span class="g">→ resultado: módulo Go com a MESMA arquitetura de um módulo NestJS</span>
-<span class="g">  handler thin · service com lógica · repository isolado · erro tipado</span></pre>
-  <div class="grid c2" style="margin-top:28px">
-    <div class="card">
-      <h3>Para devs</h3>
-      <p>Onboarding = ler o método uma vez. Review objetivo: aponta a regra violada, não opinião. Transitar de stack sem reaprender arquitetura.</p>
-    </div>
-    <div class="card">
-      <h3>Para o negócio</h3>
-      <p>Software previsível: qualquer dev ou AI produz no mesmo padrão. Menos retrabalho, menos dependência de heróis, código auditável.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 10 · FORGE -->
-<section class="slide">
-  <div class="kicker">Enforcement</div>
-  <h2>FORGE — review em 5 pilares</h2>
-  <div class="grid c4" style="grid-template-columns: repeat(5, 1fr);">
-    <div class="card"><h3>🔥 F</h3><p><strong>Flow & Async</strong><br>Race conditions, promises não-aguardadas, transações</p></div>
-    <div class="card"><h3>👁️ O</h3><p><strong>Observability</strong><br>Logs estruturados, request-id, sem PII</p></div>
-    <div class="card"><h3>🛡️ R</h3><p><strong>Resilience</strong><br>Erros tipados, providers externos, sem catch vazio</p></div>
-    <div class="card"><h3>🏗️ G</h3><p><strong>Guards & Arch</strong><br>Camadas respeitadas, controller thin, DI</p></div>
-    <div class="card"><h3>🔒 E</h3><p><strong>Errors & Types</strong><br>DTOs, auth, sem any, sem vazamento de dado</p></div>
-  </div>
-  <ul class="checks" style="margin-top:32px">
-    <li>Cada comentário: <strong>o quê + por quê + impacto</strong> — cita o standard violado</li>
-    <li>Severidade explícita: 🔴 blocker · 🟡 sugestão · 🔵 nitpick</li>
-    <li>Resumo global com veredito e scorecard — quem lê só ele entende a PR</li>
-    <li>Mesmos standards que geraram o código revisam o código — <strong>o loop fecha</strong></li>
-  </ul>
-</section>
-
-<!-- 11 · Estrutura do repo -->
-<section class="slide">
-  <div class="kicker">O repositório</div>
-  <h2>Tudo em um pacote versionado</h2>
-  <div class="cols">
-    <pre>@hugoalmeidahh/ai-forge/
-├── <span class="k">core/</span>                  <span class="c"># fundação</span>
-│   ├── workflow.md
-│   ├── guardrails.md
-│   ├── <span class="y">module-architecture.md</span>
-│   ├── code-review/       <span class="c"># FORGE</span>
-│   ├── create-skill/
-│   ├── create-pr/
-│   └── <span class="y">project-init/</span>
-├── <span class="k">standards/</span>             <span class="c"># L0</span>
-│   ├── naming.md · git.md
-│   ├── security.md
-│   ├── observability.md
-│   └── testing.md</pre>
-    <pre>├── <span class="g">backend-nestjs/</span>        <span class="c"># existe</span>
-│   ├── standards/ (10)
-│   └── skills/ (5)
-├── <span class="y">backend-node/</span>          <span class="c"># novo</span>
-│   ├── standards/
-│   └── skills/
-├── <span class="y">backend-golang/</span>        <span class="c"># novo</span>
-│   ├── standards/
-│   └── skills/
-├── <span class="y">frontend-react/</span>        <span class="c"># React</span>
-├── <span class="y">frontend-vue/</span>          <span class="c"># Vue</span>
-└── template-stack/</pre>
-  </div>
-  <p class="lead" style="margin-top:24px">Instalado via <code>npm</code> ou <code>pip</code> direto do Git — todo projeto consome a mesma versão dos padrões.</p>
-</section>
-
-<!-- 12 · Code review em detalhe -->
-<section class="slide">
-  <div class="kicker">Code review · em detalhe</div>
-  <h2>Review padronizado, não opinião de plantão</h2>
-  <div class="cols">
-    <div>
-      <ul class="checks" style="margin-top:0">
-        <li><strong>Parcimônia acima de tudo</strong> — sem ruído: se o comentário não muda a decisão de merge nem ensina algo, ele não existe</li>
-        <li><strong>Anatomia fixa do comentário:</strong> o quê ajustar + por quê (regra do time citada) + impacto de não ajustar</li>
-        <li><strong>Régua objetiva</strong> — a referência é o standard, não o gosto do revisor: "controllers-services: controller não acessa BD"</li>
-        <li><strong>Análise estática incorporada</strong> — promise não-aguardada, catch vazio, SQL concatenado, segredo hardcoded, endpoint sem guard — sem depender de ferramenta externa</li>
-        <li><strong>Tom colaborativo</strong> — sugerir, não impor; elogiar quando genuíno; 🔴 blockers são os únicos inegociáveis</li>
-      </ul>
-    </div>
-    <pre style="margin-top:0">🔴 🏗️ G — Controller acessando o banco direto
-
-Mover a query para o service. Pelo padrão
-controllers-services, o controller é fino —
-quem lê/escreve no BD é o service.
-Impacto: quebra a separação de camadas,
-dificulta teste e foge do fluxo canônico.
-
-<span class="c">// antes (no controller)</span>
-<span class="red">const user = await this.prisma.user.findUnique(...)</span>
-<span class="c">// depois</span>
-<span class="g">return UserOutput.getInstance(await this.userService.getById(id))</span></pre>
-  </div>
-  <div class="grid c3" style="margin-top:24px">
-    <div class="card"><h3>🔴 Blocker</h3><p>Bug, segurança, camada quebrada, erro fora do BaseError, 5xx vazando detalhe. Muda antes do merge.</p></div>
-    <div class="card"><h3>🟡 Sugestão</h3><p>Melhora clara de qualidade ou aderência. Idealmente endereçada na própria PR.</p></div>
-    <div class="card"><h3>🔵 Nitpick</h3><p>Estilo e preferência. Opcional — condensado num bloco único, nunca espalhado.</p></div>
-  </div>
-  <p class="lead" style="margin-top:24px">Todo review fecha com um <strong>resumo global auto-suficiente</strong>: veredito (✅ / ⚠️ / 🔴), scorecard por pilar, bloqueadores e aderência aos standards — quem lê só ele entende o estado da PR.</p>
-</section>
-
-<!-- 12b · Standards em detalhe -->
-<section class="slide">
-  <div class="kicker">Standards · em detalhe</div>
-  <h2>Clean Code + DRY + 15 anos de estrada</h2>
-  <p class="lead">Não é teoria de livro copiada — é curadoria: princípios clássicos filtrados pelo que <strong>funcionou (e quebrou) em produção</strong> ao longo de 15+ anos.</p>
-  <div class="grid c3" style="margin-top:28px">
-    <div class="card">
-      <h3>📖 Clean Code</h3>
-      <p>Nomes revelam intenção — sem abreviação obscura. Função pequena, responsabilidade única: se o nome precisa de "and", faz duas coisas. Sem número mágico. Early return, aninhamento raso. Comentário explica o <em>porquê</em>, não o <em>o quê</em>.</p>
-    </div>
-    <div class="card">
-      <h3>♻️ DRY com critério</h3>
-      <p>DRY é <strong>conhecimento</strong> duplicado — não linha parecida por acaso. Lógica repetida 2+ vezes → extrair para os helpers existentes antes de criar novo. Abstração prematura é dívida, não elegância.</p>
-    </div>
-    <div class="card">
-      <h3>🎯 Definições próprias</h3>
-      <p>Regras nascidas da experiência: service por contexto (nunca por endpoint), módulo dono é o único que toca sua entidade, função nomeada em <code>map/filter</code> (stack trace melhor), <code>if/switch</code> explícito em vez de mapa dinâmico de funções.</p>
-    </div>
-  </div>
-  <div class="grid c2" style="margin-top:20px">
-    <div class="card">
-      <h3>Exemplos de regras opinativas</h3>
-      <p>• Evitar try/catch quando o erro deve propagar — o filtro global resolve<br>
-      • Escrita multi-tabela sempre em transação<br>
-      • Sem parâmetro booleano que muda o comportamento da função<br>
-      • Literal duplicado 3+ vezes → constante nomeada<br>
-      • DTO é classe, nunca interface — validação viva, não só tipo</p>
-    </div>
-    <div class="card hl">
-      <h3>Por que isso importa</h3>
-      <p>Cada regra existe porque um problema real a justificou. Elas são <strong>verificáveis</strong> — o FORGE review as cita pelo nome ao apontar violação. Padrão que não se verifica é só sugestão.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 13 · Fechamento -->
-<section class="slide">
-  <div class="kicker">Resumo</div>
-  <h2>Não é um framework.<br>É um <span class="accent">método</span>.</h2>
-  <div class="grid c3" style="margin-top:36px">
-    <div class="card">
-      <div class="big-num">1</div>
-      <h3 style="margin-top:14px">Padrão portável</h3>
-      <p>Arquitetura modular por domínio — a mesma em NestJS, Node, Go e além.</p>
-    </div>
-    <div class="card">
-      <div class="big-num">2</div>
-      <h3 style="margin-top:14px">Camadas claras</h3>
-      <p>L0 → L3 com precedência definida. Humanos e AI carregam o mesmo contexto.</p>
-    </div>
-    <div class="card">
-      <div class="big-num">3</div>
-      <h3 style="margin-top:14px">Loop fechado</h3>
-      <p>Standards definem → skills geram → FORGE revisa. Aderência verificável, não prometida.</p>
-    </div>
-  </div>
-  <p class="lead" style="margin-top:40px">Nada aqui é invenção — é <strong>curadoria opinativa + enforcement automatizado via AI</strong>.<br>É assim que se escala qualidade de software na era dos agentes.</p>
-</section>
-
-</div>
-
-<div class="footer">
-  <span id="counter">1 / 13</span>
-  <span class="nav-hint">← → navegar · F fullscreen</span>
-</div>
-
+<a class="skip" href="#main">Ir para o conteúdo</a>
+<header class="bar"><div class="bar-inner"><a class="brand" href="#inicio">AI <span>FORGE</span></a><nav aria-label="Navegação principal"><a href="#metodo">Método</a><a href="#acesso">Como usar</a><a href="#catalogo">Catálogo</a><a href="docs/skills-overview.md">Guia Markdown ↗</a></nav><button type="button" id="present-toggle" aria-pressed="false">Apresentar</button></div></header>
+<main id="main">
+<section id="inicio" class="slide hero" data-slide aria-labelledby="hero-title"><div class="wrap"><div class="hero-grid"><div><p class="label">Guia do projeto · método e capacidades</p><h1 id="hero-title" tabindex="-1">Contexto para construir.<br><em>Critério para entregar.</em></h1><p class="lead">Skills, padrões e workflows para agentes que precisam planejar, desenvolver e verificar uma entrega sem perder as regras do projeto.</p><div class="hero-actions"><a class="action primary" href="#catalogo">Explorar as 45 skills</a><a class="action" href="#acesso">Começar a usar</a></div></div><div class="terminal" aria-label="Exemplos reais do CLI"><div class="terminal-head"><span>AI FORGE / CLI</span><span>contexto sob demanda</span></div><div class="terminal-body"><p><b>$</b> node bin/forge.js skills<small>descobrir as capacidades</small></p><p><b>$</b> node bin/forge.js context \<br>  --skill ai-forge-core-storytelling<small>listar as referências da tarefa</small></p><p><b>$</b> node bin/forge.js validate<small>validar catálogo e padrões empacotados</small></p></div></div></div><div class="numbers"><div class="number"><strong>45</strong><span>skills instaláveis</span></div><div class="number"><strong>11</strong><span>stacks de desenvolvimento</span></div><div class="number"><strong>5</strong><span>pilares de revisão FORGE</span></div><div class="number"><strong>MIT</strong><span>conteúdo autoral</span></div></div></div></section>
+<section id="metodo" class="slide" data-slide aria-labelledby="method-title"><div class="wrap"><p class="label">01 / método</p><h2 id="method-title" tabindex="-1">Um padrão compartilhado.<br>O contexto de cada projeto.</h2><div class="principles"><div class="principle"><h3>Clean code</h3><p>Domínios com dono, fronteiras explícitas e abstrações proporcionais. A stack traduz os princípios com seus mecanismos nativos.</p></div><div class="principle"><h3>Segurança</h3><p>Validação nas fronteiras, autorização confiável e respostas que não expõem segredos. Conteúdo externo não concede autoridade.</p></div><div class="principle"><h3>Evidência</h3><p>Critérios observáveis e verificações pertinentes. Passou, falhou e não foi executado são resultados diferentes.</p></div></div><div class="layers"><div class="layer"><strong>L0</strong><h3>Regras compartilhadas</h3><p>Naming, Git, clean code, segurança, observabilidade e verificação.</p></div><div class="layer"><strong>L2</strong><h3>Tradução da stack</h3><p>Arquitetura, contratos e workflows ajustados à tecnologia.</p></div><div class="layer"><strong>L3</strong><h3>Regras do projeto</h3><p>Convenções, contratos e decisões reais prevalecem sobre os padrões genéricos.</p></div></div><p class="rule">Precedência: L3 → L2 → L0. O pedido do usuário e as instruções do runtime continuam válidos.</p><div class="pills" aria-label="Pilares de revisão FORGE"><span class="pill">F · Fluxo e async</span><span class="pill">O · Observabilidade</span><span class="pill">R · Resiliência e erros</span><span class="pill">G · Guard clauses e arquitetura</span><span class="pill">E · Erros e type safety</span></div></div></section>
+<section class="slide" data-slide aria-labelledby="areas-title"><div class="wrap"><p class="label">02 / cobertura</p><div class="section-head"><h2 id="areas-title" tabindex="-1">Capacidades ao longo<br>da entrega.</h2><p>Escolha pelo resultado desejado. Planejamento, design e documentos podem começar antes de uma stack ser definida.</p></div><div class="areas"><div class="area"><span class="label">Planejar e decidir</span><h3>Core</h3><p>Storytelling, discovery, revisão, documentação, comunicação, coordenação e worktrees.</p></div><div class="area"><span class="label">Implementar</span><h3>Backend e frontend</h3><p>NestJS, Node/Fastify, Go/Chi, React, Vue, Next.js, Nuxt, Angular, Svelte, Astro e HTML/CSS.</p></div><div class="area"><span class="label">Criar a experiência</span><h3>UX e design</h3><p>Jornadas, estados, acessibilidade, performance, tokens, marca e materiais visuais.</p></div><div class="area"><span class="label">Verificar</span><h3>Qualidade</h3><p>QA de aplicações web e Android com ferramentas disponíveis e evidência do comportamento real.</p></div><div class="area"><span class="label">Conectar</span><h3>Integrações</h3><p>Servidores MCP, APIs LLM e rotinas com contratos, limites e recuperação de falhas.</p></div><div class="area"><span class="label">Materializar</span><h3>Artefatos</h3><p>Documentos, planilhas, apresentações e PDF, conforme os geradores e renderers do ambiente.</p></div></div></div></section>
+<section class="slide" data-slide aria-labelledby="flow-title"><div class="wrap"><p class="label">03 / aplicação prática</p><h2 id="flow-title" tabindex="-1">Da ideia ao resultado verificável.</h2><p class="lead">Use a profundidade necessária à tarefa. Uma pequena correção de interface não precisa de um discovery completo.</p><ol class="workflow"><li><strong>Estruturar</strong><span>Resultado, evidências, regras e incertezas.</span></li><li><strong>Detalhar</strong><span>Discovery, decisões e tarefas quando necessários.</span></li><li><strong>Implementar</strong><span>Padrões da stack e regras do projeto.</span></li><li><strong>Verificar</strong><span>Testes, QA e revisão FORGE pertinentes.</span></li><li><strong>Entregar</strong><span>Resultado, evidência e ações autorizadas.</span></li></ol><div class="example"><span class="label">Exemplo / novo módulo Go</span><p>Estruture o domínio e os critérios → aplique <code>ai-forge-backend-golang-new-module</code> → verifique o caso de uso → revise com <code>ai-forge-core-code-review</code>.</p><p class="note">Criar um plano não inicia agentes. Produzir código ou documentação não equivale a publicar ou aprovar a entrega.</p></div></div></section>
+<section id="acesso" class="slide" data-slide aria-labelledby="access-title"><div class="wrap"><p class="label">04 / acesso</p><h2 id="access-title" tabindex="-1">Instale. Descubra. Peça a tarefa.</h2><div class="access-grid"><div><span class="access-step">1. Preparar o checkout</span><pre><code>git clone https://github.com/hugoalmeidahh/ai-forge.git ~/.local/share/ai-forge
+cd ~/.local/share/ai-forge
+node bin/forge.js validate
+node bin/forge.js install-skills</code></pre><p class="note">Node.js 20+. O instalador cria links em <code>~/.agents/skills</code>; <code>--copy</code> instala cópias. O agente precisa descobrir esse diretório. Uma nova sessão pode ser necessária.</p><span class="access-step">2. Selecionar o contexto</span><pre><code>node bin/forge.js skills design
+node bin/forge.js context --skill ai-forge-design-design-system</code></pre></div><div><span class="access-step">3. Invocar no agente compatível</span><pre><code>$ai-forge-design-design-system
+Consolide os tokens e variantes destes componentes, preservando a identidade do produto.</code></pre><p class="note">Se a invocação por nome não existir no seu agente, peça a leitura do <code>SKILL.md</code> correspondente. Cada entrada do catálogo traz o arquivo, o comando e um exemplo de pedido.</p><div class="rule"><strong>O CLI prepara a leitura.</strong><br><code>context</code> lista arquivos; não executa a skill nem a tarefa. O agente lê as referências e usa as ferramentas disponíveis.</div><p class="note" style="margin-top:20px">Os comandos desta página partem da raiz do checkout. Fora dele, use o caminho real do CLI ou <code>npx forge</code> se o pacote estiver instalado no projeto.</p></div></div></div></section>
+<section class="slide" data-slide aria-labelledby="trust-title"><div class="wrap"><p class="label">05 / limites e manutenção</p><h2 id="trust-title" tabindex="-1">Uma base aberta.<br>Capacidades verificáveis.</h2><div class="proof"><div><h3>O que vem no projeto</h3><ul><li>Skills e referências locais, com nomes consistentes.</li><li>CLI Node.js para descoberta, contexto e instalação.</li><li>Validação e sincronização dos padrões empacotados.</li><li>Licença MIT para o conteúdo autoral e atribuições de terceiros preservadas.</li></ul></div><div><h3>O que depende do ambiente</h3><ul><li>Navegador, dispositivo, scheduler, credenciais e ferramentas de edição ou renderização.</li><li>Autorizações específicas para mensagens, publicação e efeitos em produção.</li><li>Testes da tarefa real. A validação do catálogo não certifica uma aplicação.</li><li>Toolkits proprietários de documentos não são redistribuídos.</li></ul></div></div><p class="rule">O template de nova stack é material de autoria. Fica fora das 45 skills instaláveis e exige substituir seus placeholders.</p><div class="hero-actions"><a class="action primary" href="#catalogo" id="open-catalog">Consultar o catálogo completo</a><a href="docs/skills-overview.md">Ler o guia em Markdown ↗</a></div></div></section>
+<section id="catalogo" class="catalog-section" aria-labelledby="catalog-title"><div class="wrap"><p class="label">06 / catálogo completo</p><div class="section-head"><h2 id="catalog-title">Cada skill, seu propósito<br>e seu acesso.</h2><p>Busque por resultado, tecnologia ou ID. Abra uma entrada para ver quando usar, entrega esperada, limites e exemplos.</p></div><div class="catalog-tools"><div><label for="catalog-search">Buscar skill</label><input id="catalog-search" type="search" placeholder="Ex.: migration, Go, acessibilidade, PDF" autocomplete="off"></div><div><label for="catalog-group">Filtrar por área</label><select id="catalog-group"><option value="all">Todas as áreas</option><option value="entrada">Por onde começar</option><option value="core">Planejamento, revisão e entrega</option><option value="backend">Desenvolvimento backend</option><option value="frontend">Frontend e experiência de produto</option><option value="design">Design e identidade</option><option value="quality">Qualidade e evidências</option><option value="integrations">Integrações e automação</option><option value="artifacts">Documentos e artefatos</option></select></div></div><p id="catalog-status" class="catalog-status" role="status" aria-live="polite">45 skills disponíveis.</p><div class="catalog"><article class="skill-card" data-group="entrada" data-search="ai-forge-root-router Roteador do AI Forge Encontra a skill adequada ao resultado pedido e orienta o carregamento do contexto. Você sabe o que quer entregar, mas não qual skill usar.">
+  <div class="skill-top"><span class="label">Por onde começar</span><a href="SKILL.md" aria-label="Ler instruções de Roteador do AI Forge">SKILL.md ↗</a></div>
+  <h3>Roteador do AI Forge</h3><p class="skill-id">ai-forge-root-router</p><p>Encontra a skill adequada ao resultado pedido e orienta o carregamento do contexto.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você sabe o que quer entregar, mas não qual skill usar.</dd><dt>Entrega esperada</dt><dd>Seleção de capacidade, stack quando necessária e referências pertinentes.</dd><dt>Condições e limites</dt><dd>CLI ou acesso aos arquivos das skills.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-root-router-command" aria-label="Copiar comando de Roteador do AI Forge">Copiar</button></div><pre><code tabindex="0" id="ai-forge-root-router-command">node bin/forge.js context --skill ai-forge-root-router</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-root-router-prompt" aria-label="Copiar pedido de Roteador do AI Forge">Copiar</button></div><pre><code tabindex="0" id="ai-forge-root-router-prompt">$ai-forge-root-router Escolha a skill para revisar a arquitetura desta API e carregue só o contexto necessário.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-storytelling Estruturação de ideias Transforma um objetivo inicial em um trabalho verificável com SCQA, regras, riscos e tarefas. A ideia ainda está aberta ou envolve sistema, extração, entrada de dados, integração ou análise.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/storytelling/SKILL.md" aria-label="Ler instruções de Estruturação de ideias">SKILL.md ↗</a></div>
+  <h3>Estruturação de ideias</h3><p class="skill-id">ai-forge-core-storytelling</p><p>Transforma um objetivo inicial em um trabalho verificável com SCQA, regras, riscos e tarefas.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>A ideia ainda está aberta ou envolve sistema, extração, entrada de dados, integração ou análise.</dd><dt>Entrega esperada</dt><dd>Brief e planning-data.md com premissas, evidências, critérios e cards propostos.</dd><dt>Condições e limites</dt><dd>Insumos reais; board é opcional e não inicia execução automaticamente.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-storytelling-command" aria-label="Copiar comando de Estruturação de ideias">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-storytelling-command">node bin/forge.js context --skill ai-forge-core-storytelling</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-storytelling-prompt" aria-label="Copiar pedido de Estruturação de ideias">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-storytelling-prompt">$ai-forge-core-storytelling Estruture a ideia de importar uma planilha para o CRM, com regras, riscos e critérios de pronto.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-po-discovery Discovery de produto Conduz o brief por fases de produto, arquitetura, regras, backlog e plano de execução. É preciso decidir o que construir e preparar trabalho rastreável para o time.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/po-discovery/SKILL.md" aria-label="Ler instruções de Discovery de produto">SKILL.md ↗</a></div>
+  <h3>Discovery de produto</h3><p class="skill-id">ai-forge-core-po-discovery</p><p>Conduz o brief por fases de produto, arquitetura, regras, backlog e plano de execução.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso decidir o que construir e preparar trabalho rastreável para o time.</dd><dt>Entrega esperada</dt><dd>Documentação viva com RN, funcionalidades, épicos, stories, decisões e tarefas.</dd><dt>Condições e limites</dt><dd>Brief inicial e padrões do projeto; decisões e gates pertencem ao PO.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-po-discovery-command" aria-label="Copiar comando de Discovery de produto">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-po-discovery-command">node bin/forge.js context --skill ai-forge-core-po-discovery</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-po-discovery-prompt" aria-label="Copiar pedido de Discovery de produto">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-po-discovery-prompt">$ai-forge-core-po-discovery Continue o discovery deste brief e proponha a trilha adequada ao escopo.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-code-review Revisão FORGE Revisa mudanças pelos cinco pilares FORGE e pelos padrões da stack e do projeto. Um diff, branch ou conjunto de arquivos precisa de revisão técnica.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/code-review/SKILL.md" aria-label="Ler instruções de Revisão FORGE">SKILL.md ↗</a></div>
+  <h3>Revisão FORGE</h3><p class="skill-id">ai-forge-core-code-review</p><p>Revisa mudanças pelos cinco pilares FORGE e pelos padrões da stack e do projeto.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Um diff, branch ou conjunto de arquivos precisa de revisão técnica.</dd><dt>Entrega esperada</dt><dd>Achados com localização, severidade, motivo, impacto e resumo do review.</dd><dt>Condições e limites</dt><dd>Diff e contexto do projeto; leitura estática não comprova execução de testes.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-code-review-command" aria-label="Copiar comando de Revisão FORGE">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-code-review-command">node bin/forge.js context --skill ai-forge-core-code-review</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-code-review-prompt" aria-label="Copiar pedido de Revisão FORGE">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-code-review-prompt">$ai-forge-core-code-review Revise o diff desta branch e priorize bugs, segurança e violações reais da arquitetura.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-create-pr Criação de pull requests Prepara título e descrição com base no diff e no template e orienta a abertura via API REST. Você quer redigir ou abrir uma PR para a branch de destino.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/create-pr/SKILL.md" aria-label="Ler instruções de Criação de pull requests">SKILL.md ↗</a></div>
+  <h3>Criação de pull requests</h3><p class="skill-id">ai-forge-core-create-pr</p><p>Prepara título e descrição com base no diff e no template e orienta a abertura via API REST.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você quer redigir ou abrir uma PR para a branch de destino.</dd><dt>Entrega esperada</dt><dd>Descrição técnica em português e URL da PR quando a criação for solicitada e confirmada.</dd><dt>Condições e limites</dt><dd>Git, destino definido e autenticação na plataforma para publicar; redigir não equivale a abrir.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-create-pr-command" aria-label="Copiar comando de Criação de pull requests">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-create-pr-command">node bin/forge.js context --skill ai-forge-core-create-pr</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-create-pr-prompt" aria-label="Copiar pedido de Criação de pull requests">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-create-pr-prompt">$ai-forge-core-create-pr Prepare a descrição da PR desta branch para main usando o template do repositório.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-create-skill Autoria e melhoria de skills Cria ou consolida skills com gatilhos claros, referências portáveis e avaliação por tarefa. Uma instrução recorrente deve virar skill ou uma skill precisa ficar mais precisa.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/create-skill/SKILL.md" aria-label="Ler instruções de Autoria e melhoria de skills">SKILL.md ↗</a></div>
+  <h3>Autoria e melhoria de skills</h3><p class="skill-id">ai-forge-core-create-skill</p><p>Cria ou consolida skills com gatilhos claros, referências portáveis e avaliação por tarefa.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma instrução recorrente deve virar skill ou uma skill precisa ficar mais precisa.</dd><dt>Entrega esperada</dt><dd>Skill com nome consistente, limites, referências, procedência e validações relevantes.</dd><dt>Condições e limites</dt><dd>Escopo e exemplos de uso; helpers novos devem ser executados e licenças preservadas.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-create-skill-command" aria-label="Copiar comando de Autoria e melhoria de skills">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-create-skill-command">node bin/forge.js context --skill ai-forge-core-create-skill</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-create-skill-prompt" aria-label="Copiar pedido de Autoria e melhoria de skills">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-create-skill-prompt">$ai-forge-core-create-skill Crie uma skill para revisar contratos de integração sem duplicar o code review existente.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-decision-review Revisão de decisões Examina premissas, alternativas e formas concretas de uma proposta falhar. Uma decisão importante pede crítica antes de comprometer esforço ou recursos.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/decision-review/SKILL.md" aria-label="Ler instruções de Revisão de decisões">SKILL.md ↗</a></div>
+  <h3>Revisão de decisões</h3><p class="skill-id">ai-forge-core-decision-review</p><p>Examina premissas, alternativas e formas concretas de uma proposta falhar.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma decisão importante pede crítica antes de comprometer esforço ou recursos.</dd><dt>Entrega esperada</dt><dd>Recomendação, trade-offs e menor experimento para reduzir a incerteza relevante.</dd><dt>Condições e limites</dt><dd>Proposta e evidências disponíveis; não acrescenta um gate genérico a toda tarefa.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-decision-review-command" aria-label="Copiar comando de Revisão de decisões">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-decision-review-command">node bin/forge.js context --skill ai-forge-core-decision-review</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-decision-review-prompt" aria-label="Copiar pedido de Revisão de decisões">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-decision-review-prompt">$ai-forge-core-decision-review Revise a decisão de migrar esta integração para processamento assíncrono.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-project-init Configuração inicial do projeto Orienta o CLI a criar ou atualizar o bloco mínimo do AI Forge em arquivos de agentes. Um repositório precisa descobrir sua stack e carregar padrões sob demanda.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/project-init/SKILL.md" aria-label="Ler instruções de Configuração inicial do projeto">SKILL.md ↗</a></div>
+  <h3>Configuração inicial do projeto</h3><p class="skill-id">ai-forge-core-project-init</p><p>Orienta o CLI a criar ou atualizar o bloco mínimo do AI Forge em arquivos de agentes.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Um repositório precisa descobrir sua stack e carregar padrões sob demanda.</dd><dt>Entrega esperada</dt><dd>CLAUDE.md e/ou AGENTS.md com bloco delimitado, preservando o conteúdo externo.</dd><dt>Condições e limites</dt><dd>Checkout e CLI; sem arquivo existente, escolha --agent; ambiguidade pede --stack.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-project-init-command" aria-label="Copiar comando de Configuração inicial do projeto">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-project-init-command">node bin/forge.js context --skill ai-forge-core-project-init</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-project-init-prompt" aria-label="Copiar pedido de Configuração inicial do projeto">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-project-init-prompt">$ai-forge-core-project-init Configure este projeto para o agente com a stack detectada, preservando as regras locais.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-onboarding-check Verificação de onboarding Confere se o projeto consumidor encontra o CLI, a stack, o bloco de configuração e suas referências. Depois de instalar, configurar ou atualizar o AI Forge em um projeto.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/onboarding-check/SKILL.md" aria-label="Ler instruções de Verificação de onboarding">SKILL.md ↗</a></div>
+  <h3>Verificação de onboarding</h3><p class="skill-id">ai-forge-core-onboarding-check</p><p>Confere se o projeto consumidor encontra o CLI, a stack, o bloco de configuração e suas referências.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Depois de instalar, configurar ou atualizar o AI Forge em um projeto.</dd><dt>Entrega esperada</dt><dd>Diagnóstico por verificação e menor correção necessária.</dd><dt>Condições e limites</dt><dd>Acesso à configuração do projeto; não modifica arquivos sem pedido.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-onboarding-check-command" aria-label="Copiar comando de Verificação de onboarding">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-onboarding-check-command">node bin/forge.js context --skill ai-forge-core-onboarding-check</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-onboarding-check-prompt" aria-label="Copiar pedido de Verificação de onboarding">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-onboarding-check-prompt">$ai-forge-core-onboarding-check Confira se este repositório consegue carregar corretamente o contexto do AI Forge.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-project-update Atualizações de projeto Redige status, comunicação de incidente ou atualização para liderança com fatos verificados. É preciso comunicar progresso, risco, impacto ou uma decisão pendente.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/project-update/SKILL.md" aria-label="Ler instruções de Atualizações de projeto">SKILL.md ↗</a></div>
+  <h3>Atualizações de projeto</h3><p class="skill-id">ai-forge-core-project-update</p><p>Redige status, comunicação de incidente ou atualização para liderança com fatos verificados.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso comunicar progresso, risco, impacto ou uma decisão pendente.</dd><dt>Entrega esperada</dt><dd>Texto adequado ao público, com evidência e próximos passos conhecidos.</dd><dt>Condições e limites</dt><dd>Fontes de andamento; a skill redige, mas não autoriza enviar mensagens.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-project-update-command" aria-label="Copiar comando de Atualizações de projeto">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-project-update-command">node bin/forge.js context --skill ai-forge-core-project-update</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-project-update-prompt" aria-label="Copiar pedido de Atualizações de projeto">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-project-update-prompt">$ai-forge-core-project-update Prepare um update do projeto com o que foi entregue, riscos e próximos passos.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-write-document Documentação técnica Organiza documentação, propostas e decisões para que o leitor aja sem depender do chat. Você precisa explicar um sistema, propor uma mudança ou registrar uma decisão.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/write-document/SKILL.md" aria-label="Ler instruções de Documentação técnica">SKILL.md ↗</a></div>
+  <h3>Documentação técnica</h3><p class="skill-id">ai-forge-core-write-document</p><p>Organiza documentação, propostas e decisões para que o leitor aja sem depender do chat.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você precisa explicar um sistema, propor uma mudança ou registrar uma decisão.</dd><dt>Entrega esperada</dt><dd>Documento consistente, com fontes, premissas, ação e lacunas materiais.</dd><dt>Condições e limites</dt><dd>Material de origem; arquivo Word/PDF exige também ferramenta de artefatos apropriada.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-write-document-command" aria-label="Copiar comando de Documentação técnica">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-write-document-command">node bin/forge.js context --skill ai-forge-core-write-document</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-write-document-prompt" aria-label="Copiar pedido de Documentação técnica">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-write-document-prompt">$ai-forge-core-write-document Documente esta integração para um desenvolvedor que ainda não conhece o projeto.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-task-coordination Coordenação de tarefas Organiza trabalho autorizado entre agentes com dono, dependências, contexto e evidência. O usuário pede coordenação ou delegação e o runtime oferece essa capacidade.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/task-coordination/SKILL.md" aria-label="Ler instruções de Coordenação de tarefas">SKILL.md ↗</a></div>
+  <h3>Coordenação de tarefas</h3><p class="skill-id">ai-forge-core-task-coordination</p><p>Organiza trabalho autorizado entre agentes com dono, dependências, contexto e evidência.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>O usuário pede coordenação ou delegação e o runtime oferece essa capacidade.</dd><dt>Entrega esperada</dt><dd>Atribuições rastreáveis e handoff com estados reais de execução e verificação.</dd><dt>Condições e limites</dt><dd>Ferramentas e autorização reais; sem integração, entrega o plano sem afirmar que o despachou.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-task-coordination-command" aria-label="Copiar comando de Coordenação de tarefas">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-task-coordination-command">node bin/forge.js context --skill ai-forge-core-task-coordination</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-task-coordination-prompt" aria-label="Copiar pedido de Coordenação de tarefas">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-task-coordination-prompt">$ai-forge-core-task-coordination Organize as tarefas desta entrega por responsável, dependências e evidências esperadas.</code></pre></details>
+</article>
+<article class="skill-card" data-group="core" data-search="ai-forge-core-workspace-safety Segurança de workspace e worktrees Prepara e acompanha mudanças isoladas sem perder trabalho local ou confundir autorização de entrega. É preciso orientar um checkout, worktree, branch ou integração de mudanças.">
+  <div class="skill-top"><span class="label">Planejamento, revisão e entrega</span><a href="core/workspace-safety/SKILL.md" aria-label="Ler instruções de Segurança de workspace e worktrees">SKILL.md ↗</a></div>
+  <h3>Segurança de workspace e worktrees</h3><p class="skill-id">ai-forge-core-workspace-safety</p><p>Prepara e acompanha mudanças isoladas sem perder trabalho local ou confundir autorização de entrega.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso orientar um checkout, worktree, branch ou integração de mudanças.</dd><dt>Entrega esperada</dt><dd>Contexto Git confirmado, alteração delimitada e estado de entrega verificável.</dd><dt>Condições e limites</dt><dd>Git e contexto real do runtime; worktree não isola processos, rede ou credenciais.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-core-workspace-safety-command" aria-label="Copiar comando de Segurança de workspace e worktrees">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-workspace-safety-command">node bin/forge.js context --skill ai-forge-core-workspace-safety</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-core-workspace-safety-prompt" aria-label="Copiar pedido de Segurança de workspace e worktrees">Copiar</button></div><pre><code tabindex="0" id="ai-forge-core-workspace-safety-prompt">$ai-forge-core-workspace-safety Confira este worktree antes da entrega e preserve todas as alterações não relacionadas.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-golang-project-standards Padrões Go/Chi Aplica contratos de handler, service e repository usando os mecanismos nativos de Go. Você vai alterar uma API ou regra de negócio em Go/Chi.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-golang/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Go/Chi">SKILL.md ↗</a></div>
+  <h3>Padrões Go/Chi</h3><p class="skill-id">ai-forge-backend-golang-project-standards</p><p>Aplica contratos de handler, service e repository usando os mecanismos nativos de Go.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai alterar uma API ou regra de negócio em Go/Chi.</dd><dt>Entrega esperada</dt><dd>Mudança alinhada a contexto, DTOs, erros, persistência e observabilidade.</dd><dt>Condições e limites</dt><dd>Projeto Go e referências locais; checks de integração dependem dos serviços necessários.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-golang-project-standards-command" aria-label="Copiar comando de Padrões Go/Chi">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-golang-project-standards-command">node bin/forge.js context --skill ai-forge-backend-golang-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-golang-project-standards-prompt" aria-label="Copiar pedido de Padrões Go/Chi">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-golang-project-standards-prompt">$ai-forge-backend-golang-project-standards Ajuste este endpoint Go seguindo os padrões e o tratamento de erros do projeto.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-golang-new-module Novo módulo Go Estrutura um domínio com handler, service, repository, DTOs, erros e wiring. Uma nova capacidade de negócio precisa de módulo próprio.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-golang/new-module/SKILL.md" aria-label="Ler instruções de Novo módulo Go">SKILL.md ↗</a></div>
+  <h3>Novo módulo Go</h3><p class="skill-id">ai-forge-backend-golang-new-module</p><p>Estrutura um domínio com handler, service, repository, DTOs, erros e wiring.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma nova capacidade de negócio precisa de módulo próprio.</dd><dt>Entrega esperada</dt><dd>Pacote de domínio integrado, com fronteiras e verificações pertinentes.</dd><dt>Condições e limites</dt><dd>Contrato e dono do domínio; uma tabela sozinha não justifica outro módulo.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-golang-new-module-command" aria-label="Copiar comando de Novo módulo Go">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-golang-new-module-command">node bin/forge.js context --skill ai-forge-backend-golang-new-module</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-golang-new-module-prompt" aria-label="Copiar pedido de Novo módulo Go">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-golang-new-module-prompt">$ai-forge-backend-golang-new-module Crie o módulo de pedidos em Go/Chi com validação e erros do domínio.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-nestjs-project-standards Padrões NestJS Aplica convenções de módulos, controllers, services, DTOs, erros, segurança e Prisma. Você vai desenvolver ou revisar código em um backend NestJS.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-nestjs/project-standards/SKILL.md" aria-label="Ler instruções de Padrões NestJS">SKILL.md ↗</a></div>
+  <h3>Padrões NestJS</h3><p class="skill-id">ai-forge-backend-nestjs-project-standards</p><p>Aplica convenções de módulos, controllers, services, DTOs, erros, segurança e Prisma.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver ou revisar código em um backend NestJS.</dd><dt>Entrega esperada</dt><dd>Mudança consistente com L0, L2, contratos e regras locais.</dd><dt>Condições e limites</dt><dd>Projeto NestJS; regras L3 prevalecem sobre convenções genéricas.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-project-standards-command" aria-label="Copiar comando de Padrões NestJS">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-project-standards-command">node bin/forge.js context --skill ai-forge-backend-nestjs-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-project-standards-prompt" aria-label="Copiar pedido de Padrões NestJS">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-project-standards-prompt">$ai-forge-backend-nestjs-project-standards Implemente esta regra na API NestJS respeitando o módulo dono e os DTOs.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-nestjs-new-module Novo módulo NestJS Cria a estrutura completa de um domínio e sua integração na aplicação. Uma entidade ou agregado precisa de uma nova capacidade no backend.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-nestjs/new-module/SKILL.md" aria-label="Ler instruções de Novo módulo NestJS">SKILL.md ↗</a></div>
+  <h3>Novo módulo NestJS</h3><p class="skill-id">ai-forge-backend-nestjs-new-module</p><p>Cria a estrutura completa de um domínio e sua integração na aplicação.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma entidade ou agregado precisa de uma nova capacidade no backend.</dd><dt>Entrega esperada</dt><dd>Módulo, controller, service, DTOs e erros adequados ao contrato.</dd><dt>Condições e limites</dt><dd>Domínio, endpoints e modelo de acesso; reutilize o módulo existente quando ele já for o dono.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-new-module-command" aria-label="Copiar comando de Novo módulo NestJS">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-new-module-command">node bin/forge.js context --skill ai-forge-backend-nestjs-new-module</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-new-module-prompt" aria-label="Copiar pedido de Novo módulo NestJS">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-new-module-prompt">$ai-forge-backend-nestjs-new-module Crie o módulo de endereços com endpoints, DTOs e autorização definidos no projeto.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-nestjs-new-migration Migration Prisma Prepara mudanças de schema e revisa o SQL e seus efeitos antes da entrega. É preciso criar ou alterar tabelas, colunas, índices ou relações via Prisma.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-nestjs/new-migration/SKILL.md" aria-label="Ler instruções de Migration Prisma">SKILL.md ↗</a></div>
+  <h3>Migration Prisma</h3><p class="skill-id">ai-forge-backend-nestjs-new-migration</p><p>Prepara mudanças de schema e revisa o SQL e seus efeitos antes da entrega.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso criar ou alterar tabelas, colunas, índices ou relações via Prisma.</dd><dt>Entrega esperada</dt><dd>Schema, migration revisada e código ajustado às mudanças.</dd><dt>Condições e limites</dt><dd>Ambiente de desenvolvimento apropriado; SQL destrutivo e resets exigem tratamento explícito.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-new-migration-command" aria-label="Copiar comando de Migration Prisma">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-new-migration-command">node bin/forge.js context --skill ai-forge-backend-nestjs-new-migration</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-new-migration-prompt" aria-label="Copiar pedido de Migration Prisma">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-new-migration-prompt">$ai-forge-backend-nestjs-new-migration Prepare a migration para adicionar o status do pedido e avalie backfill e compatibilidade.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-nestjs-upgrade-prisma-v7 Atualização para Prisma 7 Orienta a migração de configuração, clientes gerados e PrismaPg em um projeto NestJS. Um projeto com Prisma anterior precisa adotar a arquitetura da versão 7.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-nestjs/upgrade-prisma-v7/SKILL.md" aria-label="Ler instruções de Atualização para Prisma 7">SKILL.md ↗</a></div>
+  <h3>Atualização para Prisma 7</h3><p class="skill-id">ai-forge-backend-nestjs-upgrade-prisma-v7</p><p>Orienta a migração de configuração, clientes gerados e PrismaPg em um projeto NestJS.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Um projeto com Prisma anterior precisa adotar a arquitetura da versão 7.</dd><dt>Entrega esperada</dt><dd>Configs, schemas, dependências e imports atualizados, com geração e build verificados.</dd><dt>Condições e limites</dt><dd>Confira versões e documentação compatíveis; acesso a banco e migrations segue o escopo autorizado.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-upgrade-prisma-v7-command" aria-label="Copiar comando de Atualização para Prisma 7">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-upgrade-prisma-v7-command">node bin/forge.js context --skill ai-forge-backend-nestjs-upgrade-prisma-v7</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-nestjs-upgrade-prisma-v7-prompt" aria-label="Copiar pedido de Atualização para Prisma 7">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-nestjs-upgrade-prisma-v7-prompt">$ai-forge-backend-nestjs-upgrade-prisma-v7 Planeje e aplique o upgrade Prisma 7 considerando todos os schemas deste projeto.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-node-project-standards Padrões Node/Fastify Aplica módulos de domínio, dependências explícitas, schemas, serializers e erros consistentes. Você vai desenvolver um backend Node com Fastify.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-node/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Node/Fastify">SKILL.md ↗</a></div>
+  <h3>Padrões Node/Fastify</h3><p class="skill-id">ai-forge-backend-node-project-standards</p><p>Aplica módulos de domínio, dependências explícitas, schemas, serializers e erros consistentes.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver um backend Node com Fastify.</dd><dt>Entrega esperada</dt><dd>Rotas finas, services sem HTTP e persistência concentrada em repositories.</dd><dt>Condições e limites</dt><dd>Projeto e contratos reais; preserve as dependências e o padrão de DI já adotados.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-node-project-standards-command" aria-label="Copiar comando de Padrões Node/Fastify">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-node-project-standards-command">node bin/forge.js context --skill ai-forge-backend-node-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-node-project-standards-prompt" aria-label="Copiar pedido de Padrões Node/Fastify">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-node-project-standards-prompt">$ai-forge-backend-node-project-standards Ajuste este fluxo no Fastify sem colocar regra de negócio no router.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-node-new-module Novo módulo Node/Fastify Cria um domínio com router, service, repository, schema, serializer e erros. Uma nova capacidade de negócio precisa ser integrada ao backend Node.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-node/new-module/SKILL.md" aria-label="Ler instruções de Novo módulo Node/Fastify">SKILL.md ↗</a></div>
+  <h3>Novo módulo Node/Fastify</h3><p class="skill-id">ai-forge-backend-node-new-module</p><p>Cria um domínio com router, service, repository, schema, serializer e erros.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma nova capacidade de negócio precisa ser integrada ao backend Node.</dd><dt>Entrega esperada</dt><dd>Módulo coerente e conectado à composição da aplicação.</dd><dt>Condições e limites</dt><dd>Casos de uso e contratos; implemente apenas as responsabilidades necessárias.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-node-new-module-command" aria-label="Copiar comando de Novo módulo Node/Fastify">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-node-new-module-command">node bin/forge.js context --skill ai-forge-backend-node-new-module</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-node-new-module-prompt" aria-label="Copiar pedido de Novo módulo Node/Fastify">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-node-new-module-prompt">$ai-forge-backend-node-new-module Crie o módulo de notificações no Fastify com validação e serialização explícitas.</code></pre></details>
+</article>
+<article class="skill-card" data-group="backend" data-search="ai-forge-backend-node-fastify-project-standards Arquitetura TypeScript/Fastify Traduz conceitos úteis do NestJS para Fastify sem trazer suas dependências de runtime. Você precisa estruturar um backend TypeScript/Fastify com fronteiras claras.">
+  <div class="skill-top"><span class="label">Desenvolvimento backend</span><a href="backend-node/fastify-project-standards/SKILL.md" aria-label="Ler instruções de Arquitetura TypeScript/Fastify">SKILL.md ↗</a></div>
+  <h3>Arquitetura TypeScript/Fastify</h3><p class="skill-id">ai-forge-backend-node-fastify-project-standards</p><p>Traduz conceitos úteis do NestJS para Fastify sem trazer suas dependências de runtime.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você precisa estruturar um backend TypeScript/Fastify com fronteiras claras.</dd><dt>Entrega esperada</dt><dd>Composição explícita, validação, transações e isolamento coerentes com o projeto.</dd><dt>Condições e limites</dt><dd>Segurança, banco e identidade pertencem ao projeto; regras de tenant/RLS aplicam-se quando usadas.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-backend-node-fastify-project-standards-command" aria-label="Copiar comando de Arquitetura TypeScript/Fastify">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-node-fastify-project-standards-command">node bin/forge.js context --skill ai-forge-backend-node-fastify-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-backend-node-fastify-project-standards-prompt" aria-label="Copiar pedido de Arquitetura TypeScript/Fastify">Copiar</button></div><pre><code tabindex="0" id="ai-forge-backend-node-fastify-project-standards-prompt">$ai-forge-backend-node-fastify-project-standards Revise a arquitetura deste Fastify e a separação entre rotas, services e repositories.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-ui-engineering Engenharia de interface e UX Combina tarefa do usuário, direção visual, design system, arquitetura, acessibilidade e QA. É preciso criar, melhorar ou revisar uma interface web.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend/ui-engineering/SKILL.md" aria-label="Ler instruções de Engenharia de interface e UX">SKILL.md ↗</a></div>
+  <h3>Engenharia de interface e UX</h3><p class="skill-id">ai-forge-frontend-ui-engineering</p><p>Combina tarefa do usuário, direção visual, design system, arquitetura, acessibilidade e QA.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso criar, melhorar ou revisar uma interface web.</dd><dt>Entrega esperada</dt><dd>Fatia funcional com estados reais, decisões visuais coerentes e verificação declarada.</dd><dt>Condições e limites</dt><dd>Stack e identidade reais; pesquisa UI/UX local é opcional e usa Python 3.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-ui-engineering-command" aria-label="Copiar comando de Engenharia de interface e UX">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-ui-engineering-command">node bin/forge.js context --skill ai-forge-frontend-ui-engineering</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-ui-engineering-prompt" aria-label="Copiar pedido de Engenharia de interface e UX">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-ui-engineering-prompt">$ai-forge-frontend-ui-engineering Melhore esta tela de atendimento com foco na tarefa principal e na recuperação de erros.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-react-project-standards Padrões React Organiza componentes, hooks, dados, formulários e contratos por domínio. Você vai alterar uma aplicação React sem impor convenções de meta-framework.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-react/project-standards/SKILL.md" aria-label="Ler instruções de Padrões React">SKILL.md ↗</a></div>
+  <h3>Padrões React</h3><p class="skill-id">ai-forge-frontend-react-project-standards</p><p>Organiza componentes, hooks, dados, formulários e contratos por domínio.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai alterar uma aplicação React sem impor convenções de meta-framework.</dd><dt>Entrega esperada</dt><dd>Interface com dono claro para estado, transporte e comportamento.</dd><dt>Condições e limites</dt><dd>Bibliotecas e regras locais prevalecem; use a tradução Next.js quando for o caso.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-react-project-standards-command" aria-label="Copiar comando de Padrões React">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-react-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-react-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-react-project-standards-prompt" aria-label="Copiar pedido de Padrões React">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-react-project-standards-prompt">$ai-forge-frontend-react-project-standards Ajuste este formulário React mantendo o padrão de queries, schema e componentes.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-react-new-module Novo módulo React Estrutura uma capacidade com componentes, hooks, services, schemas e tipos. Um novo domínio de interface precisa de fronteiras próprias.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-react/new-module/SKILL.md" aria-label="Ler instruções de Novo módulo React">SKILL.md ↗</a></div>
+  <h3>Novo módulo React</h3><p class="skill-id">ai-forge-frontend-react-new-module</p><p>Estrutura uma capacidade com componentes, hooks, services, schemas e tipos.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Um novo domínio de interface precisa de fronteiras próprias.</dd><dt>Entrega esperada</dt><dd>Módulo integrado às rotas e ao fluxo de dados quando necessário.</dd><dt>Condições e limites</dt><dd>Reutilize design system e APIs existentes; não crie rota se o domínio não tem tela navegável.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-react-new-module-command" aria-label="Copiar comando de Novo módulo React">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-react-new-module-command">node bin/forge.js context --skill ai-forge-frontend-react-new-module</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-react-new-module-prompt" aria-label="Copiar pedido de Novo módulo React">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-react-new-module-prompt">$ai-forge-frontend-react-new-module Crie o módulo de pedidos com lista, filtros e estados de carregamento e erro.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-vue-project-standards Padrões Vue Aplica componentes, composables, services, validação e separação de estado em Vue. Você vai alterar uma aplicação Vue.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-vue/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Vue">SKILL.md ↗</a></div>
+  <h3>Padrões Vue</h3><p class="skill-id">ai-forge-frontend-vue-project-standards</p><p>Aplica componentes, composables, services, validação e separação de estado em Vue.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai alterar uma aplicação Vue.</dd><dt>Entrega esperada</dt><dd>SFCs com responsabilidades claras e dados sem duplicação desnecessária.</dd><dt>Condições e limites</dt><dd>Versão, bibliotecas e L3 reais; use a tradução Nuxt quando houver meta-framework.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-vue-project-standards-command" aria-label="Copiar comando de Padrões Vue">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-vue-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-vue-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-vue-project-standards-prompt" aria-label="Copiar pedido de Padrões Vue">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-vue-project-standards-prompt">$ai-forge-frontend-vue-project-standards Ajuste este fluxo Vue preservando o estado correto ao falhar a requisição.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-vue-new-module Novo módulo Vue Estrutura um domínio com views, componentes, composables, services, schemas e tipos. Uma nova capacidade da aplicação Vue precisa de organização própria.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-vue/new-module/SKILL.md" aria-label="Ler instruções de Novo módulo Vue">SKILL.md ↗</a></div>
+  <h3>Novo módulo Vue</h3><p class="skill-id">ai-forge-frontend-vue-new-module</p><p>Estrutura um domínio com views, componentes, composables, services, schemas e tipos.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma nova capacidade da aplicação Vue precisa de organização própria.</dd><dt>Entrega esperada</dt><dd>Módulo integrado, com apresentação e orquestração separadas.</dd><dt>Condições e limites</dt><dd>Contratos existentes e domínio dono; reaproveite os componentes já disponíveis.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-vue-new-module-command" aria-label="Copiar comando de Novo módulo Vue">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-vue-new-module-command">node bin/forge.js context --skill ai-forge-frontend-vue-new-module</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-vue-new-module-prompt" aria-label="Copiar pedido de Novo módulo Vue">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-vue-new-module-prompt">$ai-forge-frontend-vue-new-module Crie o módulo de clientes com filtros, detalhes e formulário acessível.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-nextjs-project-standards Padrões Next.js Orienta rotas, fronteiras server/client, dados, cache e experiência na versão instalada. Você vai desenvolver ou revisar uma aplicação Next.js.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-nextjs/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Next.js">SKILL.md ↗</a></div>
+  <h3>Padrões Next.js</h3><p class="skill-id">ai-forge-frontend-nextjs-project-standards</p><p>Orienta rotas, fronteiras server/client, dados, cache e experiência na versão instalada.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver ou revisar uma aplicação Next.js.</dd><dt>Entrega esperada</dt><dd>Mudança compatível com o router e a estratégia de renderização do projeto.</dd><dt>Condições e limites</dt><dd>Diferencie App Router e Pages Router; não presuma comportamento de cache de outra versão.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-nextjs-project-standards-command" aria-label="Copiar comando de Padrões Next.js">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-nextjs-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-nextjs-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-nextjs-project-standards-prompt" aria-label="Copiar pedido de Padrões Next.js">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-nextjs-project-standards-prompt">$ai-forge-frontend-nextjs-project-standards Revise esta rota Next.js quanto a autorização, cache e fronteira server/client.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-nuxt-project-standards Padrões Nuxt Organiza dados conscientes de SSR, hidratação, estado por requisição e convenções Nuxt. Você vai desenvolver ou revisar uma aplicação Nuxt.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-nuxt/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Nuxt">SKILL.md ↗</a></div>
+  <h3>Padrões Nuxt</h3><p class="skill-id">ai-forge-frontend-nuxt-project-standards</p><p>Organiza dados conscientes de SSR, hidratação, estado por requisição e convenções Nuxt.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver ou revisar uma aplicação Nuxt.</dd><dt>Entrega esperada</dt><dd>Fluxo de dados e interface coerentes com a versão e o adaptador de deploy.</dd><dt>Condições e limites</dt><dd>Versão e módulos reais; não compartilhe dados privados em singletons do servidor.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-nuxt-project-standards-command" aria-label="Copiar comando de Padrões Nuxt">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-nuxt-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-nuxt-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-nuxt-project-standards-prompt" aria-label="Copiar pedido de Padrões Nuxt">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-nuxt-project-standards-prompt">$ai-forge-frontend-nuxt-project-standards Corrija o carregamento desta página Nuxt sem duplicar o fetch na hidratação.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-angular-project-standards Padrões Angular Aplica fronteiras de componente e serviço, DI, estado, formulários e acessibilidade. Você vai desenvolver ou revisar uma aplicação Angular.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-angular/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Angular">SKILL.md ↗</a></div>
+  <h3>Padrões Angular</h3><p class="skill-id">ai-forge-frontend-angular-project-standards</p><p>Aplica fronteiras de componente e serviço, DI, estado, formulários e acessibilidade.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver ou revisar uma aplicação Angular.</dd><dt>Entrega esperada</dt><dd>Mudança alinhada às APIs e convenções da versão instalada.</dd><dt>Condições e limites</dt><dd>Não imponha standalone, signals ou outra sintaxe nova como migração incidental.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-angular-project-standards-command" aria-label="Copiar comando de Padrões Angular">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-angular-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-angular-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-angular-project-standards-prompt" aria-label="Copiar pedido de Padrões Angular">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-angular-project-standards-prompt">$ai-forge-frontend-angular-project-standards Revise este componente Angular e o cancelamento das buscas concorrentes.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-svelte-project-standards Padrões Svelte/SvelteKit Orienta reatividade, ciclo de vida e fronteiras de dados conforme Svelte ou SvelteKit. Você vai desenvolver ou revisar componentes e rotas nessa stack.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-svelte/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Svelte/SvelteKit">SKILL.md ↗</a></div>
+  <h3>Padrões Svelte/SvelteKit</h3><p class="skill-id">ai-forge-frontend-svelte-project-standards</p><p>Orienta reatividade, ciclo de vida e fronteiras de dados conforme Svelte ou SvelteKit.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver ou revisar componentes e rotas nessa stack.</dd><dt>Entrega esperada</dt><dd>Estado e renderização coerentes, com dados server-side isolados.</dd><dt>Condições e limites</dt><dd>Diferencie Svelte isolado de SvelteKit e respeite a major do projeto.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-svelte-project-standards-command" aria-label="Copiar comando de Padrões Svelte/SvelteKit">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-svelte-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-svelte-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-svelte-project-standards-prompt" aria-label="Copiar pedido de Padrões Svelte/SvelteKit">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-svelte-project-standards-prompt">$ai-forge-frontend-svelte-project-standards Revise esta rota SvelteKit e o tratamento de falhas da ação do formulário.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-astro-project-standards Padrões Astro Prioriza HTML e ilhas interativas com hidratação e conteúdo adequados ao uso. Você vai desenvolver ou revisar um site ou aplicação Astro.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-astro/project-standards/SKILL.md" aria-label="Ler instruções de Padrões Astro">SKILL.md ↗</a></div>
+  <h3>Padrões Astro</h3><p class="skill-id">ai-forge-frontend-astro-project-standards</p><p>Prioriza HTML e ilhas interativas com hidratação e conteúdo adequados ao uso.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai desenvolver ou revisar um site ou aplicação Astro.</dd><dt>Entrega esperada</dt><dd>Páginas e ilhas funcionais, com custo de JavaScript justificado.</dd><dt>Condições e limites</dt><dd>APIs de conteúdo e adaptador dependem da versão; HTML correto não prova interação das ilhas.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-astro-project-standards-command" aria-label="Copiar comando de Padrões Astro">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-astro-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-astro-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-astro-project-standards-prompt" aria-label="Copiar pedido de Padrões Astro">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-astro-project-standards-prompt">$ai-forge-frontend-astro-project-standards Melhore esta página Astro e hidrate apenas os componentes que precisam de interação.</code></pre></details>
+</article>
+<article class="skill-card" data-group="frontend" data-search="ai-forge-frontend-html-css-project-standards Padrões HTML/CSS/JS Aplica semântica, melhoria progressiva, CSS previsível e módulos proporcionais ao porte. O projeto usa a plataforma web sem um framework de aplicação.">
+  <div class="skill-top"><span class="label">Frontend e experiência de produto</span><a href="frontend-html-css/project-standards/SKILL.md" aria-label="Ler instruções de Padrões HTML/CSS/JS">SKILL.md ↗</a></div>
+  <h3>Padrões HTML/CSS/JS</h3><p class="skill-id">ai-forge-frontend-html-css-project-standards</p><p>Aplica semântica, melhoria progressiva, CSS previsível e módulos proporcionais ao porte.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>O projeto usa a plataforma web sem um framework de aplicação.</dd><dt>Entrega esperada</dt><dd>Página operável, responsiva e com comportamento verificável.</dd><dt>Condições e limites</dt><dd>Não acrescente framework por hábito; confira o comportamento servido por HTTP quando necessário.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-frontend-html-css-project-standards-command" aria-label="Copiar comando de Padrões HTML/CSS/JS">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-html-css-project-standards-command">node bin/forge.js context --skill ai-forge-frontend-html-css-project-standards</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-frontend-html-css-project-standards-prompt" aria-label="Copiar pedido de Padrões HTML/CSS/JS">Copiar</button></div><pre><code tabindex="0" id="ai-forge-frontend-html-css-project-standards-prompt">$ai-forge-frontend-html-css-project-standards Revise esta página HTML/CSS quanto a semântica, responsividade e formulário.</code></pre></details>
+</article>
+<article class="skill-card" data-group="design" data-search="ai-forge-design-design-system Design system Organiza tokens, temas e contratos de componentes a partir do sistema existente. É preciso criar ou evoluir uma linguagem de interface compartilhada.">
+  <div class="skill-top"><span class="label">Design e identidade</span><a href="design/design-system/SKILL.md" aria-label="Ler instruções de Design system">SKILL.md ↗</a></div>
+  <h3>Design system</h3><p class="skill-id">ai-forge-design-design-system</p><p>Organiza tokens, temas e contratos de componentes a partir do sistema existente.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso criar ou evoluir uma linguagem de interface compartilhada.</dd><dt>Entrega esperada</dt><dd>Tokens e componentes com estados, acessibilidade e impacto de migração conhecidos.</dd><dt>Condições e limites</dt><dd>Reutilize a stack de estilos e os componentes reais; valide os temas efetivamente entregues.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-design-design-system-command" aria-label="Copiar comando de Design system">Copiar</button></div><pre><code tabindex="0" id="ai-forge-design-design-system-command">node bin/forge.js context --skill ai-forge-design-design-system</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-design-design-system-prompt" aria-label="Copiar pedido de Design system">Copiar</button></div><pre><code tabindex="0" id="ai-forge-design-design-system-prompt">$ai-forge-design-design-system Consolide os tokens e variantes destes botões sem criar outro sistema paralelo.</code></pre></details>
+</article>
+<article class="skill-card" data-group="design" data-search="ai-forge-design-brand-guidelines Diretrizes de marca Define ou aplica identidade visual, voz, vocabulário e assets fornecidos. Você quer consistência de marca em produto e comunicação.">
+  <div class="skill-top"><span class="label">Design e identidade</span><a href="design/brand-guidelines/SKILL.md" aria-label="Ler instruções de Diretrizes de marca">SKILL.md ↗</a></div>
+  <h3>Diretrizes de marca</h3><p class="skill-id">ai-forge-design-brand-guidelines</p><p>Define ou aplica identidade visual, voz, vocabulário e assets fornecidos.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você quer consistência de marca em produto e comunicação.</dd><dt>Entrega esperada</dt><dd>Guia utilizável e exemplos com escolhas propostas separadas das fontes aprovadas.</dd><dt>Condições e limites</dt><dd>Use a marca do usuário; confirme origem e direito de uso de logos, fontes e imagens.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-design-brand-guidelines-command" aria-label="Copiar comando de Diretrizes de marca">Copiar</button></div><pre><code tabindex="0" id="ai-forge-design-brand-guidelines-command">node bin/forge.js context --skill ai-forge-design-brand-guidelines</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-design-brand-guidelines-prompt" aria-label="Copiar pedido de Diretrizes de marca">Copiar</button></div><pre><code tabindex="0" id="ai-forge-design-brand-guidelines-prompt">$ai-forge-design-brand-guidelines Organize as diretrizes desta marca e sua relação com os tokens do produto.</code></pre></details>
+</article>
+<article class="skill-card" data-group="design" data-search="ai-forge-design-visual-assets Assets visuais Orienta banners, posters, ícones, arte generativa e GIFs conforme formato e finalidade. É preciso criar um material visual original ou adaptar um asset autorizado.">
+  <div class="skill-top"><span class="label">Design e identidade</span><a href="design/visual-assets/SKILL.md" aria-label="Ler instruções de Assets visuais">SKILL.md ↗</a></div>
+  <h3>Assets visuais</h3><p class="skill-id">ai-forge-design-visual-assets</p><p>Orienta banners, posters, ícones, arte generativa e GIFs conforme formato e finalidade.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso criar um material visual original ou adaptar um asset autorizado.</dd><dt>Entrega esperada</dt><dd>Arquivo no formato pedido, fonte editável quando solicitada e inspeção visual.</dd><dt>Condições e limites</dt><dd>Depende das ferramentas presentes; geração, exportação, compra e publicação são operações distintas.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-design-visual-assets-command" aria-label="Copiar comando de Assets visuais">Copiar</button></div><pre><code tabindex="0" id="ai-forge-design-visual-assets-command">node bin/forge.js context --skill ai-forge-design-visual-assets</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-design-visual-assets-prompt" aria-label="Copiar pedido de Assets visuais">Copiar</button></div><pre><code tabindex="0" id="ai-forge-design-visual-assets-prompt">$ai-forge-design-visual-assets Crie um banner de apresentação seguindo esta marca e as dimensões fornecidas.</code></pre></details>
+</article>
+<article class="skill-card" data-group="quality" data-search="ai-forge-quality-web-testing QA de aplicações web Verifica jornadas, falhas, acessibilidade e regressões com estado renderizado e evidência. Uma interface precisa ser testada no navegador ou runner do projeto.">
+  <div class="skill-top"><span class="label">Qualidade e evidências</span><a href="quality/web-testing/SKILL.md" aria-label="Ler instruções de QA de aplicações web">SKILL.md ↗</a></div>
+  <h3>QA de aplicações web</h3><p class="skill-id">ai-forge-quality-web-testing</p><p>Verifica jornadas, falhas, acessibilidade e regressões com estado renderizado e evidência.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Uma interface precisa ser testada no navegador ou runner do projeto.</dd><dt>Entrega esperada</dt><dd>Cenários com resultado esperado/observado e distinção entre passou, falhou e não executado.</dd><dt>Condições e limites</dt><dd>Navegador/runner disponível e dados apropriados; screenshots não provam persistência.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-quality-web-testing-command" aria-label="Copiar comando de QA de aplicações web">Copiar</button></div><pre><code tabindex="0" id="ai-forge-quality-web-testing-command">node bin/forge.js context --skill ai-forge-quality-web-testing</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-quality-web-testing-prompt" aria-label="Copiar pedido de QA de aplicações web">Copiar</button></div><pre><code tabindex="0" id="ai-forge-quality-web-testing-prompt">$ai-forge-quality-web-testing Teste o fluxo de cadastro, incluindo validação e recuperação depois de falha.</code></pre></details>
+</article>
+<article class="skill-card" data-group="quality" data-search="ai-forge-quality-android-testing QA Android Orienta testes em dispositivo ou emulador real usando conector ou ADB disponível. Você precisa verificar um app Android nativo.">
+  <div class="skill-top"><span class="label">Qualidade e evidências</span><a href="quality/android-testing/SKILL.md" aria-label="Ler instruções de QA Android">SKILL.md ↗</a></div>
+  <h3>QA Android</h3><p class="skill-id">ai-forge-quality-android-testing</p><p>Orienta testes em dispositivo ou emulador real usando conector ou ADB disponível.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você precisa verificar um app Android nativo.</dd><dt>Entrega esperada</dt><dd>Evidência ligada ao app/build/dispositivo e ao resultado da jornada.</dd><dt>Condições e limites</dt><dd>Dispositivo e autorização reais; viewport móvel de navegador não é teste Android.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-quality-android-testing-command" aria-label="Copiar comando de QA Android">Copiar</button></div><pre><code tabindex="0" id="ai-forge-quality-android-testing-command">node bin/forge.js context --skill ai-forge-quality-android-testing</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-quality-android-testing-prompt" aria-label="Copiar pedido de QA Android">Copiar</button></div><pre><code tabindex="0" id="ai-forge-quality-android-testing-prompt">$ai-forge-quality-android-testing Teste este fluxo no emulador Android indicado e registre os erros relevantes.</code></pre></details>
+</article>
+<article class="skill-card" data-group="integrations" data-search="ai-forge-integrations-mcp-server Servidores MCP Estrutura ferramentas e recursos com contratos focados, autorização e resultados limitados. Você vai criar ou revisar um servidor MCP de integração.">
+  <div class="skill-top"><span class="label">Integrações e automação</span><a href="integrations/mcp-server/SKILL.md" aria-label="Ler instruções de Servidores MCP">SKILL.md ↗</a></div>
+  <h3>Servidores MCP</h3><p class="skill-id">ai-forge-integrations-mcp-server</p><p>Estrutura ferramentas e recursos com contratos focados, autorização e resultados limitados.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai criar ou revisar um servidor MCP de integração.</dd><dt>Entrega esperada</dt><dd>Servidor ou revisão com schemas, limites, erros e verificações de protocolo pertinentes.</dd><dt>Condições e limites</dt><dd>SDK e especificação compatíveis; tool annotations não substituem a autorização no servidor.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-integrations-mcp-server-command" aria-label="Copiar comando de Servidores MCP">Copiar</button></div><pre><code tabindex="0" id="ai-forge-integrations-mcp-server-command">node bin/forge.js context --skill ai-forge-integrations-mcp-server</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-integrations-mcp-server-prompt" aria-label="Copiar pedido de Servidores MCP">Copiar</button></div><pre><code tabindex="0" id="ai-forge-integrations-mcp-server-prompt">$ai-forge-integrations-mcp-server Projete um servidor MCP para consultar pedidos e atualizar apenas os campos autorizados.</code></pre></details>
+</article>
+<article class="skill-card" data-group="integrations" data-search="ai-forge-integrations-llm-api Integrações LLM Organiza adapters e fluxos de modelos com validação, orçamento, cancelamento e avaliação. Você vai integrar uma API LLM ou um fluxo com ferramentas.">
+  <div class="skill-top"><span class="label">Integrações e automação</span><a href="integrations/llm-api/SKILL.md" aria-label="Ler instruções de Integrações LLM">SKILL.md ↗</a></div>
+  <h3>Integrações LLM</h3><p class="skill-id">ai-forge-integrations-llm-api</p><p>Organiza adapters e fluxos de modelos com validação, orçamento, cancelamento e avaliação.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você vai integrar uma API LLM ou um fluxo com ferramentas.</dd><dt>Entrega esperada</dt><dd>Contrato de domínio separado do provedor, falhas previstas e evidência de testes.</dd><dt>Condições e limites</dt><dd>Documentação e SDK atuais; não fixa modelos/preços nem inventa resultado sem acesso à API.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-integrations-llm-api-command" aria-label="Copiar comando de Integrações LLM">Copiar</button></div><pre><code tabindex="0" id="ai-forge-integrations-llm-api-command">node bin/forge.js context --skill ai-forge-integrations-llm-api</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-integrations-llm-api-prompt" aria-label="Copiar pedido de Integrações LLM">Copiar</button></div><pre><code tabindex="0" id="ai-forge-integrations-llm-api-prompt">$ai-forge-integrations-llm-api Integre este provedor para classificar solicitações com saída validada e limite de custo.</code></pre></details>
+</article>
+<article class="skill-card" data-group="integrations" data-search="ai-forge-integrations-scheduled-jobs Rotinas agendadas Especifica ou configura jobs com executor real, fuso, deduplicação e recuperação. Você precisa criar, alterar, pausar ou remover uma rotina ou lembrete.">
+  <div class="skill-top"><span class="label">Integrações e automação</span><a href="integrations/scheduled-jobs/SKILL.md" aria-label="Ler instruções de Rotinas agendadas">SKILL.md ↗</a></div>
+  <h3>Rotinas agendadas</h3><p class="skill-id">ai-forge-integrations-scheduled-jobs</p><p>Especifica ou configura jobs com executor real, fuso, deduplicação e recuperação.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>Você precisa criar, alterar, pausar ou remover uma rotina ou lembrete.</dd><dt>Entrega esperada</dt><dd>Contrato e estado observado do agendamento, com próximo disparo quando disponível.</dd><dt>Condições e limites</dt><dd>Sem scheduler, entrega a especificação e informa que não foi agendado.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-integrations-scheduled-jobs-command" aria-label="Copiar comando de Rotinas agendadas">Copiar</button></div><pre><code tabindex="0" id="ai-forge-integrations-scheduled-jobs-command">node bin/forge.js context --skill ai-forge-integrations-scheduled-jobs</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-integrations-scheduled-jobs-prompt" aria-label="Copiar pedido de Rotinas agendadas">Copiar</button></div><pre><code tabindex="0" id="ai-forge-integrations-scheduled-jobs-prompt">$ai-forge-integrations-scheduled-jobs Prepare uma rotina diária de reconciliação com fuso, política de retry e prevenção de sobreposição.</code></pre></details>
+</article>
+<article class="skill-card" data-group="artifacts" data-search="ai-forge-artifacts-documents Documentos Word Orienta criação e edição de documentos preservando estrutura e revisão solicitada. A entrega envolve Word ou documento compatível com .docx.">
+  <div class="skill-top"><span class="label">Documentos e artefatos</span><a href="artifacts/documents/SKILL.md" aria-label="Ler instruções de Documentos Word">SKILL.md ↗</a></div>
+  <h3>Documentos Word</h3><p class="skill-id">ai-forge-artifacts-documents</p><p>Orienta criação e edição de documentos preservando estrutura e revisão solicitada.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>A entrega envolve Word ou documento compatível com .docx.</dd><dt>Entrega esperada</dt><dd>Arquivo reaberto e, com renderer disponível, páginas afetadas inspecionadas.</dd><dt>Condições e limites</dt><dd>Exige editor/gerador compatível; XML válido não comprova paginação nem alterações rastreadas.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-artifacts-documents-command" aria-label="Copiar comando de Documentos Word">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-documents-command">node bin/forge.js context --skill ai-forge-artifacts-documents</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-artifacts-documents-prompt" aria-label="Copiar pedido de Documentos Word">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-documents-prompt">$ai-forge-artifacts-documents Crie um documento Word com esta proposta e preserve a estrutura do template.</code></pre></details>
+</article>
+<article class="skill-card" data-group="artifacts" data-search="ai-forge-artifacts-spreadsheets Planilhas Orienta edição de dados e fórmulas com tipos, unidades e cálculo explícitos. A entrega envolve planilha, dados tabulares ou resultados calculados.">
+  <div class="skill-top"><span class="label">Documentos e artefatos</span><a href="artifacts/spreadsheets/SKILL.md" aria-label="Ler instruções de Planilhas">SKILL.md ↗</a></div>
+  <h3>Planilhas</h3><p class="skill-id">ai-forge-artifacts-spreadsheets</p><p>Orienta edição de dados e fórmulas com tipos, unidades e cálculo explícitos.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>A entrega envolve planilha, dados tabulares ou resultados calculados.</dd><dt>Entrega esperada</dt><dd>Arquivo com fórmulas e estrutura preservadas e estado de recálculo declarado.</dd><dt>Condições e limites</dt><dd>Biblioteca de escrita pode não recalcular; macros e links externos não são executados por inspeção.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-artifacts-spreadsheets-command" aria-label="Copiar comando de Planilhas">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-spreadsheets-command">node bin/forge.js context --skill ai-forge-artifacts-spreadsheets</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-artifacts-spreadsheets-prompt" aria-label="Copiar pedido de Planilhas">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-spreadsheets-prompt">$ai-forge-artifacts-spreadsheets Prepare esta planilha de acompanhamento e confira os totais e erros de fórmula.</code></pre></details>
+</article>
+<article class="skill-card" data-group="artifacts" data-search="ai-forge-artifacts-presentations Apresentações Orienta narrativa, template e edição de slides com conteúdo verificável. É preciso criar ou alterar uma apresentação de slides.">
+  <div class="skill-top"><span class="label">Documentos e artefatos</span><a href="artifacts/presentations/SKILL.md" aria-label="Ler instruções de Apresentações">SKILL.md ↗</a></div>
+  <h3>Apresentações</h3><p class="skill-id">ai-forge-artifacts-presentations</p><p>Orienta narrativa, template e edição de slides com conteúdo verificável.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>É preciso criar ou alterar uma apresentação de slides.</dd><dt>Entrega esperada</dt><dd>Arquivo no formato pedido, com slides afetados renderizados quando possível.</dd><dt>Condições e limites</dt><dd>Exige ferramenta compatível; HTML não deve ser anunciado como arquivo PowerPoint.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-artifacts-presentations-command" aria-label="Copiar comando de Apresentações">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-presentations-command">node bin/forge.js context --skill ai-forge-artifacts-presentations</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-artifacts-presentations-prompt" aria-label="Copiar pedido de Apresentações">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-presentations-prompt">$ai-forge-artifacts-presentations Crie uma apresentação desta proposta usando o template e os dados fornecidos.</code></pre></details>
+</article>
+<article class="skill-card" data-group="artifacts" data-search="ai-forge-artifacts-pdf Arquivos PDF Orienta extração, geração, manipulação e formulários com verificação estrutural e visual. A entrega envolve páginas ou conteúdo de um PDF.">
+  <div class="skill-top"><span class="label">Documentos e artefatos</span><a href="artifacts/pdf/SKILL.md" aria-label="Ler instruções de Arquivos PDF">SKILL.md ↗</a></div>
+  <h3>Arquivos PDF</h3><p class="skill-id">ai-forge-artifacts-pdf</p><p>Orienta extração, geração, manipulação e formulários com verificação estrutural e visual.</p>
+  <details><summary>Quando usar e como acessar</summary><dl><dt>Quando usar</dt><dd>A entrega envolve páginas ou conteúdo de um PDF.</dd><dt>Entrega esperada</dt><dd>PDF ou conteúdo extraído com geometria, texto e alterações conferidos.</dd><dt>Condições e limites</dt><dd>OCR pode errar; remoção visual não comprova remoção definitiva de dados nem preserva uma assinatura digital.</dd></dl>
+  <div class="code-label"><span>Contexto no checkout</span><button type="button" class="copy" data-copy="ai-forge-artifacts-pdf-command" aria-label="Copiar comando de Arquivos PDF">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-pdf-command">node bin/forge.js context --skill ai-forge-artifacts-pdf</code></pre>
+  <div class="code-label"><span>Pedido ao agente compatível</span><button type="button" class="copy" data-copy="ai-forge-artifacts-pdf-prompt" aria-label="Copiar pedido de Arquivos PDF">Copiar</button></div><pre><code tabindex="0" id="ai-forge-artifacts-pdf-prompt">$ai-forge-artifacts-pdf Extraia as tabelas deste PDF e confira os números importantes com as páginas originais.</code></pre></details>
+</article></div><div class="empty" id="empty" hidden><h3>Nenhuma skill encontrada</h3><p>Experimente outro termo ou selecione todas as áreas.</p><button type="button" id="reset-search">Limpar filtros</button></div><p class="template-note">Template de autoria: <a href="template-stack/project-standards/SKILL.md">ai-forge-template-stack-project-standards</a>. Não é instalado nem contado como skill pronta. <a href="docs/skill-consolidation.md">Veja as decisões de consolidação.</a></p><noscript><p>O catálogo completo e os detalhes funcionam sem JavaScript. Busca, filtros, cópia e modo de apresentação exigem JavaScript.</p></noscript></div></section>
+</main>
+<footer class="footer"><div class="wrap footer-inner"><span>AI Forge · contexto versionado para agentes</span><span><a href="README.md">README</a> · <a href="LICENSE">MIT</a> · <a href="THIRD_PARTY_NOTICES.md">Atribuições</a> · <a href="https://github.com/hugoalmeidahh/ai-forge">GitHub ↗</a></span></div></footer>
+<div class="deck-controls" role="group" aria-label="Controles da apresentação"><button type="button" id="previous" aria-label="Seção anterior">←</button><span id="slide-status" aria-live="polite"></span><button type="button" id="next" aria-label="Próxima seção">→</button><button type="button" id="leave-presentation">Sair</button></div>
+<p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const counter = document.getElementById('counter');
-  const progress = document.getElementById('progress');
-  let current = 0;
-
-  function show(idx) {
-    current = Math.max(0, Math.min(slides.length - 1, idx));
-    slides.forEach((s, i) => s.classList.toggle('active', i === current));
-    counter.textContent = `${current + 1} / ${slides.length}`;
-    progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+(() => {
+  const cards = [...document.querySelectorAll('.skill-card')];
+  const input = document.getElementById('catalog-search');
+  const group = document.getElementById('catalog-group');
+  const normalize = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function filter() {
+    const terms = normalize(input.value).trim().split(/\s+/).filter(Boolean);
+    let count = 0;
+    for (const card of cards) {
+      const matches = (group.value === 'all' || card.dataset.group === group.value) && terms.every((term) => normalize(card.dataset.search).includes(term));
+      card.hidden = !matches;
+      if (matches) count++;
+    }
+    document.getElementById('catalog-status').textContent = `${count} de ${cards.length} skills exibidas.`;
+    document.getElementById('empty').hidden = count !== 0;
   }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') show(current + 1);
-    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(current - 1);
-    else if (e.key === 'Home') show(0);
-    else if (e.key === 'End') show(slides.length - 1);
-    else if (e.key.toLowerCase() === 'f') {
-      document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  input.addEventListener('input', filter);
+  group.addEventListener('change', filter);
+  document.getElementById('reset-search').addEventListener('click', () => { input.value = ''; group.value = 'all'; filter(); input.focus(); });
+  document.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-copy]');
+    if (!button) return;
+    const code = document.getElementById(button.dataset.copy);
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(code.textContent);
+      document.getElementById('copy-status').textContent = 'Texto copiado.';
+      button.textContent = 'Copiado';
+      setTimeout(() => { button.textContent = 'Copiar'; }, 1800);
+    } catch {
+      code.focus();
+      const selection = window.getSelection();
+      const range = document.createRange(); range.selectNodeContents(code); selection.removeAllRanges(); selection.addRange(range);
+      document.getElementById('copy-status').textContent = 'Cópia automática indisponível. O texto foi selecionado; use o comando de copiar do seu dispositivo.';
     }
   });
-
-  let touchX = null;
-  document.addEventListener('touchstart', (e) => touchX = e.touches[0].clientX);
-  document.addEventListener('touchend', (e) => {
-    if (touchX === null) return;
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
-    touchX = null;
+  const slides = [...document.querySelectorAll('[data-slide]')];
+  const toggle = document.getElementById('present-toggle');
+  let presenting = false;
+  let index = 0;
+  function showSlide() {
+    slides.forEach((slide, i) => { slide.hidden = presenting && i !== index; });
+    document.getElementById('slide-status').textContent = `${index + 1} / ${slides.length}`;
+    document.getElementById('previous').disabled = index === 0;
+    document.getElementById('next').disabled = index === slides.length - 1;
+    if (presenting) { window.scrollTo(0, 0); slides[index].querySelector('h1,h2').focus({ preventScroll: true }); }
+  }
+  function setPresentation(value, restoreFocus = true) {
+    presenting = value;
+    document.body.classList.toggle('presenting', value);
+    toggle.setAttribute('aria-pressed', String(value));
+    toggle.textContent = value ? 'Encerrar apresentação' : 'Apresentar';
+    showSlide();
+    if (!value && restoreFocus) toggle.focus();
+  }
+  function step(delta) { index = Math.max(0, Math.min(slides.length - 1, index + delta)); showSlide(); }
+  toggle.addEventListener('click', () => { index = 0; setPresentation(!presenting); });
+  document.getElementById('previous').addEventListener('click', () => step(-1));
+  document.getElementById('next').addEventListener('click', () => step(1));
+  document.getElementById('leave-presentation').addEventListener('click', () => setPresentation(false));
+  document.getElementById('open-catalog').addEventListener('click', () => { if (presenting) setPresentation(false, false); });
+  document.querySelector('.brand').addEventListener('click', () => { if (presenting) setPresentation(false, false); });
+  document.addEventListener('keydown', (event) => {
+    if (!presenting || event.target.closest('input,select,textarea,[contenteditable]')) return;
+    if (event.key === 'Escape') { event.preventDefault(); setPresentation(false); }
+    else if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); step(1); }
+    else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); step(-1); }
   });
-
-  document.addEventListener('click', (e) => {
-    if (e.clientX > window.innerWidth * 0.7) show(current + 1);
-    else if (e.clientX < window.innerWidth * 0.3) show(current - 1);
-  });
-
-  show(0);
+  filter();
+})();
 </script>
 </body>
 </html>

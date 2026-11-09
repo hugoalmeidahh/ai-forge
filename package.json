@@ -12,7 +12,9 @@
     "validate": "node bin/forge.js validate",
     "pack:check": "npm pack --dry-run",
     "references:check": "node bin/forge.js sync-references",
-    "references:sync": "node bin/forge.js sync-references --write"
+    "references:sync": "node bin/forge.js sync-references --write",
+    "docs:build": "node scripts/build-overview.mjs",
+    "docs:check": "node scripts/build-overview.mjs --check"
   },
   "engines": {
     "node": ">=20"
@@ -45,6 +47,9 @@
     "artifacts",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md",
-    "docs"
+    "docs",
+    "presentation.html",
+    "scripts/build-overview.mjs",
+    "scripts/overview-template.html"
   ]
 }

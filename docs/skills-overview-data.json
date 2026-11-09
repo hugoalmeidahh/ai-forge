@@ -1,0 +1,452 @@
+[
+  {
+    "path": "SKILL.md",
+    "title": "Roteador do AI Forge",
+    "summary": "Encontra a skill adequada ao resultado pedido e orienta o carregamento do contexto.",
+    "when": "Você sabe o que quer entregar, mas não qual skill usar.",
+    "result": "Seleção de capacidade, stack quando necessária e referências pertinentes.",
+    "prompt": "Escolha a skill para revisar a arquitetura desta API e carregue só o contexto necessário.",
+    "requirement": "CLI ou acesso aos arquivos das skills.",
+    "group": "entrada"
+  },
+  {
+    "path": "core/storytelling/SKILL.md",
+    "title": "Estruturação de ideias",
+    "summary": "Transforma um objetivo inicial em um trabalho verificável com SCQA, regras, riscos e tarefas.",
+    "when": "A ideia ainda está aberta ou envolve sistema, extração, entrada de dados, integração ou análise.",
+    "result": "Brief e planning-data.md com premissas, evidências, critérios e cards propostos.",
+    "prompt": "Estruture a ideia de importar uma planilha para o CRM, com regras, riscos e critérios de pronto.",
+    "requirement": "Insumos reais; board é opcional e não inicia execução automaticamente.",
+    "group": "core"
+  },
+  {
+    "path": "core/po-discovery/SKILL.md",
+    "title": "Discovery de produto",
+    "summary": "Conduz o brief por fases de produto, arquitetura, regras, backlog e plano de execução.",
+    "when": "É preciso decidir o que construir e preparar trabalho rastreável para o time.",
+    "result": "Documentação viva com RN, funcionalidades, épicos, stories, decisões e tarefas.",
+    "prompt": "Continue o discovery deste brief e proponha a trilha adequada ao escopo.",
+    "requirement": "Brief inicial e padrões do projeto; decisões e gates pertencem ao PO.",
+    "group": "core"
+  },
+  {
+    "path": "core/code-review/SKILL.md",
+    "title": "Revisão FORGE",
+    "summary": "Revisa mudanças pelos cinco pilares FORGE e pelos padrões da stack e do projeto.",
+    "when": "Um diff, branch ou conjunto de arquivos precisa de revisão técnica.",
+    "result": "Achados com localização, severidade, motivo, impacto e resumo do review.",
+    "prompt": "Revise o diff desta branch e priorize bugs, segurança e violações reais da arquitetura.",
+    "requirement": "Diff e contexto do projeto; leitura estática não comprova execução de testes.",
+    "group": "core"
+  },
+  {
+    "path": "core/create-pr/SKILL.md",
+    "title": "Criação de pull requests",
+    "summary": "Prepara título e descrição com base no diff e no template e orienta a abertura via API REST.",
+    "when": "Você quer redigir ou abrir uma PR para a branch de destino.",
+    "result": "Descrição técnica em português e URL da PR quando a criação for solicitada e confirmada.",
+    "prompt": "Prepare a descrição da PR desta branch para main usando o template do repositório.",
+    "requirement": "Git, destino definido e autenticação na plataforma para publicar; redigir não equivale a abrir.",
+    "group": "core"
+  },
+  {
+    "path": "core/create-skill/SKILL.md",
+    "title": "Autoria e melhoria de skills",
+    "summary": "Cria ou consolida skills com gatilhos claros, referências portáveis e avaliação por tarefa.",
+    "when": "Uma instrução recorrente deve virar skill ou uma skill precisa ficar mais precisa.",
+    "result": "Skill com nome consistente, limites, referências, procedência e validações relevantes.",
+    "prompt": "Crie uma skill para revisar contratos de integração sem duplicar o code review existente.",
+    "requirement": "Escopo e exemplos de uso; helpers novos devem ser executados e licenças preservadas.",
+    "group": "core"
+  },
+  {
+    "path": "core/decision-review/SKILL.md",
+    "title": "Revisão de decisões",
+    "summary": "Examina premissas, alternativas e formas concretas de uma proposta falhar.",
+    "when": "Uma decisão importante pede crítica antes de comprometer esforço ou recursos.",
+    "result": "Recomendação, trade-offs e menor experimento para reduzir a incerteza relevante.",
+    "prompt": "Revise a decisão de migrar esta integração para processamento assíncrono.",
+    "requirement": "Proposta e evidências disponíveis; não acrescenta um gate genérico a toda tarefa.",
+    "group": "core"
+  },
+  {
+    "path": "core/project-init/SKILL.md",
+    "title": "Configuração inicial do projeto",
+    "summary": "Orienta o CLI a criar ou atualizar o bloco mínimo do AI Forge em arquivos de agentes.",
+    "when": "Um repositório precisa descobrir sua stack e carregar padrões sob demanda.",
+    "result": "CLAUDE.md e/ou AGENTS.md com bloco delimitado, preservando o conteúdo externo.",
+    "prompt": "Configure este projeto para o agente com a stack detectada, preservando as regras locais.",
+    "requirement": "Checkout e CLI; sem arquivo existente, escolha --agent; ambiguidade pede --stack.",
+    "group": "core"
+  },
+  {
+    "path": "core/onboarding-check/SKILL.md",
+    "title": "Verificação de onboarding",
+    "summary": "Confere se o projeto consumidor encontra o CLI, a stack, o bloco de configuração e suas referências.",
+    "when": "Depois de instalar, configurar ou atualizar o AI Forge em um projeto.",
+    "result": "Diagnóstico por verificação e menor correção necessária.",
+    "prompt": "Confira se este repositório consegue carregar corretamente o contexto do AI Forge.",
+    "requirement": "Acesso à configuração do projeto; não modifica arquivos sem pedido.",
+    "group": "core"
+  },
+  {
+    "path": "core/project-update/SKILL.md",
+    "title": "Atualizações de projeto",
+    "summary": "Redige status, comunicação de incidente ou atualização para liderança com fatos verificados.",
+    "when": "É preciso comunicar progresso, risco, impacto ou uma decisão pendente.",
+    "result": "Texto adequado ao público, com evidência e próximos passos conhecidos.",
+    "prompt": "Prepare um update do projeto com o que foi entregue, riscos e próximos passos.",
+    "requirement": "Fontes de andamento; a skill redige, mas não autoriza enviar mensagens.",
+    "group": "core"
+  },
+  {
+    "path": "core/write-document/SKILL.md",
+    "title": "Documentação técnica",
+    "summary": "Organiza documentação, propostas e decisões para que o leitor aja sem depender do chat.",
+    "when": "Você precisa explicar um sistema, propor uma mudança ou registrar uma decisão.",
+    "result": "Documento consistente, com fontes, premissas, ação e lacunas materiais.",
+    "prompt": "Documente esta integração para um desenvolvedor que ainda não conhece o projeto.",
+    "requirement": "Material de origem; arquivo Word/PDF exige também ferramenta de artefatos apropriada.",
+    "group": "core"
+  },
+  {
+    "path": "core/task-coordination/SKILL.md",
+    "title": "Coordenação de tarefas",
+    "summary": "Organiza trabalho autorizado entre agentes com dono, dependências, contexto e evidência.",
+    "when": "O usuário pede coordenação ou delegação e o runtime oferece essa capacidade.",
+    "result": "Atribuições rastreáveis e handoff com estados reais de execução e verificação.",
+    "prompt": "Organize as tarefas desta entrega por responsável, dependências e evidências esperadas.",
+    "requirement": "Ferramentas e autorização reais; sem integração, entrega o plano sem afirmar que o despachou.",
+    "group": "core"
+  },
+  {
+    "path": "core/workspace-safety/SKILL.md",
+    "title": "Segurança de workspace e worktrees",
+    "summary": "Prepara e acompanha mudanças isoladas sem perder trabalho local ou confundir autorização de entrega.",
+    "when": "É preciso orientar um checkout, worktree, branch ou integração de mudanças.",
+    "result": "Contexto Git confirmado, alteração delimitada e estado de entrega verificável.",
+    "prompt": "Confira este worktree antes da entrega e preserve todas as alterações não relacionadas.",
+    "requirement": "Git e contexto real do runtime; worktree não isola processos, rede ou credenciais.",
+    "group": "core"
+  },
+  {
+    "path": "backend-golang/project-standards/SKILL.md",
+    "title": "Padrões Go/Chi",
+    "summary": "Aplica contratos de handler, service e repository usando os mecanismos nativos de Go.",
+    "when": "Você vai alterar uma API ou regra de negócio em Go/Chi.",
+    "result": "Mudança alinhada a contexto, DTOs, erros, persistência e observabilidade.",
+    "prompt": "Ajuste este endpoint Go seguindo os padrões e o tratamento de erros do projeto.",
+    "requirement": "Projeto Go e referências locais; checks de integração dependem dos serviços necessários.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-golang/new-module/SKILL.md",
+    "title": "Novo módulo Go",
+    "summary": "Estrutura um domínio com handler, service, repository, DTOs, erros e wiring.",
+    "when": "Uma nova capacidade de negócio precisa de módulo próprio.",
+    "result": "Pacote de domínio integrado, com fronteiras e verificações pertinentes.",
+    "prompt": "Crie o módulo de pedidos em Go/Chi com validação e erros do domínio.",
+    "requirement": "Contrato e dono do domínio; uma tabela sozinha não justifica outro módulo.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-nestjs/project-standards/SKILL.md",
+    "title": "Padrões NestJS",
+    "summary": "Aplica convenções de módulos, controllers, services, DTOs, erros, segurança e Prisma.",
+    "when": "Você vai desenvolver ou revisar código em um backend NestJS.",
+    "result": "Mudança consistente com L0, L2, contratos e regras locais.",
+    "prompt": "Implemente esta regra na API NestJS respeitando o módulo dono e os DTOs.",
+    "requirement": "Projeto NestJS; regras L3 prevalecem sobre convenções genéricas.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-nestjs/new-module/SKILL.md",
+    "title": "Novo módulo NestJS",
+    "summary": "Cria a estrutura completa de um domínio e sua integração na aplicação.",
+    "when": "Uma entidade ou agregado precisa de uma nova capacidade no backend.",
+    "result": "Módulo, controller, service, DTOs e erros adequados ao contrato.",
+    "prompt": "Crie o módulo de endereços com endpoints, DTOs e autorização definidos no projeto.",
+    "requirement": "Domínio, endpoints e modelo de acesso; reutilize o módulo existente quando ele já for o dono.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-nestjs/new-migration/SKILL.md",
+    "title": "Migration Prisma",
+    "summary": "Prepara mudanças de schema e revisa o SQL e seus efeitos antes da entrega.",
+    "when": "É preciso criar ou alterar tabelas, colunas, índices ou relações via Prisma.",
+    "result": "Schema, migration revisada e código ajustado às mudanças.",
+    "prompt": "Prepare a migration para adicionar o status do pedido e avalie backfill e compatibilidade.",
+    "requirement": "Ambiente de desenvolvimento apropriado; SQL destrutivo e resets exigem tratamento explícito.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-nestjs/upgrade-prisma-v7/SKILL.md",
+    "title": "Atualização para Prisma 7",
+    "summary": "Orienta a migração de configuração, clientes gerados e PrismaPg em um projeto NestJS.",
+    "when": "Um projeto com Prisma anterior precisa adotar a arquitetura da versão 7.",
+    "result": "Configs, schemas, dependências e imports atualizados, com geração e build verificados.",
+    "prompt": "Planeje e aplique o upgrade Prisma 7 considerando todos os schemas deste projeto.",
+    "requirement": "Confira versões e documentação compatíveis; acesso a banco e migrations segue o escopo autorizado.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-node/project-standards/SKILL.md",
+    "title": "Padrões Node/Fastify",
+    "summary": "Aplica módulos de domínio, dependências explícitas, schemas, serializers e erros consistentes.",
+    "when": "Você vai desenvolver um backend Node com Fastify.",
+    "result": "Rotas finas, services sem HTTP e persistência concentrada em repositories.",
+    "prompt": "Ajuste este fluxo no Fastify sem colocar regra de negócio no router.",
+    "requirement": "Projeto e contratos reais; preserve as dependências e o padrão de DI já adotados.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-node/new-module/SKILL.md",
+    "title": "Novo módulo Node/Fastify",
+    "summary": "Cria um domínio com router, service, repository, schema, serializer e erros.",
+    "when": "Uma nova capacidade de negócio precisa ser integrada ao backend Node.",
+    "result": "Módulo coerente e conectado à composição da aplicação.",
+    "prompt": "Crie o módulo de notificações no Fastify com validação e serialização explícitas.",
+    "requirement": "Casos de uso e contratos; implemente apenas as responsabilidades necessárias.",
+    "group": "backend"
+  },
+  {
+    "path": "backend-node/fastify-project-standards/SKILL.md",
+    "title": "Arquitetura TypeScript/Fastify",
+    "summary": "Traduz conceitos úteis do NestJS para Fastify sem trazer suas dependências de runtime.",
+    "when": "Você precisa estruturar um backend TypeScript/Fastify com fronteiras claras.",
+    "result": "Composição explícita, validação, transações e isolamento coerentes com o projeto.",
+    "prompt": "Revise a arquitetura deste Fastify e a separação entre rotas, services e repositories.",
+    "requirement": "Segurança, banco e identidade pertencem ao projeto; regras de tenant/RLS aplicam-se quando usadas.",
+    "group": "backend"
+  },
+  {
+    "path": "frontend/ui-engineering/SKILL.md",
+    "title": "Engenharia de interface e UX",
+    "summary": "Combina tarefa do usuário, direção visual, design system, arquitetura, acessibilidade e QA.",
+    "when": "É preciso criar, melhorar ou revisar uma interface web.",
+    "result": "Fatia funcional com estados reais, decisões visuais coerentes e verificação declarada.",
+    "prompt": "Melhore esta tela de atendimento com foco na tarefa principal e na recuperação de erros.",
+    "requirement": "Stack e identidade reais; pesquisa UI/UX local é opcional e usa Python 3.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-react/project-standards/SKILL.md",
+    "title": "Padrões React",
+    "summary": "Organiza componentes, hooks, dados, formulários e contratos por domínio.",
+    "when": "Você vai alterar uma aplicação React sem impor convenções de meta-framework.",
+    "result": "Interface com dono claro para estado, transporte e comportamento.",
+    "prompt": "Ajuste este formulário React mantendo o padrão de queries, schema e componentes.",
+    "requirement": "Bibliotecas e regras locais prevalecem; use a tradução Next.js quando for o caso.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-react/new-module/SKILL.md",
+    "title": "Novo módulo React",
+    "summary": "Estrutura uma capacidade com componentes, hooks, services, schemas e tipos.",
+    "when": "Um novo domínio de interface precisa de fronteiras próprias.",
+    "result": "Módulo integrado às rotas e ao fluxo de dados quando necessário.",
+    "prompt": "Crie o módulo de pedidos com lista, filtros e estados de carregamento e erro.",
+    "requirement": "Reutilize design system e APIs existentes; não crie rota se o domínio não tem tela navegável.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-vue/project-standards/SKILL.md",
+    "title": "Padrões Vue",
+    "summary": "Aplica componentes, composables, services, validação e separação de estado em Vue.",
+    "when": "Você vai alterar uma aplicação Vue.",
+    "result": "SFCs com responsabilidades claras e dados sem duplicação desnecessária.",
+    "prompt": "Ajuste este fluxo Vue preservando o estado correto ao falhar a requisição.",
+    "requirement": "Versão, bibliotecas e L3 reais; use a tradução Nuxt quando houver meta-framework.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-vue/new-module/SKILL.md",
+    "title": "Novo módulo Vue",
+    "summary": "Estrutura um domínio com views, componentes, composables, services, schemas e tipos.",
+    "when": "Uma nova capacidade da aplicação Vue precisa de organização própria.",
+    "result": "Módulo integrado, com apresentação e orquestração separadas.",
+    "prompt": "Crie o módulo de clientes com filtros, detalhes e formulário acessível.",
+    "requirement": "Contratos existentes e domínio dono; reaproveite os componentes já disponíveis.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-nextjs/project-standards/SKILL.md",
+    "title": "Padrões Next.js",
+    "summary": "Orienta rotas, fronteiras server/client, dados, cache e experiência na versão instalada.",
+    "when": "Você vai desenvolver ou revisar uma aplicação Next.js.",
+    "result": "Mudança compatível com o router e a estratégia de renderização do projeto.",
+    "prompt": "Revise esta rota Next.js quanto a autorização, cache e fronteira server/client.",
+    "requirement": "Diferencie App Router e Pages Router; não presuma comportamento de cache de outra versão.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-nuxt/project-standards/SKILL.md",
+    "title": "Padrões Nuxt",
+    "summary": "Organiza dados conscientes de SSR, hidratação, estado por requisição e convenções Nuxt.",
+    "when": "Você vai desenvolver ou revisar uma aplicação Nuxt.",
+    "result": "Fluxo de dados e interface coerentes com a versão e o adaptador de deploy.",
+    "prompt": "Corrija o carregamento desta página Nuxt sem duplicar o fetch na hidratação.",
+    "requirement": "Versão e módulos reais; não compartilhe dados privados em singletons do servidor.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-angular/project-standards/SKILL.md",
+    "title": "Padrões Angular",
+    "summary": "Aplica fronteiras de componente e serviço, DI, estado, formulários e acessibilidade.",
+    "when": "Você vai desenvolver ou revisar uma aplicação Angular.",
+    "result": "Mudança alinhada às APIs e convenções da versão instalada.",
+    "prompt": "Revise este componente Angular e o cancelamento das buscas concorrentes.",
+    "requirement": "Não imponha standalone, signals ou outra sintaxe nova como migração incidental.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-svelte/project-standards/SKILL.md",
+    "title": "Padrões Svelte/SvelteKit",
+    "summary": "Orienta reatividade, ciclo de vida e fronteiras de dados conforme Svelte ou SvelteKit.",
+    "when": "Você vai desenvolver ou revisar componentes e rotas nessa stack.",
+    "result": "Estado e renderização coerentes, com dados server-side isolados.",
+    "prompt": "Revise esta rota SvelteKit e o tratamento de falhas da ação do formulário.",
+    "requirement": "Diferencie Svelte isolado de SvelteKit e respeite a major do projeto.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-astro/project-standards/SKILL.md",
+    "title": "Padrões Astro",
+    "summary": "Prioriza HTML e ilhas interativas com hidratação e conteúdo adequados ao uso.",
+    "when": "Você vai desenvolver ou revisar um site ou aplicação Astro.",
+    "result": "Páginas e ilhas funcionais, com custo de JavaScript justificado.",
+    "prompt": "Melhore esta página Astro e hidrate apenas os componentes que precisam de interação.",
+    "requirement": "APIs de conteúdo e adaptador dependem da versão; HTML correto não prova interação das ilhas.",
+    "group": "frontend"
+  },
+  {
+    "path": "frontend-html-css/project-standards/SKILL.md",
+    "title": "Padrões HTML/CSS/JS",
+    "summary": "Aplica semântica, melhoria progressiva, CSS previsível e módulos proporcionais ao porte.",
+    "when": "O projeto usa a plataforma web sem um framework de aplicação.",
+    "result": "Página operável, responsiva e com comportamento verificável.",
+    "prompt": "Revise esta página HTML/CSS quanto a semântica, responsividade e formulário.",
+    "requirement": "Não acrescente framework por hábito; confira o comportamento servido por HTTP quando necessário.",
+    "group": "frontend"
+  },
+  {
+    "path": "design/design-system/SKILL.md",
+    "title": "Design system",
+    "summary": "Organiza tokens, temas e contratos de componentes a partir do sistema existente.",
+    "when": "É preciso criar ou evoluir uma linguagem de interface compartilhada.",
+    "result": "Tokens e componentes com estados, acessibilidade e impacto de migração conhecidos.",
+    "prompt": "Consolide os tokens e variantes destes botões sem criar outro sistema paralelo.",
+    "requirement": "Reutilize a stack de estilos e os componentes reais; valide os temas efetivamente entregues.",
+    "group": "design"
+  },
+  {
+    "path": "design/brand-guidelines/SKILL.md",
+    "title": "Diretrizes de marca",
+    "summary": "Define ou aplica identidade visual, voz, vocabulário e assets fornecidos.",
+    "when": "Você quer consistência de marca em produto e comunicação.",
+    "result": "Guia utilizável e exemplos com escolhas propostas separadas das fontes aprovadas.",
+    "prompt": "Organize as diretrizes desta marca e sua relação com os tokens do produto.",
+    "requirement": "Use a marca do usuário; confirme origem e direito de uso de logos, fontes e imagens.",
+    "group": "design"
+  },
+  {
+    "path": "design/visual-assets/SKILL.md",
+    "title": "Assets visuais",
+    "summary": "Orienta banners, posters, ícones, arte generativa e GIFs conforme formato e finalidade.",
+    "when": "É preciso criar um material visual original ou adaptar um asset autorizado.",
+    "result": "Arquivo no formato pedido, fonte editável quando solicitada e inspeção visual.",
+    "prompt": "Crie um banner de apresentação seguindo esta marca e as dimensões fornecidas.",
+    "requirement": "Depende das ferramentas presentes; geração, exportação, compra e publicação são operações distintas.",
+    "group": "design"
+  },
+  {
+    "path": "quality/web-testing/SKILL.md",
+    "title": "QA de aplicações web",
+    "summary": "Verifica jornadas, falhas, acessibilidade e regressões com estado renderizado e evidência.",
+    "when": "Uma interface precisa ser testada no navegador ou runner do projeto.",
+    "result": "Cenários com resultado esperado/observado e distinção entre passou, falhou e não executado.",
+    "prompt": "Teste o fluxo de cadastro, incluindo validação e recuperação depois de falha.",
+    "requirement": "Navegador/runner disponível e dados apropriados; screenshots não provam persistência.",
+    "group": "quality"
+  },
+  {
+    "path": "quality/android-testing/SKILL.md",
+    "title": "QA Android",
+    "summary": "Orienta testes em dispositivo ou emulador real usando conector ou ADB disponível.",
+    "when": "Você precisa verificar um app Android nativo.",
+    "result": "Evidência ligada ao app/build/dispositivo e ao resultado da jornada.",
+    "prompt": "Teste este fluxo no emulador Android indicado e registre os erros relevantes.",
+    "requirement": "Dispositivo e autorização reais; viewport móvel de navegador não é teste Android.",
+    "group": "quality"
+  },
+  {
+    "path": "integrations/mcp-server/SKILL.md",
+    "title": "Servidores MCP",
+    "summary": "Estrutura ferramentas e recursos com contratos focados, autorização e resultados limitados.",
+    "when": "Você vai criar ou revisar um servidor MCP de integração.",
+    "result": "Servidor ou revisão com schemas, limites, erros e verificações de protocolo pertinentes.",
+    "prompt": "Projete um servidor MCP para consultar pedidos e atualizar apenas os campos autorizados.",
+    "requirement": "SDK e especificação compatíveis; tool annotations não substituem a autorização no servidor.",
+    "group": "integrations"
+  },
+  {
+    "path": "integrations/llm-api/SKILL.md",
+    "title": "Integrações LLM",
+    "summary": "Organiza adapters e fluxos de modelos com validação, orçamento, cancelamento e avaliação.",
+    "when": "Você vai integrar uma API LLM ou um fluxo com ferramentas.",
+    "result": "Contrato de domínio separado do provedor, falhas previstas e evidência de testes.",
+    "prompt": "Integre este provedor para classificar solicitações com saída validada e limite de custo.",
+    "requirement": "Documentação e SDK atuais; não fixa modelos/preços nem inventa resultado sem acesso à API.",
+    "group": "integrations"
+  },
+  {
+    "path": "integrations/scheduled-jobs/SKILL.md",
+    "title": "Rotinas agendadas",
+    "summary": "Especifica ou configura jobs com executor real, fuso, deduplicação e recuperação.",
+    "when": "Você precisa criar, alterar, pausar ou remover uma rotina ou lembrete.",
+    "result": "Contrato e estado observado do agendamento, com próximo disparo quando disponível.",
+    "prompt": "Prepare uma rotina diária de reconciliação com fuso, política de retry e prevenção de sobreposição.",
+    "requirement": "Sem scheduler, entrega a especificação e informa que não foi agendado.",
+    "group": "integrations"
+  },
+  {
+    "path": "artifacts/documents/SKILL.md",
+    "title": "Documentos Word",
+    "summary": "Orienta criação e edição de documentos preservando estrutura e revisão solicitada.",
+    "when": "A entrega envolve Word ou documento compatível com .docx.",
+    "result": "Arquivo reaberto e, com renderer disponível, páginas afetadas inspecionadas.",
+    "prompt": "Crie um documento Word com esta proposta e preserve a estrutura do template.",
+    "requirement": "Exige editor/gerador compatível; XML válido não comprova paginação nem alterações rastreadas.",
+    "group": "artifacts"
+  },
+  {
+    "path": "artifacts/spreadsheets/SKILL.md",
+    "title": "Planilhas",
+    "summary": "Orienta edição de dados e fórmulas com tipos, unidades e cálculo explícitos.",
+    "when": "A entrega envolve planilha, dados tabulares ou resultados calculados.",
+    "result": "Arquivo com fórmulas e estrutura preservadas e estado de recálculo declarado.",
+    "prompt": "Prepare esta planilha de acompanhamento e confira os totais e erros de fórmula.",
+    "requirement": "Biblioteca de escrita pode não recalcular; macros e links externos não são executados por inspeção.",
+    "group": "artifacts"
+  },
+  {
+    "path": "artifacts/presentations/SKILL.md",
+    "title": "Apresentações",
+    "summary": "Orienta narrativa, template e edição de slides com conteúdo verificável.",
+    "when": "É preciso criar ou alterar uma apresentação de slides.",
+    "result": "Arquivo no formato pedido, com slides afetados renderizados quando possível.",
+    "prompt": "Crie uma apresentação desta proposta usando o template e os dados fornecidos.",
+    "requirement": "Exige ferramenta compatível; HTML não deve ser anunciado como arquivo PowerPoint.",
+    "group": "artifacts"
+  },
+  {
+    "path": "artifacts/pdf/SKILL.md",
+    "title": "Arquivos PDF",
+    "summary": "Orienta extração, geração, manipulação e formulários com verificação estrutural e visual.",
+    "when": "A entrega envolve páginas ou conteúdo de um PDF.",
+    "result": "PDF ou conteúdo extraído com geometria, texto e alterações conferidos.",
+    "prompt": "Extraia as tabelas deste PDF e confira os números importantes com as páginas originais.",
+    "requirement": "OCR pode errar; remoção visual não comprova remoção definitiva de dados nem preserva uma assinatura digital.",
+    "group": "artifacts"
+  }
+]
