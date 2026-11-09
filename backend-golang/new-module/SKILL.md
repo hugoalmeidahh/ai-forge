@@ -1,14 +1,15 @@
 ---
-name: new-module
-description: Scaffold a complete Golang domain package (handler, service, repository, dto, errors, module wiring) following the modular architecture.
-user-invocable: true
+name: ai-forge-backend-golang-new-module
+description: "Scaffold a complete Golang domain package (handler, service, repository, dto, errors, module wiring) following the modular architecture."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # New Module (Golang)
 
 ## Intent
 
-Create a full domain package at once — correct structure, interfaces, validation, response structs and error wiring. Materializes `core/module-architecture.md` in idiomatic Go.
+Create a full domain package at once — correct structure, interfaces, validation, response structs and error wiring. Materializes `references/core/module-architecture.md` in idiomatic Go.
 
 ## When To Use
 
@@ -17,11 +18,11 @@ Create a full domain package at once — correct structure, interfaces, validati
 
 ## References
 
-- `core/module-architecture.md` — the pattern being materialized
-- `standards/project-patterns.md` — package layout and composition root
-- `standards/handler-service-repository.md` — layer responsibilities and interfaces
-- `standards/dto-structs.md` — request/response structs
-- `standards/error-handling.md` — AppError and writeError
+- `references/core/module-architecture.md` — the pattern being materialized
+- `references/backend-golang/standards/project-patterns.md` — package layout and composition root
+- `references/backend-golang/standards/handler-service-repository.md` — layer responsibilities and interfaces
+- `references/backend-golang/standards/dto-structs.md` — request/response structs
+- `references/backend-golang/standards/error-handling.md` — AppError and writeError
 
 ## Workflow
 
