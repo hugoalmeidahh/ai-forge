@@ -1,14 +1,15 @@
 ---
-name: new-module
-description: Scaffold a complete NestJS domain module (controller, service, DTOs, errors, module) following the team's modular architecture, naming and error-handling standards.
-user-invocable: true
+name: ai-forge-backend-nestjs-new-module
+description: "Scaffold a complete NestJS domain module (controller, service, DTOs, errors, module) following the team's modular architecture, naming and error-handling standards."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # New Module (NestJS)
 
 ## Intent
 
-Create a full domain module at once — correct structure, naming, DTOs, error classes and wiring — so no piece is improvised. Materializes `core/module-architecture.md` in NestJS.
+Create a full domain module at once — correct structure, naming, DTOs, error classes and wiring — so no piece is improvised. Materializes `references/core/module-architecture.md` in NestJS.
 
 ## When To Use
 
@@ -17,12 +18,12 @@ Create a full domain module at once — correct structure, naming, DTOs, error c
 
 ## References
 
-- `core/module-architecture.md` — the pattern being materialized
-- `standards/folder-structure.md` — module layout and file naming
-- `standards/controllers-services.md` — layer responsibilities
-- `standards/dto-standards.md` — Input/Output rules
-- `standards/error-handling.md` — BaseError and standard errors
-- `standards/auth-security.md` — guard selection (Basic vs JWT)
+- `references/core/module-architecture.md` — the pattern being materialized
+- `references/backend-nestjs/standards/folder-structure.md` — module layout and file naming
+- `references/backend-nestjs/standards/controllers-services.md` — layer responsibilities
+- `references/backend-nestjs/standards/dto-standards.md` — Input/Output rules
+- `references/backend-nestjs/standards/error-handling.md` — BaseError and standard errors
+- `references/backend-nestjs/standards/auth-security.md` — guard selection (Basic vs JWT)
 
 ## Workflow
 
@@ -53,5 +54,5 @@ Create a full domain module at once — correct structure, naming, DTOs, error c
 - Every endpoint has a guard and Swagger documentation.
 - All JSON responses go through an Output DTO.
 - Errors extend `BaseError`; no raw `Error` or Nest `HttpException` for domain cases.
-- File and class naming follow `standards/folder-structure.md`.
+- File and class naming follow `references/backend-nestjs/standards/folder-structure.md`.
 - Build passes.
