@@ -49,3 +49,9 @@ Use for any coding task in a Node.js backend repository, especially when:
 - Keep code self-explanatory and avoid unnecessary comments.
 - No raw DB objects in responses — serializers are allowlists.
 - Error handling matches the global middleware conventions.
+
+## Boundary and failure cases
+
+Preserve existing public contracts and project dependency choices. Group by business capability; a table alone does not justify a new module. Validate untrusted input at the boundary and allowlist serialized output. Test ownership/tenant denial and rollback when relevant, not only the happy path.
+
+Keep provider calls bounded by request cancellation/timeouts. Do not automatically retry a mutation after an ambiguous timeout; use the project's idempotency/reconciliation contract. Preserve error causes in server logs while returning safe correlated responses. Verify the complete use case and report unavailable integration checks rather than claiming them passed.
