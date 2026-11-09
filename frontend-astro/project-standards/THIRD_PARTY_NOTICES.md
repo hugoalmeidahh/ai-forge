@@ -1,0 +1,1 @@
+Stack and engineering guidance adapted from Frontend Standard Skills (2026 Abayomi John Olatunji, MIT), via the curated Universe frontend references. [License](licenses/frontend-standard-MIT.txt). AI Forge adaptations retain project precedence and version-specific checks.
