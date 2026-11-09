@@ -4,9 +4,9 @@
 
 O AI Forge reúne **45 skills instaláveis**, padrões para **11 stacks** e um CLI sem dependências de runtime. A base cobre arquitetura, clean code, segurança, experiência de produto e verificação, respeitando as convenções e as ferramentas reais de cada projeto.
 
-[Catálogo completo das skills](docs/skills-overview.md) · [Apresentação HTML](presentation.html) · [Licença MIT](LICENSE)
+[Catálogo completo das skills](docs/skills-overview.md) · [Apresentação online](https://hugoalmeidahh.github.io/ai-forge/) · [HTML no repositório](presentation.html) · [Licença MIT](LICENSE)
 
-A apresentação inclui visão geral, modo de apresentação e catálogo pesquisável com exemplos. Para abri-la, baixe o repositório e abra `presentation.html` no navegador; o GitHub normalmente mostra o código do arquivo. Não depende de fontes, bibliotecas ou serviços externos para exibir o conteúdo. Use o botão **Apresentar**, avance pelas setas ou Page Up/Page Down e saia com Esc.
+A apresentação inclui visão geral, modo de apresentação e catálogo pesquisável com exemplos. Acesse a versão online pelo GitHub Pages ou baixe o repositório e abra `presentation.html` no navegador; o GitHub normalmente mostra o código do arquivo. Não depende de fontes, bibliotecas ou serviços externos para exibir o conteúdo. Use o botão **Apresentar**, avance pelas setas ou Page Up/Page Down e saia com Esc.
 
 ## O que uma skill faz
 
