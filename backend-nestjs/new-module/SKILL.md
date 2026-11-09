@@ -56,3 +56,9 @@ Create a full domain module at once — correct structure, naming, DTOs, error c
 - Errors extend `BaseError`; no raw `Error` or Nest `HttpException` for domain cases.
 - File and class naming follow `references/backend-nestjs/standards/folder-structure.md`.
 - Build passes.
+
+## Boundary and failure cases
+
+Preserve existing public contracts and project dependency choices. Group by business capability; a table alone does not justify a new module. Validate untrusted input at the boundary and allowlist serialized output. Test ownership/tenant denial and rollback when relevant, not only the happy path.
+
+Keep provider calls bounded by request cancellation/timeouts. Do not automatically retry a mutation after an ambiguous timeout; use the project's idempotency/reconciliation contract. Preserve error causes in server logs while returning safe correlated responses. Verify the complete use case and report unavailable integration checks rather than claiming them passed.
