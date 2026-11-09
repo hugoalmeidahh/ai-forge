@@ -1,6 +1,6 @@
 ---
 name: ai-forge-template-stack-project-standards
-description: Apply company and [stack-name] patterns when editing or adding code.
+description: Authoring template for a new AI Forge stack; replace its placeholders before making it discoverable.
 ---
 
 # Project Standards ([stack-name])
