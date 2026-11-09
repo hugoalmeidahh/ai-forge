@@ -1,7 +1,9 @@
 ---
-name: project-standards
-description: Apply company and React frontend patterns when editing or adding UI code.
+name: ai-forge-frontend-react-project-standards
+description: "Apply company and React frontend patterns when editing or adding UI code."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # Project Standards (React)
 
@@ -16,8 +18,8 @@ Apply L0 rules plus React module, component, API and state conventions.
 
 ## References
 
-- `core/module-architecture.md`
-- `standards/index.md`
+- `references/core/module-architecture.md`
+- `references/frontend-react/standards/index.md`
 - `frontend-react/standards/index.md`
 
 ## Workflow
