@@ -1,7 +1,9 @@
 ---
-name: upgrade-prisma-v7
-description: Upgrade a NestJS project from Prisma v6 or lower to v7 using the PrismaPg adapter and generated client output.
+name: ai-forge-backend-nestjs-upgrade-prisma-v7
+description: "Upgrade a NestJS project from Prisma v6 or lower to v7 using the PrismaPg adapter and generated client output."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # Upgrade Prisma v7
 
@@ -17,7 +19,7 @@ Migrate a NestJS project from Prisma v6 (`prisma-client-js`) to Prisma v7 (`pris
 
 ## References
 
-- `node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/project-standards/SKILL.md` — apply after changes
+- `ai-forge-backend-nestjs-project-standards` — apply after changes
 - Template reference: `<path-to-template-api-monolith>/`
 
 ## Workflow
