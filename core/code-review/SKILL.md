@@ -1,8 +1,9 @@
 ---
-name: forge-code-review
-Review diffs using the FORGE five-pillar framework. Detect the stack, load its L2 standards plus relevant L0 rules, and produce actionable findings with reason, impact and PR summary.
-user-invocable: true
+name: ai-forge-core-code-review
+description: "Review diffs using the FORGE five-pillar framework. Detect the stack, load its L2 standards plus relevant L0 rules, and produce actionable findings with reason, impact and PR summary."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # FORGE Code Review
 
@@ -23,8 +24,8 @@ Esta skill **não depende de ferramenta externa** (SonarQube, linter em CI). As 
 Ler sob demanda; nunca carregar todos por padrão.
 
 1. Detectar stack: `nest-cli.json`/`@nestjs/*` → NestJS; `go.mod` → Go/Chi; `fastify` → Node/Fastify; `react` → React; `vue` → Vue. Se ambígua, perguntar.
-2. Ler `standards/index.md` (L0), então `<stack>/standards/index.md` (L2); carregar somente arquivos relevantes ao diff.
-3. Aplicar L3 (`CLAUDE.md`/`AGENTS.md`) quando existir — L3 vence L2, que vence L0.
+2. Read `references/standards/index.md` (L0). Then read the installed stack's project-standards skill (`ai-forge-backend-golang-project-standards`, `ai-forge-backend-node-project-standards`, `ai-forge-backend-nestjs-project-standards`, `ai-forge-frontend-react-project-standards`, `ai-forge-frontend-vue-project-standards`) and read only the files the diff touches.
+3. Aplicar L3 (`CLAUDE.md`/`AGENTS.md` e `captain.md`, se presentes) — L3 vence L2, que vence L0.
 
 Mapeamento de revisão:
 
