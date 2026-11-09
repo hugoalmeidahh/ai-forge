@@ -4,6 +4,14 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+### Documentation and presentation
+
+- Added a Portuguese overview of every installable skill, with use cases, expected outputs, conditions, CLI commands and invocation examples.
+- Rebuilt the standalone HTML presentation with method/usage sections, presentation controls and a searchable/filterable catalog.
+- Rewrote the README around installation, first use, capability layers and execution limits, using consistent commands and links.
+- Added a shared editorial source and documentation generator/check; included the presentation and its reproducible sources in the package.
+
+
 ### Consolidated capabilities
 
 - Expanded to 45 installable skills plus an authoring template and 11 stacks, preserving existing public IDs and the FORGE architecture/review framework.

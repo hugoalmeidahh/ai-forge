@@ -1,184 +1,185 @@
-# AI-Forge
+# AI Forge
 
-AI-Forge é uma base versionada de contexto para agentes de IA. Reúne arquitetura, standards e workflows para desenvolvimento, planejamento, experiência de produto, QA, integrações e artefatos. Preserva o núcleo FORGE e traduz suas regras para 11 stacks, respeitando ferramentas e contexto reais.
+**Padrões e skills para agentes planejarem, desenvolverem e verificarem entregas com contexto de projeto.**
 
-## Arquitetura
+O AI Forge reúne **45 skills instaláveis**, padrões para **11 stacks** e um CLI sem dependências de runtime. A base cobre arquitetura, clean code, segurança, experiência de produto e verificação, respeitando as convenções e as ferramentas reais de cada projeto.
 
-- **`standards/`**: regras L0 compartilhadas — naming, Git, segurança, observabilidade e testes.
-- **`<stack>/standards/`**: tradução L2 para cada stack, mantendo o layout atual e referências locais.
-- **Skills (`SKILL.md`)**: workflows executáveis em `core/` e dentro de cada stack.
-- **Functions (`forge`)**: descoberta, composição de contexto, validação, instalação e atualização.
-- **L3 (`CLAUDE.md`/`AGENTS.md`)**: regras do projeto; vencem L0/L2 em conflitos.
+[Catálogo completo das skills](docs/skills-overview.md) · [Apresentação HTML](presentation.html) · [Licença MIT](LICENSE)
 
-Fluxo: `core/workflow.md` → `core/guardrails.md` → arquitetura modular → L0 → L2 da stack → L3.
+A apresentação inclui visão geral, modo de apresentação e catálogo pesquisável com exemplos. Para abri-la, baixe o repositório e abra `presentation.html` no navegador; o GitHub normalmente mostra o código do arquivo. Não depende de fontes, bibliotecas ou serviços externos para exibir o conteúdo. Use o botão **Apresentar**, avance pelas setas ou Page Up/Page Down e saia com Esc.
 
-## Requisitos
+## O que uma skill faz
 
-Node.js 20 ou superior. O CLI não possui dependências runtime. A pesquisa local opcional de UI/UX exige Python 3; testes de navegador/dispositivo, geração de arquivos e integrações exigem capacidades próprias do ambiente, descobertas antes de executar.
+Uma skill é um conjunto de instruções e referências que o agente carrega para uma tarefa. Ela orienta decisões, contratos e critérios de entrega; a execução depende das ferramentas e dos acessos disponíveis no ambiente.
 
-## Instalação
+O CLI descobre essas instruções, compõe uma lista de arquivos de contexto, valida o pacote e instala as skills. **`forge context` lista caminhos: não executa a skill, não inicia agentes e não realiza a tarefa.**
 
-### Checkout recomendado
+## Começar pelo checkout
+
+Requisito do CLI: **Node.js 20 ou superior**. No terminal:
 
 ```bash
 git clone https://github.com/hugoalmeidahh/ai-forge.git ~/.local/share/ai-forge
-node ~/.local/share/ai-forge/bin/forge.js validate
-node ~/.local/share/ai-forge/bin/forge.js install-skills
+cd ~/.local/share/ai-forge
+node bin/forge.js validate
+node bin/forge.js install-skills
 ```
 
-`install-skills` descobre recursivamente os `SKILL.md` executáveis (exclui `template-stack/`) e cria symlinks em `~/.agents/skills`. Os nomes instalados incluem escopo (`ai-forge-core-project-init`, `ai-forge-backend-nestjs-new-module`), evitando colisões entre stacks. Arquivo/diretório divergente nunca é sobrescrito silenciosamente; use `--force` conscientemente.
-
-Para copiar em vez de criar symlinks:
+O instalador cria symlinks em `~/.agents/skills`, com nomes completos como `ai-forge-core-code-review`. Para instalar cópias:
 
 ```bash
-forge install-skills --copy
+node bin/forge.js install-skills --copy
 ```
 
-Registry alternativo, útil em CI/testes:
+Seu agente precisa descobrir esse diretório. Uma nova sessão pode ser necessária para atualizar o catálogo. A instalação não substitui arquivos divergentes silenciosamente; revise o conteúdo antes de usar `--force`. Um registry alternativo pode ser escolhido com `--registry /caminho/das/skills`, fora da árvore do AI Forge.
+
+## Primeiro uso
+
+Na raiz do checkout, descubra as capacidades e selecione o contexto:
 
 ```bash
-forge install-skills --registry /caminho/skills
+node bin/forge.js scopes
+node bin/forge.js skills
+node bin/forge.js skills backend-golang
+node bin/forge.js context --skill ai-forge-backend-golang-new-module
 ```
 
-### Como pacote npm
+Peça ao agente que leia os arquivos retornados e execute a tarefa seguindo as instruções. Em agentes que suportam invocação explícita por nome, um exemplo é:
 
-A partir do repositório público:
+```text
+$ai-forge-backend-golang-new-module
+Crie o módulo de pedidos em Go/Chi, preservando os contratos e as regras deste projeto.
+```
+
+Se essa sintaxe não estiver disponível, indique o ID ou o caminho do `SKILL.md` e peça sua leitura. O [catálogo completo](docs/skills-overview.md) traz finalidade, quando usar, entrega esperada, condições e exemplo para cada uma das 45 skills.
+
+Não é necessário escolher uma stack para toda tarefa:
+
+```bash
+node bin/forge.js context --skill ai-forge-core-storytelling
+node bin/forge.js context --scope design --skill design-system
+node bin/forge.js context --scope artifacts --skill spreadsheets
+```
+
+O ID completo evita ambiguidade. Com stack explícita, também é possível usar o nome local:
+
+```bash
+node bin/forge.js context --stack backend-nestjs --skill new-module
+```
+
+## Áreas e stacks
+
+| Área | Capacidades |
+|---|---|
+| Entrada | Roteador para selecionar a skill e as referências adequadas |
+| Core | Storytelling, discovery, revisão FORGE, PRs, autoria de skills, configuração, escrita, updates, decisões, coordenação e worktrees |
+| Backend | Padrões e módulos em Go/Chi, NestJS e Node/Fastify; migrations e upgrade Prisma na stack NestJS |
+| Frontend | Padrões de stack, módulos React/Vue e uma camada compartilhada de UX, design, acessibilidade e performance |
+| Design | Design system, marca e assets como banners, ícones, posters e GIFs |
+| Qualidade | QA web e Android com evidências do comportamento real |
+| Integrações | Servidores MCP, APIs LLM e rotinas agendadas |
+| Artefatos | Documentos, planilhas, apresentações e PDF com ferramentas compatíveis disponíveis |
+
+As 11 stacks são `backend-golang`, `backend-nestjs`, `backend-node`, `frontend-react`, `frontend-vue`, `frontend-nextjs`, `frontend-nuxt`, `frontend-angular`, `frontend-svelte`, `frontend-astro` e `frontend-html-css`.
+
+Os nomes seguem `ai-forge-<área>-<tecnologia-ou-finalidade>-<ação>`, omitindo partes redundantes. Exemplos: `ai-forge-backend-golang-new-module`, `ai-forge-core-code-review` e `ai-forge-quality-web-testing`.
+
+O `template-stack/` é um molde para autoria. Contém placeholders, não é instalado e não conta entre as 45 skills prontas.
+
+## Como os padrões se combinam
+
+| Camada | Conteúdo | Onde fica |
+|---|---|---|
+| L0 | Clean code, naming, Git, segurança, observabilidade e verificação | `standards/` |
+| L2 | Tradução dos contratos para a tecnologia | `<stack>/standards/` |
+| L3 | Arquitetura, decisões e regras específicas do projeto consumidor | `AGENTS.md`, `CLAUDE.md` e documentos locais |
+
+**L3 prevalece sobre L2, que prevalece sobre L0.** Instruções do usuário e do runtime continuam válidas. `core/` oferece arquitetura, workflow e guardrails compartilhados; capacidades adicionais são carregadas conforme o resultado pedido.
+
+A revisão mantém os cinco pilares FORGE: fluxo/async, observabilidade, resiliência/erros, guard clauses/arquitetura e tratamento de erros/type safety. As verificações são aplicadas à stack e ao impacto real da mudança.
+
+Um fluxo possível é storytelling → discovery quando necessário → implementação → QA → revisão → entrega autorizada. A profundidade é proporcional: uma correção simples não exige todas essas etapas, e um artefato não precisa de arquitetura de backend.
+
+## Configurar um projeto consumidor
+
+A configuração assistida mantém um bloco mínimo no arquivo do agente, com o comando para carregar contexto sob demanda. Fora do checkout, use o caminho real do CLI:
+
+```bash
+node ~/.local/share/ai-forge/bin/forge.js init \
+  --cwd /caminho/do/projeto \
+  --agent codex \
+  --stack backend-golang
+```
+
+Escolha `--agent claude`, `codex` ou `both`. Sem essa opção, o CLI usa os arquivos existentes; se não houver nenhum, exige a escolha. O conteúdo fora dos delimitadores do AI Forge é preservado. `--force` serve para reparar delimitadores malformados ou duplicados, não para substituir as regras do projeto.
+
+A stack pode ser detectada pelas dependências e configurações. Next.js, Nuxt e Astro têm precedência sobre seus runtimes incorporados; ambiguidades reais exigem `--stack`. HTML/CSS pode ser selecionado explicitamente com `--stack frontend-html-css`.
+
+## Instalação como dependência do projeto
+
+Também é possível instalar a partir do repositório público:
 
 ```bash
 npm install --save-dev git+https://github.com/hugoalmeidahh/ai-forge.git
 npx forge validate
 npx forge install-skills
+npx forge skills
 ```
 
-O ecossistema também oferece `npx skills add`; porém este repositório não depende nem garante seu comportamento. Consulte/teste a versão adotada pela sua organização antes de usá-la. A instalação suportada e validada aqui é `forge install-skills`.
+O pacote não instala skills globalmente por efeito colateral: execute `install-skills` explicitamente. A descoberta por outros instaladores depende do comportamento deles; o fluxo mantido neste repositório usa o CLI `forge`.
 
-> A instalação global não acontece automaticamente ao instalar o pacote; execute-a explicitamente.
+## Referência do CLI
 
-## CLI
+Nos exemplos abaixo, `forge` representa `node bin/forge.js` no checkout, o caminho completo do CLI fora dele ou `npx forge` quando instalado no projeto.
 
-```bash
+```text
 forge help
-forge stacks                 # alias: forge list
-forge scopes                 # áreas e stacks disponíveis
-forge skills                 # catálogo completo
-forge skills design          # capacidades de uma área
-forge skills backend-nestjs  # skills core + stack
-forge context --stack backend-nestjs --skill new-module
-forge context --skill ai-forge-core-storytelling
-forge context --scope design --skill design-system
+forge stacks                         # alias: forge list
+forge scopes
+forge skills [scope]
+forge context [--stack X | --scope X] --skill Y
 forge init [--stack STACK] [--agent claude|codex|both] [--cwd PATH] [--force]
 forge validate
-forge sync-references        # detecta divergência nos standards empacotados
-forge sync-references --write # sincroniza com os standards canônicos
-forge install-skills [--link|--copy] [--force] [--registry PATH]
+forge sync-references [--write]
+forge install-skills [--copy|--link] [--force] [--registry PATH]
 forge update
 ```
 
-`context` imprime, em ordem, os arquivos necessários para uma tarefa. Capacidades de core/design/QA/artefatos podem ser selecionadas sem stack; o identificador completo infere a stack quando existe. `skills <área>` filtra capacidades e `skills <stack>` inclui também o núcleo. Nomes curtos ambíguos exigem escopo ou ID completo. `init` detecta NestJS, Go, Fastify, React, Vue, Next.js, Nuxt, Astro, Angular ou Svelte/SvelteKit e mantém um bloco mínimo em `CLAUDE.md`/`AGENTS.md`; ambiguidade/ausência exige `--stack`, nenhum arquivo exige `--agent`. Conteúdo fora do bloco é preservado. `--force` serve somente para reparar delimitadores malformados/duplicados, removendo-os e anexando um bloco limpo. `validate` verifica layout, frontmatter/nomes, links/catálogos, sincronização das referências canônicas e resíduos da antiga distribuição Python. O motor Python opcional de UI/UX é uma biblioteca isolada de terceiros, sem substituir o CLI Node.js.
+`skills <stack>` inclui também o núcleo; `skills <área>` filtra aquela capacidade. O ID completo em `context` infere a stack quando aplicável. Referências adicionais são lidas sob demanda.
 
-`update` executa `git pull --ff-only` em checkout Git. Em instalação via npm, atualize pelo gerenciador de pacotes:
+`update` executa `git pull --ff-only` em um checkout Git. Quando instalado como dependência, atualize pelo gerenciador e pela origem usados no projeto. Instalações por symlink refletem alterações do checkout; cópias exigem reinstalação e revisão das divergências.
 
-```bash
-npm update @hugoalmeidahh/ai-forge
-```
+## Limites de execução
 
-Após atualizar um checkout com instalação por symlink, as skills refletem a nova versão imediatamente. Instalações `--copy` exigem nova execução de `forge install-skills --copy --force` quando o conteúdo divergir.
+Navegador, dispositivo Android, scheduler, APIs e geradores de arquivos dependem do ambiente. A skill identifica essas capacidades antes de prometer execução. A pesquisa opcional de UI/UX usa Python 3; o CLI principal continua em Node.js, sem dependências de runtime.
 
-## Descoberta automática
+Os workflows de Word, planilhas, slides e PDF são autorais. Não incluem os toolkits proprietários presentes nas fontes analisadas. Renderização, recálculo e integração devem ser declarados como verificados ou não executados, conforme o que ocorreu.
 
-A skill raiz `SKILL.md` funciona como roteador/bootstrap. Ela procura, nesta ordem:
+Carregar uma skill não concede autorização para enviar mensagens, publicar, realizar alterações em produção ou delegar a outros agentes. A licença do software e a autorização para operar um ambiente são assuntos distintos.
 
-1. `node_modules/.bin/forge` no projeto;
-2. `node bin/forge.js` em um checkout atual;
-3. `~/.local/share/ai-forge/bin/forge.js`;
-4. se ausente, orienta o clone — sem instalar ou clonar sem aprovação.
-
-Depois usa `forge stacks`, `forge skills <stack>` e `forge context` para carregar apenas o contexto relevante.
-
-## Stacks e exemplos
+## Manutenção e contribuição
 
 ```bash
-forge stacks
-# backend-golang
-# backend-nestjs
-# backend-node
-# frontend-angular
-# frontend-astro
-# frontend-html-css
-# frontend-nextjs
-# frontend-nuxt
-# frontend-react
-# frontend-svelte
-# frontend-vue
-
-forge context --stack backend-golang --skill project-standards
-forge context --stack frontend-react --skill new-module
+npm test
+npm run validate
+npm run references:check
+npm run docs:check
+npm run pack:check
 ```
 
-Cada stack preserva `SKILLS.md`, `standards/` e suas skills no próprio diretório. Isso evita quebrar referências e mantém baixo churn.
+Os standards canônicos ficam em `core/`, `standards/` e `<stack>/standards/`. Após alterá-los, atualize as cópias conhecidas com `npm run references:sync`. A validação detecta bundles desatualizados; o sincronizador não sobrescreve referências curadas de UX nem dados de terceiros.
 
-## Catálogo e nomenclatura
+Para acrescentar uma stack, adapte `template-stack/`, substitua seus placeholders, defina os IDs e traduza a arquitetura com mecanismos nativos. Para criar ou melhorar uma skill, consulte [autoria de skills](core/create-skill/SKILL.md).
 
-O catálogo reúne **45 skills instaláveis** (incluindo o roteador), mais **1 template de autoria** e **11 stacks**. Os IDs seguem `ai-forge-<área>-<tecnologia-ou-finalidade>-<ação>`, omitindo partes redundantes e preservando os nomes públicos existentes. Exemplos: `ai-forge-backend-golang-new-module`, `ai-forge-frontend-nextjs-project-standards`, `ai-forge-quality-web-testing`.
+O overview Markdown e a apresentação compartilham a base editorial em `docs/skills-overview-data.json`. Atualize-a e execute `npm run docs:build`. O gerador verifica a cobertura do catálogo e a resolução de cada ID; `docs:check` detecta saídas desatualizadas.
 
-| Área | Capacidades |
-|---|---|
-| Core | Storytelling/discovery, revisão FORGE, criação de skills, configuração do projeto, escrita, updates, revisão de decisões, coordenação e worktrees |
-| Backend | NestJS, Node/Fastify e Go/Chi; módulos, padrões, migrations e atualização Prisma conforme a stack |
-| Frontend | React, Vue, Next.js, Nuxt, Astro, Angular, Svelte/SvelteKit e HTML/CSS; UX, estados, acessibilidade, performance e arquitetura |
-| Design | Design system, marca, banners, posters, ícones, arte generativa e GIFs |
-| Quality | Verificação web e Android com evidência do ambiente real |
-| Integrations | Servidores MCP, APIs/fluxos LLM e rotinas agendadas |
-| Artifacts | Documentos, planilhas, apresentações e PDF com ferramentas disponíveis e verificação de saída |
+## Documentação e licença
 
-Planejamento usa `documents/planning-data.md` como fonte da verdade; board e execução por agentes dependem de integração e autorização reais. A camada frontend consolida as coleções fornecidas: direção visual acompanha a tarefa e o produto, sem paleta obrigatória, bibliotecas concorrentes ou efeitos universais.
+- [Overview e acesso a cada skill](docs/skills-overview.md)
+- [Apresentação HTML com catálogo pesquisável](presentation.html)
+- [Decisões de consolidação](docs/skill-consolidation.md)
+- [Catálogo e hashes das fontes](docs/source-catalog.json)
+- [Verificações registradas](docs/validation.md)
+- [Histórico de alterações](CHANGELOG.md)
 
-As skills de arquivos são workflows autorais que exigem um gerador/editor e, quando necessário, um renderer/calculador disponível. Não incluem os toolkits proprietários da pasta de origem nem garantem capacidades que o runtime não oferece. Sem a capacidade necessária, o resultado deve indicar precisamente o que foi produzido e o que não foi verificado.
-
-## Portabilidade e manutenção
-
-Referências, metadados e licenças ficam dentro da skill quando necessários. Caminhos `references/` nos catálogos FORGE partem da pasta da skill; links Markdown comuns nas referências curadas preservam seu caminho relativo. Instalações `--copy` verificam a árvore inteira antes de declarar `unchanged`, incluindo dados, licença e referências.
-
-Os standards canônicos continuam em `core/`, `standards/` e `<stack>/standards/`. Depois de alterá-los, rode `forge sync-references --write`; `forge validate` detecta cópias desatualizadas. Referências curadas de UX e dados de terceiros não são sobrescritos por esse sincronizador.
-
-O [relatório de consolidação](docs/skill-consolidation.md) explica sobreposições, exclusões e limites. O [catálogo de fontes](docs/source-catalog.json) registra os 83 entrypoints analisados nas duas pastas fornecidas, seus hashes e o destino de cada capacidade. Esses hashes identificam os insumos; não certificam comportamento futuro do modelo.
-
-## Licença e atribuição
-
-O conteúdo autoral do AI Forge usa [MIT](LICENSE). Conteúdos adaptados preservam suas próprias licenças e avisos, inclusive nos pacotes copiados. Veja [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Materiais proprietários de office não foram copiados nem traduzidos para o pacote público.
-
-## Criar stack
-
-1. Copie `template-stack/` para o nome da stack, por exemplo `frontend-svelte/`.
-2. Troque `[stack-name]` nos arquivos copiados.
-3. Atualize o `name` de cada skill para `ai-forge-<nova-stack>-<finalidade>` e traduza `core/module-architecture.md` em `standards/project-patterns.md`.
-4. Atualize `SKILLS.md` e o catálogo L2.
-5. Execute `npm test`, `npm run validate` e `npm pack --dry-run`.
-
-Use “stack” em APIs, catálogos e templates. “Equipe/time” continua válido somente quando significar pessoas ou governança humana.
-
-## Estrutura
-
-```text
-ai-forge/
-├── bin/forge.js
-├── lib/forge.js
-├── SKILL.md
-├── core/
-├── standards/
-├── backend-nestjs/
-├── backend-node/
-├── backend-golang/
-├── frontend-react/
-├── frontend-vue/             # demais stacks frontend no mesmo nível
-├── frontend/                 # UX/engenharia compartilhada
-├── design/
-├── quality/
-├── integrations/
-├── artifacts/
-├── docs/
-├── template-stack/
-└── test/
-```
-
-Conteúdo detalhado e histórico: `SPEC.md`, `CHANGELOG.md`, `presentation.html`.
+O conteúdo autoral usa [MIT](LICENSE). As licenças e atribuições de terceiros são preservadas separadamente em [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) e dentro das skills correspondentes.

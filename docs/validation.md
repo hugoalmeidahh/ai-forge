@@ -9,3 +9,11 @@
 - Manual decision-path review: independent core/design/artifact context; missing renderer/calculator/device/scheduler reported explicitly; no auto-delegation/publication authority; frontend public routes and framework-native server/client lifecycle retained.
 
 These checks establish distribution integrity and specific CLI behavior. They do not prove all possible future model behavior, certify accessibility/security, or claim live office rendering, device, scheduler, browser-app, MCP or LLM-provider integration tests were executed.
+
+## Overview, presentation and README
+
+- `npm run docs:build` and `npm run docs:check`: all 45 installed IDs resolve and each has exactly one editorial entry; Markdown and HTML match the same source.
+- `npm run validate` and `npm test`: repository catalogs valid; all 32 existing automated checks passed.
+- Isolated headless Chrome: 45 cards rendered; search, area filter, zero-result/reset, command copy and manual-selection fallback, presentation keyboard navigation and exit verified without JavaScript errors.
+- Desktop (1440 × 1000) and mobile (390 × 844) screenshots inspected. No horizontal overflow in the tested views, including an expanded skill entry.
+- Actual package extracted: presentation, Markdown, editorial JSON and generator present; `docs:check` passed against the extracted files.
