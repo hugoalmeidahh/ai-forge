@@ -2,7 +2,7 @@
   "name": "@hugoalmeidahh/ai-forge",
   "version": "3.0.0",
   "description": "Standards, skills and functions for AI-assisted software delivery across stacks.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "type": "module",
   "bin": {
     "forge": "bin/forge.js"
@@ -10,7 +10,9 @@
   "scripts": {
     "test": "node --test",
     "validate": "node bin/forge.js validate",
-    "pack:check": "npm pack --dry-run"
+    "pack:check": "npm pack --dry-run",
+    "references:check": "node bin/forge.js sync-references",
+    "references:sync": "node bin/forge.js sync-references --write"
   },
   "engines": {
     "node": ">=20"
@@ -29,6 +31,20 @@
     "SKILL.md",
     "README.md",
     "CHANGELOG.md",
-    "SPEC.md"
+    "SPEC.md",
+    "frontend",
+    "frontend-nextjs",
+    "frontend-nuxt",
+    "frontend-angular",
+    "frontend-svelte",
+    "frontend-astro",
+    "frontend-html-css",
+    "quality",
+    "design",
+    "integrations",
+    "artifacts",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "docs"
   ]
 }
