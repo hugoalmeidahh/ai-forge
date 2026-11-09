@@ -39,7 +39,7 @@ Todos os caminhos são relativos a esta skill; use o diretório real retornado p
 | Teclado, foco, contraste, zoom e tecnologias assistivas | [Acessibilidade](references/accessibility.md) |
 | Recursos críticos, renderização e medições | [Performance](references/performance.md) |
 | Verificação funcional, visual e entrega para QA | [QA e handoff](references/qa-handoff.md) |
-| Consultar o catálogo local de estilos, UX e frameworks | [Pesquisa opcional](references/local-research.md) |
+| Consultar padrões locais de interface pelo comando AI Forge | [Pesquisa de interface](references/local-research.md) |
 | React, Vue, Next.js, Nuxt, Astro, Angular, Svelte ou HTML/CSS | [Índice das stacks](references/stacks/index.md) |
 
 ## Do problema à interface
