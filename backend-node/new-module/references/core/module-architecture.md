@@ -7,9 +7,11 @@
 
 A module groups everything belonging to one business context (e.g. `user`, `purchase`, `notification`).
 
+For a small one-off script or artifact task, apply only relevant boundaries; do not impose a server module hierarchy. Frontend and meta-frameworks preserve native routes, loaders and islands.
+
 **Formation rules:**
 
-- One module per independent table (e.g. `action-log`).
+- One module per business capability/aggregate with an independent lifecycle. A table alone is not a sufficient domain boundary.
 - Satellite tables of a main entity (`users`, `user_emails`, `user_addresses`) → one single main module (`user`).
 - **Golden rule:** only the owning module manipulates its entity directly. Other modules call the owner's service — never another module's repository.
 
@@ -24,7 +26,7 @@ Request → Controller → Service → Repository/Provider → Service → Contr
 | Layer | Does | Never does |
 |---|---|---|
 | Controller / Handler / Router | Route, auth, input/output contract, docs | Business logic, DB access, manual validation |
-| Service | Business logic, DB read/write, external integration | Define route/auth, use output DTO |
+| Service | Business rules and orchestration through repositories/providers | Direct SQL/infrastructure access, HTTP transport, output DTO serialization |
 | Input (DTO / Schema / Struct) | Validate and transform input | Business rules |
 | Output (DTO / Serializer / Struct) | Response contract, hide sensitive fields | Business rules |
 | Error | Typed domain error: status + code + message | Business rules |
