@@ -1,7 +1,6 @@
 ---
-name: ai-forge
-Description: Route tasks to AI-Forge standards and stack-specific skills, bootstrapping the local CLI when needed.
-user-invocable: true
+name: ai-forge-root-router
+description: Route tasks to AI-Forge standards and stack-specific skills, bootstrapping the local CLI when needed.
 ---
 
 # AI-Forge Router
@@ -16,7 +15,7 @@ Locate AI-Forge, identify the project stack, then load only the standards and sk
    - repository-local: `node_modules/.bin/forge`;
    - current AI-Forge checkout: `node bin/forge.js`;
    - user checkout: `~/.local/share/ai-forge/bin/forge.js`.
-2. Run `<forge> stacks` and detect the stack from project markers. Ask when ambiguous.
+2. For intake or discovery before stack selection, run `<forge> skills` and load `ai-forge-core-storytelling` or `ai-forge-core-po-discovery` directly. Otherwise run `<forge> stacks` and detect the stack from project markers. Ask when ambiguous.
 3. Run `<forge> skills <stack>` to select a skill.
 4. Run `<forge> context --stack <stack> --skill <skill>` and read the emitted files in order.
 5. If AI-Forge is absent, instruct the user to clone it into `~/.local/share/ai-forge`, then run `node ~/.local/share/ai-forge/bin/forge.js install-skills`. Never clone or install globally without approval.
@@ -24,7 +23,9 @@ Locate AI-Forge, identify the project stack, then load only the standards and sk
 ## Routing
 
 - Architecture/module work → stack `new-module` or `project-standards`.
-- Reviews → `forge-code-review`.
+- Planning/intake → `ai-forge-core-storytelling`; product discovery/backlog → `ai-forge-core-po-discovery`. These can run before a stack is selected.
+- Fastify architecture translation → `ai-forge-backend-node-fastify-project-standards`.
+- Reviews → `ai-forge-core-code-review`.
 - Project agent config → run `forge init`; use `project-init` for options/help.
 - Skill authoring → `create-skill`.
 - Before changes, always apply `core/workflow.md`, `core/guardrails.md`, L0, stack L2, then project rules (L3).
@@ -32,6 +33,6 @@ Locate AI-Forge, identify the project stack, then load only the standards and sk
 ## Checks
 
 - CLI path exists.
-- Stack selection is explicit.
+- Stack selection is explicit for stack-specific tasks.
 - `forge context` exits successfully.
 - Only task-relevant references were loaded.
