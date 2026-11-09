@@ -1,5 +1,5 @@
 ---
-name: create-skill
+name: ai-forge-core-create-skill
 description: Create a new skill file following the standard format for this folder.
 ---
 
@@ -18,7 +18,7 @@ When asked to add a new skill, automation, or reusable instruction set to this p
 1. Determine the target directory based on the environment:
    - Claude Code: `.claude/skills/<skill-name>/`
    - Codex: `.codex/skills/<skill-name>/`
-   - Use kebab-case for the folder name.
+   - Use `ai-forge-<scope>-<purpose>` in kebab-case for AI-Forge skill names and installed folders.
 2. Create `SKILL.md` inside it with this structure:
    - frontmatter: `name` (matches folder name) and `description` (one line, imperative)
    - sections: Intent, When To Use, References (if any), Workflow, Checks (if applicable)
@@ -29,7 +29,7 @@ When asked to add a new skill, automation, or reusable instruction set to this p
 
 ```markdown
 ---
-name: skill-name
+name: ai-forge-scope-purpose
 description: One-line imperative description.
 ---
 
