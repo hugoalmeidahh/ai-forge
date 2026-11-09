@@ -35,3 +35,11 @@ Create an isolated business-domain module following Vue boundaries.
 - No HTTP in SFCs.
 - Query keys, invalidation and error UX are domain-scoped.
 - UI never receives raw sensitive API fields.
+
+## Product quality and verification
+
+Read [product UX](references/ui/product-ux.md) for journeys/states, [accessibility](references/ui/accessibility.md) for keyboard/focus/forms and [performance](references/ui/performance.md) when resource loading or interaction cost changes. Use [state and domain boundaries](references/ui/architecture.md) for ownership or cache changes. Load only what the task needs.
+
+Reuse existing tokens and components. Preserve valid input after recoverable failures, scope query keys and caches by identity/tenant, and verify deep links and permission states. Prefer derived state to synchronized copies; clean up effects and cancel/discard stale responses. Do not add memoization or virtualization without a demonstrated cost.
+
+A presentational fix does not require a new state library or a new test suite. For new behavior, verify the changed user outcome and relevant failure path using existing checks/browser capabilities. Report what was not run. Meta-framework projects follow their native server/client data lifecycle instead of duplicating it in a client cache.
