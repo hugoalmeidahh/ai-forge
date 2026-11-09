@@ -11,7 +11,7 @@ Run the stable available CLI:
 forge init [--stack STACK] [--agent claude|codex|both] [--cwd PATH] [--force]
 ```
 
-Stack detection uses NestJS, Go, Fastify, React, and Vue markers. Never guess: ambiguity or missing markers requires `--stack`. If neither agent file exists, require `--agent`; existing files are updated by default.
+Stack detection uses NestJS, Go, Fastify, React, Vue, Next.js, Nuxt, Astro, Angular and Svelte/SvelteKit markers. Meta-frameworks take precedence over their embedded UI runtimes. Plain HTML/CSS uses explicit `--stack frontend-html-css` when markers are insufficient. Never guess: ambiguity or missing markers requires `--stack`. If neither agent file exists, require `--agent`; existing files are updated by default.
 
 The command preserves all content outside `<!-- ai-forge:start -->` / `<!-- ai-forge:end -->`, remains idempotent, and writes only a minimal on-demand context instruction. `--force` is only for malformed/duplicate delimiters: it removes delimiter tokens and appends one clean block; unrelated content remains.
 
