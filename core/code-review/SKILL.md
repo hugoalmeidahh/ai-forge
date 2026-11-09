@@ -23,7 +23,7 @@ Esta skill **não depende de ferramenta externa** (SonarQube, linter em CI). As 
 
 Ler sob demanda; nunca carregar todos por padrão.
 
-1. Detectar stack: `nest-cli.json`/`@nestjs/*` → NestJS; `go.mod` → Go/Chi; `fastify` → Node/Fastify; `react` → React; `vue` → Vue. Se ambígua, perguntar.
+1. Detectar stack: `nest-cli.json`/`@nestjs/*` → NestJS; `go.mod` → Go/Chi; `fastify` → Node/Fastify; `react` → React; `vue` → Vue. Para Next.js, Nuxt, Astro, Angular, Svelte ou HTML/CSS, leia a skill de standards correspondente. Use a versão/configuração real; se ambígua, esclareça somente a decisão que muda o review.
 2. Read `references/standards/index.md` (L0). Then read the installed stack's project-standards skill (`ai-forge-backend-golang-project-standards`, `ai-forge-backend-node-project-standards`, `ai-forge-backend-nestjs-project-standards`, `ai-forge-frontend-react-project-standards`, `ai-forge-frontend-vue-project-standards`) and read only the files the diff touches.
 3. Aplicar L3 (`CLAUDE.md`/`AGENTS.md` e `captain.md`, se presentes) — L3 vence L2, que vence L0.
 
@@ -112,7 +112,7 @@ Pergunta-chave: *dado pode vazar? Input malformado corrompe? Auth está correta?
 - **DTOs (dto-standards)**: sempre **classe**, nunca interface. Input com sufixo `Input`, output com sufixo `Output`.
   - Input: `@ApiProperty` em cada campo, validação com class-validator, `@Type(() => Class)` em aninhados/listas, `@IsOptional()` em opcionais. Fora de controller, validar com `ValidatorHelper`.
   - Output: expor com `@ApiProperty`, esconder sensível com `@Exclude()`, `static getInstance` usando `plainToInstance`. Todo endpoint que retorna JSON usa output DTO.
-- **Auth (auth-security)**: Basic Auth para endpoints internos (`@UseGuards(AuthGuard('basic'))` + `@ApiBasicAuth()`); JWT para BFF. Todo endpoint tem guard. JWT: payload só com identificação/permissão, sem dado aberto; nunca expor token.
+- **Auth (auth-security)**: Basic Auth para endpoints internos (`@UseGuards(AuthGuard('basic'))` + `@ApiBasicAuth()`); JWT para BFF. Todo endpoint protegido tem autenticação e autorização; rotas públicas devem ser intencionais e seguir o contrato L3. JWT: payload só com identificação/permissão, sem dado aberto; nunca expor token.
 - Validação de input **antes** de uso; payload inválido gera `InvalidPayloadError` (via DTO/`ValidatorHelper`), não erro genérico.
 - TypeScript sem `any` implícito; `general-development`: usar `?.`/`??`, `const` por padrão, template literal em vez de concatenação.
 - **Prisma/Postgres (prisma-postgres-standards)**: BD em `snake_case` mapeado para `camelCase` no code via `@map`/`@@map`; nunca montar SQL por concatenação (usar API do Prisma / queries parametrizadas); `deletedAt` para soft delete quando aplicável.
@@ -180,7 +180,7 @@ Para cada achado que sobrevive ao filtro de parcimônia, comentar ancorado no ar
 ```
 
 Severidades:
-- 🔴 **Blocker** — muda antes do merge: bug, falha de segurança, endpoint sem guard, controller acessando BD, erro que não estende `BaseError`, 5xx vazando detalhe, Prisma instanciado direto, escrita multi-tabela sem transação. Inegociável.
+- 🔴 **Blocker** — muda antes do merge: bug, falha de segurança, endpoint sem guard, controller acessando BD, erro de domínio fora do contrato da stack (por exemplo `BaseError` em NestJS), 5xx vazando detalhe, Prisma instanciado direto, escrita multi-tabela sem transação. Inegociável.
 - 🟡 **Sugestão relevante** — melhora clara de qualidade/aderência; idealmente endereçada.
 - 🔵 **Nitpick** — estilo/preferência. Opcional. Condensar vários 🔵 num único comentário.
 
@@ -277,3 +277,10 @@ O resumo deve funcionar sozinho: quem ler só ele entende o estado da PR.
 - Resumo global presente e auto-suficiente, com veredito, scorecard, bloqueadores, sugestões e aderência aos padrões.
 - Tom colaborativo; pontos positivos citados quando genuínos.
 - Nenhuma dependência de ferramenta externa assumida como executada — as verificações estáticas foram feitas pela leitura do código.
+
+## Complementos por superfície
+
+- Frontend: revise foco/teclado, nomes acessíveis, recuperação de formulário, estados reais, reflow e exposição de dados. Use a skill `ai-forge-frontend-ui-engineering` quando disponível; componentes de biblioteca não provam acessibilidade da tela final.
+- Meta-frameworks: revise fronteira servidor/cliente, autorização em ações/loaders, cache por usuário/tenant e hidratação. Não imponha padrões NestJS ou um query cache client-side a toda rota.
+- Integrações MCP/LLM: verifique contratos, resultados limitados, cancelamento, isolamento, conteúdo externo não confiável e autorização de ferramentas com efeitos.
+- Evidência: diferencie defeito reproduzido, risco inferido e check não executado. Não afirme build, performance, segurança ou conformidade por uma captura ou por leitura estática. Estética só bloqueia quando viola requisito verificável.
