@@ -21,7 +21,7 @@ Node.js 20 ou superior. O CLI não possui dependências runtime.
 ### Checkout recomendado
 
 ```bash
-git clone git@github.com:hugoalmeidahh/ai-forge.git ~/.local/share/ai-forge
+git clone https://github.com/hugoalmeidahh/ai-forge.git ~/.local/share/ai-forge
 node ~/.local/share/ai-forge/bin/forge.js validate
 node ~/.local/share/ai-forge/bin/forge.js install-skills
 ```
@@ -42,10 +42,10 @@ forge install-skills --registry /caminho/skills
 
 ### Como pacote npm
 
-Em projetos autorizados a acessar o repositório:
+A partir do repositório público:
 
 ```bash
-npm install --save-dev git+ssh://git@github.com/hugoalmeidahh/ai-forge.git
+npm install --save-dev git+https://github.com/hugoalmeidahh/ai-forge.git
 npx forge validate
 npx forge install-skills
 ```
@@ -105,11 +105,26 @@ forge context --stack frontend-react --skill new-module
 
 Cada stack preserva `SKILLS.md`, `standards/` e suas skills no próprio diretório. Isso evita quebrar referências e mantém baixo churn.
 
+## Skills portáveis e planejamento
+
+Todos os identificadores usam `ai-forge-<escopo>-<finalidade>`, tanto no frontmatter quanto no registry. Exemplos:
+
+- `ai-forge-core-storytelling`: intake, SCQA, regras com evidência, riscos e cards com critérios verificáveis.
+- `ai-forge-core-po-discovery`: trilhas completa/leve, gates de produto, arquitetura, épicos, stories e rastreabilidade RN → US → TASK.
+- `ai-forge-core-code-review`: revisão FORGE com L0, L2 e regras do projeto.
+- `ai-forge-backend-node-fastify-project-standards`: arquitetura TypeScript/Fastify baseada nos conceitos úteis do NestJS, com dependências explícitas e isolamento de tenant quando aplicável.
+
+Storytelling e discovery podem ser usados antes da escolha da stack. Descubra-os com `forge skills` e carregue a skill instalada pelo identificador. A saída de planejamento é `documents/planning-data.md`; integrações de board são opcionais e usam somente ferramentas disponíveis e autorizadas.
+
+As skills de desenvolvimento e revisão adaptadas incluem seus standards em `references/` e metadados em `agents/openai.yaml`. Caminhos `references/` nos textos e catálogos partem da pasta da própria skill. Assim, `install-skills --copy` preserva o contexto sem exigir um checkout ou `node_modules` no projeto consumidor. A revisão carrega também a skill de standards da stack selecionada; o instalador entrega o catálogo completo.
+
+As referências empacotadas são cópias dos padrões compartilhados: ao atualizar um padrão em `standards/`, `core/` ou `<stack>/standards/`, atualize também as cópias correspondentes nas skills. Execute `npm run validate` para conferir os catálogos.
+
 ## Criar stack
 
 1. Copie `template-stack/` para o nome da stack, por exemplo `frontend-svelte/`.
 2. Troque `[stack-name]` nos arquivos copiados.
-3. Traduza `core/module-architecture.md` em `standards/project-patterns.md`.
+3. Atualize o `name` de cada skill para `ai-forge-<nova-stack>-<finalidade>` e traduza `core/module-architecture.md` em `standards/project-patterns.md`.
 4. Atualize `SKILLS.md` e o catálogo L2.
 5. Execute `npm test`, `npm run validate` e `npm pack --dry-run`.
 

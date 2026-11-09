@@ -8,5 +8,11 @@
     <skill path="node_modules/@hugoalmeidahh/ai-forge/core/create-pr/SKILL.md">Create a pull request.</skill>
     <skill path="node_modules/@hugoalmeidahh/ai-forge/core/project-init/SKILL.md">Configure consumer agent files.</skill>
     <skill path="node_modules/@hugoalmeidahh/ai-forge/core/onboarding-check/SKILL.md">Validate consumer configuration.</skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/storytelling/SKILL.md">
+      Structure intake, evidence, business rules, risks and execution cards.
+    </skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/po-discovery/SKILL.md">
+      Guide discovery through architecture, backlog and traceable execution plans.
+    </skill>
   </skills>
 </skills-index>

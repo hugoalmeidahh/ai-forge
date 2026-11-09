@@ -26,5 +26,14 @@
     <skill path="node_modules/@hugoalmeidahh/ai-forge/core/onboarding-check/SKILL.md">
       Validate the consuming project's ai-forge configuration.
     </skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/storytelling/SKILL.md">
+      Structure intake, evidence, business rules, risks and execution cards.
+    </skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/core/po-discovery/SKILL.md">
+      Guide discovery through architecture, backlog and traceable execution plans.
+    </skill>
+    <skill path="node_modules/@hugoalmeidahh/ai-forge/backend-node/fastify-project-standards/SKILL.md">
+      Translate NestJS architectural concepts into TypeScript/Fastify without Nest runtime dependencies.
+    </skill>
   </skills>
 </skills-index>

@@ -2,6 +2,21 @@
 
 All notable changes to this package are documented here.
 
+## Unreleased
+
+### Added
+
+- Portable skill reference bundles and UI metadata adapted from the Universe Harness skills.
+- Storytelling and PO discovery skills with evidence, proportional planning, phase gates and traceable execution cards.
+- TypeScript/Fastify architectural translation skill under the existing `backend-node` stack.
+- Validation of canonical skill names and skill-local reference catalogs; regression coverage for copied bundles.
+
+### Changed
+
+- Standardized every skill identifier to `ai-forge-<scope>-<purpose>`.
+- Removed mandatory harness APIs and project-specific assumptions from public planning and Fastify workflows.
+- Fixed code-review frontmatter and root-router description; updated discovery catalogs and public installation instructions.
+
 ## 2.0.0
 
 ### Breaking changes
