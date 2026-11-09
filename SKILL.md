@@ -1,6 +1,6 @@
 ---
 name: ai-forge-root-router
-description: Route tasks to AI-Forge standards and stack-specific skills, bootstrapping the local CLI when needed.
+description: Route development, planning, review, UX, design, QA, integration and artifact tasks to the relevant AI Forge capabilities and project standards.
 ---
 
 # AI-Forge Router
@@ -9,30 +9,27 @@ description: Route tasks to AI-Forge standards and stack-specific skills, bootst
 
 Locate AI-Forge, identify the project stack, then load only the standards and skill needed for the task.
 
-## Bootstrap
+## Bootstrap and routing
 
-1. Locate `forge` in this order:
-   - repository-local: `node_modules/.bin/forge`;
-   - current AI-Forge checkout: `node bin/forge.js`;
-   - user checkout: `~/.local/share/ai-forge/bin/forge.js`.
-2. For intake or discovery before stack selection, run `<forge> skills` and load `ai-forge-core-storytelling` or `ai-forge-core-po-discovery` directly. Otherwise run `<forge> stacks` and detect the stack from project markers. Ask when ambiguous.
-3. Run `<forge> skills <stack>` to select a skill.
-4. Run `<forge> context --stack <stack> --skill <skill>` and read the emitted files in order.
-5. If AI-Forge is absent, instruct the user to clone it into `~/.local/share/ai-forge`, then run `node ~/.local/share/ai-forge/bin/forge.js install-skills`. Never clone or install globally without approval.
+1. Locate the CLI in the project (`node_modules/.bin/forge`), current checkout (`node bin/forge.js`) or the known user checkout. Use the actual discovered path; do not claim an installation exists.
+2. Run `forge scopes` / `forge skills` and select by requested outcome. For code, detect the stack from real dependencies/configuration, choosing a meta-framework before its embedded React/Vue runtime. Plain HTML uses explicit `frontend-html-css` when automatic evidence is insufficient.
+3. Run `forge context --skill <full-id>` for independent capabilities, or `forge context --stack <stack> --skill <local-name>` for stack-specific work. Read emitted files in order; load further references on demand.
+4. If absent, provide the supported public installation instructions. Installing globally or replacing divergent skills follows the task's existing authorization.
 
-## Routing
+| Outcome | Capability |
+|---|---|
+| Structure an idea or requirements | `ai-forge-core-storytelling`, then `ai-forge-core-po-discovery` when needed |
+| Architecture, endpoint or module | Selected stack's `project-standards` / `new-module` |
+| User journey, interface or visual redesign | `ai-forge-frontend-ui-engineering` plus actual stack standards |
+| Tokens/components or brand rules | `ai-forge-design-design-system` / `ai-forge-design-brand-guidelines` |
+| Banner, poster, icon, generative graphic or GIF | `ai-forge-design-visual-assets` |
+| Browser verification | `ai-forge-quality-web-testing` |
+| Code review | `ai-forge-core-code-review` plus relevant stack references |
+| MCP server or LLM application adapter | `ai-forge-integrations-mcp-server` / `ai-forge-integrations-llm-api` |
+| Technical writing, project update or decision critique | `ai-forge-core-write-document`, `ai-forge-core-project-update`, `ai-forge-core-decision-review` |
+| Word, spreadsheet, presentation or PDF file | Matching `ai-forge-artifacts-*`; discover available generators/renderers first |
+| Agent configuration or skill authoring | `ai-forge-core-project-init`, `ai-forge-core-onboarding-check`, `ai-forge-core-create-skill` |
 
-- Architecture/module work → stack `new-module` or `project-standards`.
-- Planning/intake → `ai-forge-core-storytelling`; product discovery/backlog → `ai-forge-core-po-discovery`. These can run before a stack is selected.
-- Fastify architecture translation → `ai-forge-backend-node-fastify-project-standards`.
-- Reviews → `ai-forge-core-code-review`.
-- Project agent config → run `forge init`; use `project-init` for options/help.
-- Skill authoring → `create-skill`.
-- Before changes, always apply `core/workflow.md`, `core/guardrails.md`, L0, stack L2, then project rules (L3).
+## Boundaries
 
-## Checks
-
-- CLI path exists.
-- Stack selection is explicit for stack-specific tasks.
-- `forge context` exits successfully.
-- Only task-relevant references were loaded.
+Project L3 wins over L2 and L0. Use FORGE domain ownership, clean code, explicit contracts and safe failures where relevant; do not impose a backend module tree on a poster, script or small static page. Never invent tools, assets, models, approvals or completed checks. Missing optional capabilities degrade to an explicit useful partial result; missing required access/decision is reported concretely.
