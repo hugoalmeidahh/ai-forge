@@ -1,7 +1,6 @@
 ---
-name: project-init
+name: ai-forge-core-project-init
 description: Initialize CLAUDE.md / AGENTS.md with minimal AI-Forge project configuration.
-user-invocable: true
 ---
 
 # Project Init
