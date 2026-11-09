@@ -1,7 +1,9 @@
 ---
-name: project-standards
-description: Apply company and Vue frontend patterns when editing or adding UI code.
+name: ai-forge-frontend-vue-project-standards
+description: "Apply company and Vue frontend patterns when editing or adding UI code."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # Project Standards (Vue)
 
@@ -16,8 +18,8 @@ Apply L0 rules plus Vue module, component, API and state conventions.
 
 ## References
 
-- `core/module-architecture.md`
-- `standards/index.md`
+- `references/core/module-architecture.md`
+- `references/frontend-vue/standards/index.md`
 - `frontend-vue/standards/index.md`
 
 ## Workflow
