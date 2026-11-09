@@ -1,7 +1,9 @@
 ---
-name: project-standards
-description: Apply company and project patterns when editing or adding code.
+name: ai-forge-backend-nestjs-project-standards
+description: "Apply company and project patterns when editing or adding code."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # Project Standards
 
@@ -18,22 +20,22 @@ Use for any coding task in this repository, especially when:
 
 ## References
 
-- `core/module-architecture.md`
-- `standards/index.md`
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/company-standards.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/project-patterns.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/prisma-postgres-standards.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/error-handling.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/auth-security.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/general-development.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/controllers-services.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/dto-standards.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/folder-structure.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/helpers.md
+- `references/core/module-architecture.md`
+- `references/backend-nestjs/standards/index.md`
+- references/backend-nestjs/standards/company-standards.md
+- references/backend-nestjs/standards/project-patterns.md
+- references/backend-nestjs/standards/prisma-postgres-standards.md
+- references/backend-nestjs/standards/error-handling.md
+- references/backend-nestjs/standards/auth-security.md
+- references/backend-nestjs/standards/general-development.md
+- references/backend-nestjs/standards/controllers-services.md
+- references/backend-nestjs/standards/dto-standards.md
+- references/backend-nestjs/standards/folder-structure.md
+- references/backend-nestjs/standards/helpers.md
 
 ## Workflow
 
-1) Read `node_modules/@hugoalmeidahh/ai-forge/backend-nestjs/standards/index.md` first.
+1) Read `references/backend-nestjs/standards/index.md` first.
 2) Load only the reference files needed for the task.
 3) Apply naming, structure, and formatting rules.
 4) Ensure request payloads use `snake_case` and internal code uses `camelCase`.
