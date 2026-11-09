@@ -1,7 +1,9 @@
 ---
-name: project-standards
-description: Apply company and project patterns when editing or adding code in Golang backends.
+name: ai-forge-backend-golang-project-standards
+description: "Apply company and project patterns when editing or adding code in Golang backends."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # Project Standards (Golang / Chi)
 
@@ -18,16 +20,16 @@ Use for any coding task in a Go backend repository, especially when:
 
 ## References
 
-- node_modules/@hugoalmeidahh/ai-forge/core/module-architecture.md
-- node_modules/@hugoalmeidahh/ai-forge/standards/index.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-golang/standards/project-patterns.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-golang/standards/handler-service-repository.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-golang/standards/dto-structs.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-golang/standards/error-handling.md
+- references/core/module-architecture.md
+- references/standards/index.md
+- references/backend-golang/standards/project-patterns.md
+- references/backend-golang/standards/handler-service-repository.md
+- references/backend-golang/standards/dto-structs.md
+- references/backend-golang/standards/error-handling.md
 
 ## Workflow
 
-1) Read `node_modules/@hugoalmeidahh/ai-forge/backend-golang/standards/index.md` first.
+1) Read `references/backend-golang/standards/index.md` first.
 2) Load only the reference files needed for the task.
 3) Apply naming, structure, and formatting rules (gofmt/goimports always).
 4) Ensure API JSON uses `snake_case` tags and code follows Go naming idioms.
