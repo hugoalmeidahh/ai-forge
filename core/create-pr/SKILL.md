@@ -1,7 +1,6 @@
 ---
-name: create-pr
+name: ai-forge-core-create-pr
 description: Criar Pull Requests via Git REST API a partir do diff da branch atual, com titulo e corpo em portugues brasileiro, seguindo um template fixo.
-user-invocable: true
 ---
 
 # Create PR
