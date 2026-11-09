@@ -1,1 +1,1 @@
-Additional UI engineering references adapted from Frontend Standard Skills (2026 Abayomi John Olatunji, MIT) through the curated Universe frontend layer. [License](licenses/frontend-standard-MIT.txt). Existing FORGE architecture and project L3 remain authoritative.
+Additional UI engineering references adapted from Frontend Standard Skills (2026 Abayomi John Olatunji, MIT). [License](licenses/frontend-standard-MIT.txt). Existing FORGE architecture and project L3 remain authoritative.
