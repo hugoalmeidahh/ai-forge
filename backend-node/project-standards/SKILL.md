@@ -1,7 +1,9 @@
 ---
-name: project-standards
-description: Apply company and project patterns when editing or adding code in Node.js/Fastify backends.
+name: ai-forge-backend-node-project-standards
+description: "Apply company and project patterns when editing or adding code in Node.js/Fastify backends."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # Project Standards (Node.js)
 
@@ -18,16 +20,16 @@ Use for any coding task in a Node.js backend repository, especially when:
 
 ## References
 
-- node_modules/@hugoalmeidahh/ai-forge/core/module-architecture.md
-- node_modules/@hugoalmeidahh/ai-forge/standards/index.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-node/standards/project-patterns.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-node/standards/router-service.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-node/standards/validation-serialization.md
-- node_modules/@hugoalmeidahh/ai-forge/backend-node/standards/error-handling.md
+- references/core/module-architecture.md
+- references/standards/index.md
+- references/backend-node/standards/project-patterns.md
+- references/backend-node/standards/router-service.md
+- references/backend-node/standards/validation-serialization.md
+- references/backend-node/standards/error-handling.md
 
 ## Workflow
 
-1) Read `node_modules/@hugoalmeidahh/ai-forge/backend-node/standards/index.md` first.
+1) Read `references/backend-node/standards/index.md` first.
 2) Load only the reference files needed for the task.
 3) Apply naming, structure, and formatting rules.
 4) Ensure API payloads use `snake_case` and internal code uses `camelCase`.
