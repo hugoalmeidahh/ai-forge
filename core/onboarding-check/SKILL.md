@@ -1,7 +1,6 @@
 ---
-name: onboarding-check
+name: ai-forge-core-onboarding-check
 description: Verify a consuming project has a complete and valid ai-forge agent configuration.
-user-invocable: true
 ---
 
 # Onboarding Check
