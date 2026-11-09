@@ -53,3 +53,9 @@ Create a full domain package at once — correct structure, interfaces, validati
 - No DB/domain struct encoded directly in responses.
 - Errors flow through `*AppError` → `writeError` → `{ id, code, message }`.
 - Package named after the domain, lowercase, no underscores.
+
+## Boundary and failure cases
+
+Preserve existing public contracts and project dependency choices. Group by business capability; a table alone does not justify a new module. Validate untrusted input at the boundary and allowlist serialized output. Test ownership/tenant denial and rollback when relevant, not only the happy path.
+
+Keep provider calls bounded by request cancellation/timeouts. Do not automatically retry a mutation after an ambiguous timeout; use the project's idempotency/reconciliation contract. Preserve error causes in server logs while returning safe correlated responses. Verify the complete use case and report unavailable integration checks rather than claiming them passed.
