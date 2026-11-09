@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdtemp } from 'node:fs/promises';
@@ -48,6 +48,36 @@ test('installs idempotent symlinks', async () => {
   await installSkills({ registry, mode: 'link' });
   const second = await installSkills({ registry, mode: 'link' });
   assert(second.every((item) => item.status === 'unchanged'));
+});
+
+test('copied skills retain their standards and UI metadata', async () => {
+  const registry = await mkdtemp(join(tmpdir(), 'ai-forge-portable-'));
+  await installSkills({ registry, mode: 'copy' });
+  const skill = join(registry, 'ai-forge-backend-node-project-standards');
+  assert.match(await readFile(join(skill, 'references/backend-node/standards/index.md'), 'utf8'), /references\/backend-node\/standards\/router-service.md/);
+  assert.match(await readFile(join(skill, 'references/backend-node/standards/router-service.md'), 'utf8'), /service/i);
+  assert.match(await readFile(join(skill, 'agents/openai.yaml'), 'utf8'), /ai-forge-backend-node-project-standards/);
+  assert.match(await readFile(join(registry, 'ai-forge-core-storytelling/SKILL.md'), 'utf8'), /name: ai-forge-core-storytelling/);
+});
+
+test('validates catalogs relative to the owning skill and detects missing bundled files', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'ai-forge-catalog-'));
+  const skill = join(root, 'core/example');
+  await mkdir(join(skill, 'references/standards'), { recursive: true });
+  await writeFile(join(skill, 'SKILL.md'), '---\nname: ai-forge-core-example\ndescription: Example skill.\n---\n');
+  await writeFile(join(skill, 'references/standards/index.md'), '<file path="references/standards/policy.md">Policy</file>\n');
+  await writeFile(join(skill, 'references/standards/policy.md'), '# Policy\n');
+  assert.deepEqual(await validate(root), { stacks: 0, skills: 1 });
+  await rm(join(skill, 'references/standards/policy.md'));
+  await assert.rejects(() => validate(root), /broken link references\/standards\/policy.md/);
+});
+
+test('rejects skill names that diverge from the installed AI-Forge identifier', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'ai-forge-name-'));
+  const skill = join(root, 'core/example');
+  await mkdir(skill, { recursive: true });
+  await writeFile(join(skill, 'SKILL.md'), '---\nname: example\ndescription: Example skill.\n---\n');
+  await assert.rejects(() => validate(root), /name must be ai-forge-core-example/);
 });
 
 async function project(pkg) {
