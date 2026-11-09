@@ -1,8 +1,9 @@
 ---
-name: new-module
-description: Scaffold a React domain module with UI, hooks, service, schemas and types.
-user-invocable: true
+name: ai-forge-frontend-react-new-module
+description: "Scaffold a React domain module with UI, hooks, service, schemas and types."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # New Module (React)
 
