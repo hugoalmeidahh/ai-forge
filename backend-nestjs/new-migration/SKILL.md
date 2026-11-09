@@ -1,8 +1,9 @@
 ---
-name: new-migration
-description: Create and review a Prisma migration following the team's schema conventions — snake_case DB naming mapped to camelCase, PascalCase singular models, soft delete, and safe migration practices.
-user-invocable: true
+name: ai-forge-backend-nestjs-new-migration
+description: "Create and review a Prisma migration following the team's schema conventions — snake_case DB naming mapped to camelCase, PascalCase singular models, soft delete, and safe migration practices."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # New Migration (Prisma)
 
@@ -17,8 +18,8 @@ Create schema changes and their migration correctly the first time: naming conve
 
 ## References
 
-- `standards/prisma-postgres-standards.md` — naming and schema conventions
-- `core/module-architecture.md` — one module per aggregate; ownership rules
+- `references/backend-nestjs/standards/prisma-postgres-standards.md` — naming and schema conventions
+- `references/core/module-architecture.md` — one module per aggregate; ownership rules
 
 ## Workflow
 
