@@ -1,8 +1,9 @@
 ---
-name: new-module
-description: Scaffold a Vue domain module with views, components, composables, services, schemas and types.
-user-invocable: true
+name: ai-forge-frontend-vue-new-module
+description: "Scaffold a Vue domain module with views, components, composables, services, schemas and types."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # New Module (Vue)
 
