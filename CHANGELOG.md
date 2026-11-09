@@ -4,6 +4,13 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+### AI Forge operational references
+
+- Kept skill instructions and product documentation focused on AI Forge capabilities and standards.
+- Added an AI Forge entry point for read-only local UI research without changing the bundled search implementation.
+- Isolated source history in legal records and retained required notices and license files.
+
+
 ### Documentation and presentation
 
 - Added a Portuguese overview of every installable skill, with use cases, expected outputs, conditions, CLI commands and invocation examples.
@@ -17,7 +24,7 @@ All notable changes to this package are documented here.
 - Expanded to 45 installable skills plus an authoring template and 11 stacks, preserving existing public IDs and the FORGE architecture/review framework.
 - Added six frontend translations, a consolidated UX/visual/a11y/performance layer and optional MIT-licensed local UI research.
 - Added design/brand/assets, browser/Android QA, MCP/LLM/scheduling, writing/updates/decision review, coordination/worktree and original artifact workflows.
-- Accounted for 83 supplied source entrypoints in a hashed catalog, including explicitly excluded proprietary and platform-specific materials.
+- Added a hashed legal provenance record for the distributed content.
 - Licensed original AI Forge content under MIT and retained per-skill third-party notices/licenses.
 - Excluded the incomplete authoring template from installation/discovery.
 - Added stack-independent capability scopes/context, meta-framework detection and complete-tree copied-installation checks.
@@ -27,7 +34,7 @@ All notable changes to this package are documented here.
 
 ### Added
 
-- Portable skill reference bundles and UI metadata adapted from the Universe Harness skills.
+- Portable reference bundles and UI metadata for AI Forge skills.
 - Storytelling and PO discovery skills with evidence, proportional planning, phase gates and traceable execution cards.
 - TypeScript/Fastify architectural translation skill under the existing `backend-node` stack.
 - Validation of canonical skill names and skill-local reference catalogs; regression coverage for copied bundles.
@@ -35,7 +42,7 @@ All notable changes to this package are documented here.
 ### Changed
 
 - Standardized every skill identifier to `ai-forge-<scope>-<purpose>`.
-- Removed mandatory harness APIs and project-specific assumptions from public planning and Fastify workflows.
+- Removed runtime-specific APIs and project-specific assumptions from planning and Fastify workflows.
 - Fixed code-review frontmatter and root-router description; updated discovery catalogs and public installation instructions.
 
 ## 2.0.0

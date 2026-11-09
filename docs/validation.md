@@ -1,4 +1,4 @@
-# Verification for this consolidation
+# AI Forge verification
 
 - `npm test`: 32 automated checks passed. Covers discovery, routing, meta-framework precedence/ambiguity, copied/link installation, complete-tree drift, canonical reference synchronization, MIT preservation, vendor digests and rejection of a nested registry.
 - `npm run validate`: 11 stacks, 45 installable skills; local catalogs and canonical reference bundles valid.
@@ -17,3 +17,9 @@ These checks establish distribution integrity and specific CLI behavior. They do
 - Isolated headless Chrome: 45 cards rendered; search, area filter, zero-result/reset, command copy and manual-selection fallback, presentation keyboard navigation and exit verified without JavaScript errors.
 - Desktop (1440 × 1000) and mobile (390 × 844) screenshots inspected. No horizontal overflow in the tested views, including an expanded skill entry.
 - Actual package extracted: presentation, Markdown, editorial JSON and generator present; `docs:check` passed against the extracted files.
+
+## Operational naming and local UI research
+
+- Operational entrypoints, UI research guidance, README, overview and presentation reference AI Forge capabilities without naming other skill collections. Attribution and integrity records remain separate from task instructions.
+- The AI Forge local research entrypoint was exercised with UX, React and design-system queries; actual result payloads were checked. Invalid/empty inputs were rejected.
+- The copied research entrypoint performed a successful query without modifying the skill tree. The underlying implementation and recorded hashes were preserved.

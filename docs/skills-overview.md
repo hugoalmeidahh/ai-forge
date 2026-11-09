@@ -2,7 +2,7 @@
 
 O AI Forge reúne **45 skills instaláveis** e padrões para **11 stacks**, mais um template de autoria. As skills são instruções e referências para agentes: definem como abordar o trabalho, quais contratos preservar e como verificar a entrega. As ferramentas de execução vêm do ambiente.
 
-[README](../README.md) · [Apresentação HTML](../presentation.html) · [Licença MIT](../LICENSE) · [Fontes e atribuições](../THIRD_PARTY_NOTICES.md)
+[README](../README.md) · [Apresentação HTML](../presentation.html) · [Licença MIT](../LICENSE) · [Licenças e atribuições](../THIRD_PARTY_NOTICES.md)
 
 ## Como acessar
 
@@ -1095,8 +1095,8 @@ $ai-forge-artifacts-pdf Extraia as tabelas deste PDF e confira os números impor
 
 ## Limites e manutenção
 
-Skills de navegador, Android, agendamento, LLM e artefatos precisam de ferramentas e acessos reais. Carregar uma skill não instala essas capacidades, não inicia agentes e não autoriza publicação, mensagens ou alterações de produção. Os workflows de documentos são autorais; os toolkits proprietários analisados na origem não são redistribuídos.
+Skills de navegador, Android, agendamento, LLM e artefatos precisam de ferramentas e acessos reais. Carregar uma skill não instala essas capacidades, não inicia agentes e não autoriza publicação, mensagens ou alterações de produção. Os workflows de documentos usam os geradores, editores e renderers compatíveis disponíveis no ambiente.
 
 A base editorial fica em [skills-overview-data.json](skills-overview-data.json). Para gerar este arquivo e a apresentação, use `npm run docs:build`; para detectar divergências, `npm run docs:check`. O gerador confere cobertura de todas as skills e resolve cada ID pelo CLI.
 
-Validações do projeto: `npm test`, `npm run validate` e `npm run references:check`. Ao alterar standards canônicos, sincronize as cópias com `npm run references:sync`. Consulte [consolidação](skill-consolidation.md) e [verificação registrada](validation.md) para a procedência e o alcance das verificações.
+Validações do projeto: `npm test`, `npm run validate` e `npm run references:check`. Ao alterar standards canônicos, sincronize as cópias com `npm run references:sync`. Consulte [arquitetura e organização](skill-consolidation.md) e [verificação registrada](validation.md) para conhecer os contratos e o alcance das verificações.

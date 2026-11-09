@@ -1,42 +1,43 @@
-# Skill consolidation and capability boundaries
+# Arquitetura e organização das skills AI Forge
 
-45 skills are installable; the authoring template is packaged for creating stacks but excluded from discovery and installation.
+O AI Forge reúne 45 skills instaláveis e 11 stacks. O template de autoria é distribuído para criar novas stacks, mas fica fora da descoberta e da instalação.
 
-## Naming and layers
+## Base e precedência
 
-Keep the established `ai-forge-<area>-<technology-or-purpose>-<action>` identifiers, omitting redundant segments. Examples: `ai-forge-backend-golang-new-module`, `ai-forge-frontend-nextjs-project-standards`, `ai-forge-quality-web-testing`. Creating a domain module is more meaningful than naming a skill after creating an empty folder. Registry directories match the full ID; repository folders remain `<scope>/<purpose>` for discoverability.
+Os padrões compartilhados do AI Forge definem clean code, organização por domínio, segurança, observabilidade e verificação. Cada stack traduz esses contratos com mecanismos nativos; as regras L3 do projeto prevalecem sobre L2 e L0. Instruções do usuário e do runtime continuam válidas.
 
-| Layer | Scope | Responsibility |
+| Camada | Diretório | Responsabilidade |
 |---|---|---|
-| L0 | standards | Naming, clean code, security, observability and verification |
-| Core | core | Architecture, review, intake/discovery, writing, coordination and workspace lifecycle |
-| L2 | backend-* / frontend-* | Native technology translation and domain contracts |
-| Product/interface | frontend / design | UX, design systems, brand and original assets |
-| Verification | quality | Browser and Android evidence, with real capability discovery |
-| Connectivity | integrations | MCP, LLM adapters and scheduling contracts |
-| Files | artifacts | Original document/spreadsheet/slide/PDF workflows; compatible generator/renderer required |
-| L3 | consuming project | Existing architecture, rules, tools and explicit user scope win |
+| L0 | `standards/` | Regras compartilhadas de desenvolvimento e verificação |
+| Core | `core/` | Arquitetura, workflow, revisão FORGE, planejamento, escrita e entrega |
+| L2 | `backend-*` / `frontend-*` | Contratos e procedimentos da tecnologia |
+| Interface | `frontend/` / `design/` | UX, acessibilidade, performance, identidade e componentes |
+| Qualidade | `quality/` | Verificação web e Android com evidências |
+| Integração | `integrations/` | MCP, APIs LLM e agendamento com limites e recuperação |
+| Artefatos | `artifacts/` | Documentos, planilhas, slides e PDF com ferramentas reais |
+| L3 | Projeto consumidor | Convenções, decisões, contratos e escopo específicos |
 
-## Decisions from the supplied collections
+## Nomes e descoberta
 
-| Input | Decision |
-|---|---|
-| Existing AI Forge skills | Enrich rather than duplicate; preserve FORGE five pillars, domain ownership, typed/validated boundaries and traceable business rules |
-| Universe frontend + frontend standards + Taste + UI/UX Pro Max | Consolidate common UX/a11y/performance/visual guidance; add six real stack translations; retain optional local search with licenses and digests |
-| Overlapping design/brand/theme/banner/icon/canvas/GIF skills | Group into design-system, brand-guidelines and visual-assets with mode-specific constraints; no mandatory provider, palette or package |
-| Web testing | Real rendered-state/observable assertions; no unconditional network-idle or fixed sleep as proof |
-| MCP and API manuals | Narrow server contracts and provider-aware LLM adapters; current SDK/docs, budgets, tool authorization and failure tests |
-| Authoring, coauthoring, updates and reflection | Focused create-skill, write-document, project-update and requested decision-review workflows; avoid universal prompts or automatic messages |
-| Harness roles, boards, worktrees, Android and routines | Portable capability discovery, ownership, reconciliation, QA evidence and explicit unavailable states; no fictitious MCP names or role escalation |
-| Proprietary office skills | Excluded all source/scripts/assets; original artifact contracts require installed tools and honest render/calculation limits |
-| Academy promotion and templates | Excluded as separate skills; no distinct development outcome or guaranteed redistribution license |
+Use `ai-forge-<área>-<tecnologia-ou-finalidade>-<ação>`, omitindo segmentos redundantes. Os diretórios instalados usam o ID completo; o repositório usa `<escopo>/<finalidade>/SKILL.md`.
 
-Every source entrypoint is accounted for in [source-catalog.json](source-catalog.json). This is a capability consolidation, not a mirrored vendor repository. Scripts and assets not selected are not implied to exist.
+`forge skills` descobre as capacidades. `forge context --skill <id>` lista os arquivos necessários; não executa a tarefa. Nomes completos evitam ambiguidade. Core, design e artefatos não exigem uma stack artificial para começar.
 
-## Reliability and verification
+## Responsabilidades e composição
 
-The CLI discovers scopes independently of technology stacks and resolves core/design/artifact context without requiring a fictitious backend. Meta-framework detection takes precedence over embedded runtimes while preserving real ambiguity. Copied installation compares the entire skill tree, including references, metadata and license files, before reporting unchanged.
+- Storytelling estrutura resultado, evidências, regras e riscos; discovery aprofunda produto, arquitetura e backlog quando necessário.
+- Módulos agrupam capacidades de negócio com dono definido. Rotas, apresentação, orquestração e infraestrutura mantêm fronteiras compatíveis com a stack.
+- UX e design complementam a implementação com estados reais, legibilidade, acessibilidade e consistência; aparência não comprova comportamento.
+- QA e revisão verificam contratos e impacto. A revisão conserva os cinco pilares FORGE sem impor regras de uma stack a outra.
+- Integrações e artefatos identificam ferramentas e permissões disponíveis antes de prometer execução. Ausências e verificações não executadas são declaradas.
+- Tarefas pequenas usam um fluxo proporcional. Criar um plano, card ou documento não autoriza iniciar agentes ou publicar resultados.
 
-`forge sync-references` checks bundled canonical FORGE standards; `--write` repairs known copies from the source. It does not rewrite curated UI guidance or vendor data. Run this before validation/packaging when shared rules change.
+## Portabilidade e manutenção
 
-Verification covers stack routing, scope/context resolution, reference drift, copied/link installation, license/vendor manifests, source-catalog completeness and package extraction. Optional UI search is smoke-tested locally. Automated checks validate structure and runtime contracts; they do not certify the behavior of every future model/runtime, accessibility compliance, generated office layout, device tests or production integrations. Those require task-specific execution evidence.
+As referências operacionais apontam para padrões e capacidades do AI Forge. Referências locais e helpers acompanham a skill quando necessários. Bibliotecas de implementação mantêm seus contratos e avisos de licença próprios.
+
+`forge sync-references` detecta divergências nas cópias dos standards canônicos; `--write` sincroniza esses arquivos. Referências curadas de interface e dados de pesquisa não são sobrescritos por esse processo.
+
+A instalação por cópia compara toda a árvore antes de declarar uma skill inalterada. A pesquisa local de interface usa `scripts/research.py` da skill de frontend, com resultados subordinados aos padrões do AI Forge e ao contexto do projeto.
+
+O [overview](skills-overview.md) descreve cada skill e seu acesso. Consulte as [verificações registradas](validation.md) para os checks efetivamente realizados. Avisos de autoria e licença ficam em arquivos próprios de atribuição, separados das instruções de trabalho.

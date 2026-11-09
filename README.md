@@ -153,7 +153,7 @@ forge update
 
 Navegador, dispositivo Android, scheduler, APIs e geradores de arquivos dependem do ambiente. A skill identifica essas capacidades antes de prometer execução. A pesquisa opcional de UI/UX usa Python 3; o CLI principal continua em Node.js, sem dependências de runtime.
 
-Os workflows de Word, planilhas, slides e PDF são autorais. Não incluem os toolkits proprietários presentes nas fontes analisadas. Renderização, recálculo e integração devem ser declarados como verificados ou não executados, conforme o que ocorreu.
+Os workflows de Word, planilhas, slides e PDF usam as ferramentas compatíveis disponíveis no ambiente. Renderização, recálculo e integração devem ser declarados como verificados ou não executados, conforme o que ocorreu.
 
 Carregar uma skill não concede autorização para enviar mensagens, publicar, realizar alterações em produção ou delegar a outros agentes. A licença do software e a autorização para operar um ambiente são assuntos distintos.
 
@@ -177,8 +177,7 @@ O overview Markdown e a apresentação compartilham a base editorial em `docs/sk
 
 - [Overview e acesso a cada skill](docs/skills-overview.md)
 - [Apresentação HTML com catálogo pesquisável](presentation.html)
-- [Decisões de consolidação](docs/skill-consolidation.md)
-- [Catálogo e hashes das fontes](docs/source-catalog.json)
+- [Arquitetura e organização das skills](docs/skill-consolidation.md)
 - [Verificações registradas](docs/validation.md)
 - [Histórico de alterações](CHANGELOG.md)
 

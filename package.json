@@ -50,6 +50,7 @@
     "docs",
     "presentation.html",
     "scripts/build-overview.mjs",
-    "scripts/overview-template.html"
+    "scripts/overview-template.html",
+    "legal"
   ]
 }
