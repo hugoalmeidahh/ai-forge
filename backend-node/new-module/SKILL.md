@@ -1,14 +1,15 @@
 ---
-name: new-module
-description: Scaffold a complete Node.js domain module (router, service, repository, schema, serializer, errors) following the modular architecture.
-user-invocable: true
+name: ai-forge-backend-node-new-module
+description: "Scaffold a complete Node.js domain module (router, service, repository, schema, serializer, errors) following the modular architecture."
 ---
+
+> **Portable references:** resolve `references/` from this skill directory, including paths inside reference catalogs. Load only the files needed. Project rules (`AGENTS.md`, `CLAUDE.md`, and `captain.md` when present) override stack L2, which overrides shared L0.
 
 # New Module (Node.js)
 
 ## Intent
 
-Create a full domain module at once — correct structure, naming, validation, serialization and error wiring. Materializes `core/module-architecture.md` in plain Node.js.
+Create a full domain module at once — correct structure, naming, validation, serialization and error wiring. Materializes `references/core/module-architecture.md` in plain Node.js.
 
 ## When To Use
 
@@ -17,11 +18,11 @@ Create a full domain module at once — correct structure, naming, validation, s
 
 ## References
 
-- `core/module-architecture.md` — the pattern being materialized
-- `standards/project-patterns.md` — module layout and DI via factories
-- `standards/router-service.md` — layer responsibilities
-- `standards/validation-serialization.md` — schemas and serializers
-- `standards/error-handling.md` — AppError and middleware
+- `references/core/module-architecture.md` — the pattern being materialized
+- `references/backend-node/standards/project-patterns.md` — module layout and DI via factories
+- `references/backend-node/standards/router-service.md` — layer responsibilities
+- `references/backend-node/standards/validation-serialization.md` — schemas and serializers
+- `references/backend-node/standards/error-handling.md` — AppError and middleware
 
 ## Workflow
 
